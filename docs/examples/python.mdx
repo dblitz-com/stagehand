@@ -400,53 +400,6 @@ print(f"\nTotal products: {len(df)}")
 print(f"Average rating: {df['rating'].mean():.2f}")
 ```
 
-## Caching Actions
-
-You can cache actions in Stagehand to avoid redundant LLM calls:
-
-```python
-import json
-from pathlib import Path
-
-async def get_cache(key: str):
-    """Get cached action"""
-    try:
-        cache_path = Path("cache.json")
-        if not cache_path.exists():
-            return None
-        with open(cache_path) as f:
-            cache = json.load(f)
-            return cache.get(key)
-    except:
-        return None
-
-async def set_cache(key: str, value):
-    """Set cached action"""
-    cache_path = Path("cache.json")
-    cache = {}
-    if cache_path.exists():
-        with open(cache_path) as f:
-            cache = json.load(f)
-    cache[key] = value
-    with open(cache_path, "w") as f:
-        json.dump(cache, f)
-
-async def act_with_cache(page, key: str, prompt: str):
-    """Act with caching"""
-    cached_action = await get_cache(key)
-    
-    if cached_action:
-        action = cached_action
-    else:
-        action = await page.observe(prompt)
-        await set_cache(key, action[0])
-    
-    await page.act(action[0])
-
-# Usage
-await act_with_cache(page, "click_quickstart", "Click the quickstart link")
-```
-
 ## Next Steps
 
 - Explore the [GitHub examples repository](https://github.com/browserbase/stagehand-python-examples) for more code samples
