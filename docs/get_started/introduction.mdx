@@ -41,12 +41,18 @@ const { text } = await page.extract({
 ```python Python
 import asyncio
 from stagehand import Stagehand, StagehandConfig
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 async def main():
     stagehand = Stagehand(StagehandConfig(
         env="BROWSERBASE",
-        api_key="your_api_key",
-        project_id="your_project_id"
+        api_key=os.getenv("BROWSERBASE_API_KEY"),
+        project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
+        model_name="gpt-4o",
+        model_client_options={"apiKey": os.getenv("MODEL_API_KEY")}
     ))
     
     try:
@@ -68,16 +74,9 @@ async def main():
         await page.wait_for_timeout(2000)
         
         # Use extract() to extract structured data from the page
-        result = await page.extract(
-            instruction="extract the text of the AI suggestion from the search results",
-            schema={
-                "type": "object",
-                "properties": {"text": {"type": "string"}},
-                "required": ["text"]
-            }
-        )
+        result = await page.extract("extract the text of the AI suggestion from the search results")
         
-        print(result["text"])
+        print(result)
         
     finally:
         await stagehand.close()
@@ -110,12 +109,18 @@ console.log("Output:", message); // The agent's response
 ```python Python Agent
 import asyncio
 from stagehand import Stagehand, StagehandConfig
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 async def main():
     stagehand = Stagehand(StagehandConfig(
         env="BROWSERBASE",
-        api_key="your_api_key",
-        project_id="your_project_id"
+        api_key=os.getenv("BROWSERBASE_API_KEY"),
+        project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
+        model_name="gpt-4o",
+        model_client_options={"apiKey": os.getenv("MODEL_API_KEY")}
     ))
     
     try:
@@ -125,9 +130,7 @@ async def main():
         
         # Use a simple agent to automate a workflow
         agent = stagehand.agent()
-        result = await agent.execute(
-            "Extract the top contributor's username"
-        )
+        result = await agent.execute("Extract the top contributor's username")
         
         print("Output:", result)
         
@@ -157,12 +160,17 @@ console.log(title);
 ```python Python Tools
 import asyncio
 from stagehand import Stagehand, StagehandConfig
+from dotenv import load_dotenv
+
+load_dotenv()
 
 async def main():
     stagehand = Stagehand(StagehandConfig(
         env="BROWSERBASE",
-        api_key="your_api_key",
-        project_id="your_project_id"
+        api_key=os.getenv("BROWSERBASE_API_KEY"),
+        project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
+        model_name="gpt-4o",
+        model_client_options={"apiKey": os.getenv("MODEL_API_KEY")}
     ))
     
     try:
@@ -172,16 +180,9 @@ async def main():
         
         await page.act("click on the contributors section")
         
-        result = await page.extract(
-            instruction="the top contributor's username",
-            schema={
-                "type": "object",
-                "properties": {"title": {"type": "string"}},
-                "required": ["title"]
-            }
-        )
+        result = await page.extract("the top contributor's username")
         
-        print(result["title"])
+        print(result)
         
     finally:
         await stagehand.close()
@@ -205,15 +206,17 @@ console.log(result);
 ```python Python + Computer Use
 import asyncio
 from stagehand import Stagehand, StagehandConfig
-from stagehand.schemas import AvailableModel
+from dotenv import load_dotenv
+
+load_dotenv()
 
 async def main():
     stagehand = Stagehand(StagehandConfig(
         env="BROWSERBASE",
-        api_key="your_api_key",
-        project_id="your_project_id",
-        model_name=AvailableModel.COMPUTER_USE_PREVIEW,
-        model_client_options={"api_key": "your_openai_key"}
+        api_key=os.getenv("BROWSERBASE_API_KEY"),
+        project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
+        model_name="computer-use-preview",
+        model_client_options={"apiKey": os.getenv("MODEL_API_KEY")}
     ))
     
     try:
@@ -251,12 +254,18 @@ console.log(topContributor);
 # Use this when you don't want to risk leaving something up to AI
 import asyncio
 from stagehand import Stagehand, StagehandConfig
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 async def main():
     stagehand = Stagehand(StagehandConfig(
         env="BROWSERBASE",
-        api_key="your_api_key",
-        project_id="your_project_id"
+        api_key=os.getenv("BROWSERBASE_API_KEY"),
+        project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
+        model_name="gpt-4o",
+        model_client_options={"apiKey": os.getenv("MODEL_API_KEY")}
     ))
     
     try:
@@ -277,7 +286,7 @@ async def main():
 
 asyncio.run(main())
 ```
-
+```
 </CodeGroup>
 
 To completely avoid the limitations of AI agents, Stagehand borrows the `page` and `context` objects from [Playwright](https://playwright.dev/) to give you **full control over the browser session.**
