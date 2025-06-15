@@ -173,11 +173,24 @@ For more complex tasks, you can use Stagehand's Agent functionality that can aut
 
 ```python agent_example.py
 import asyncio
+import logging
 import os
-from stagehand import Stagehand, StagehandConfig
+from stagehand import Stagehand, StagehandConfig, configure_logging
+from browserbase.types import SessionCreateParams as BrowserbaseSessionCreateParams
 from dotenv import load_dotenv
 
 load_dotenv()
+
+# Configure logging
+configure_logging(
+    level=logging.INFO,
+    quiet_dependencies=True,
+)
+
+browserbase_session_create_params = BrowserbaseSessionCreateParams(
+        project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
+        proxies=True,
+    )
 
 async def main():
     """
@@ -187,9 +200,12 @@ async def main():
         env="BROWSERBASE",
         api_key=os.getenv("BROWSERBASE_API_KEY"),
         project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
+        browserbase_session_create_params=browserbase_session_create_params,
         headless=False,  # Set to False to see the browser in action
         verbose=2,
         model_name="gpt-4o",
+        self_heal=True,
+        system_prompt="You are a browser automation assistant that helps users navigate websites effectively.",
         model_client_options={"apiKey": os.getenv("MODEL_API_KEY")}
     )
     
@@ -203,7 +219,9 @@ async def main():
         
         # Create an agent with custom instructions
         agent = stagehand.agent(
-            instructions="You are a helpful assistant that can browse the web. Be thorough in your research and provide detailed information."
+            model="computer-use-preview",
+            instructions="You are a helpful assistant that can browse the web. Be thorough in your research and provide detailed information.",
+            options={"apiKey": os.getenv("MODEL_API_KEY")}
         )
         
         # Execute a complex task autonomously
@@ -215,8 +233,13 @@ async def main():
         
         print("Agent result:")
         print(f"Success: {result.success}")
+        print(f"Completed: {result.completed}")
         print(f"Message: {result.message}")
         print(f"Actions performed: {len(result.actions) if result.actions else 0}")
+        
+        if result.actions:
+            for i, action in enumerate(result.actions):
+                print(f"  Action {i+1}: {action.get('type', 'Unknown')} - {action.get('description', 'No description')}")
         
     finally:
         await stagehand.close()
