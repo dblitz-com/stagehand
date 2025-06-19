@@ -26,14 +26,14 @@ async function main() {
 
     // Create a computer use agent
     const agent = stagehand.agent({
-      provider: "anthropic",
+      provider: "openai",
       // For Anthropic, use claude-3-7-sonnet-latest or claude-4-sonnet-latest
-      model: "claude-sonnet-4-20250514",
+      model: "computer-use-preview",
       instructions: `You are a helpful assistant that can use a web browser.
       You are currently on the following page: ${page.url()}.
       Do not ask follow up questions, the user will trust your judgement.`,
       options: {
-        apiKey: process.env.ANTHROPIC_API_KEY,
+        apiKey: process.env.OPENAI_API_KEY,
       },
     });
 
