@@ -6,7 +6,9 @@ export const observe_github: EvalFunction = async ({
   stagehand,
   logger,
 }) => {
-  await stagehand.page.goto("https://browserbase.github.io/stagehand-eval-sites/sites/github/");
+  await stagehand.page.goto(
+    "https://browserbase.github.io/stagehand-eval-sites/sites/github/",
+  );
 
   const observations = await stagehand.page.observe({
     instruction: "find the scrollable element that holds the repos file tree.",
@@ -37,7 +39,7 @@ export const observe_github: EvalFunction = async ({
 
   const possibleHandles = [];
   for (const locatorStr of possibleLocators) {
-    const locator = stagehand.page.getByText("Files");
+    const locator = stagehand.page.locator(locatorStr);
     const handle = await locator.elementHandle();
     if (handle) {
       possibleHandles.push({ locatorStr, handle });
