@@ -13,7 +13,7 @@ Stagehand has an `act()` function that can be used to execute actions on a page 
 This workflow is as simple as the following lines of code:
 
 <Tabs>
-<Tab title="JavaScript">
+<Tab title="TypeScript">
 ```js
 const page = stagehand.page
 // Navigate to the URL
@@ -42,7 +42,7 @@ The `page` object extends the Playwright page object, so you can use any of the 
 You can use the `extract()` method to extract structured data from the page. Here's an example of how to extract the job title from the job posting:
 
 <Tabs>
-<Tab title="JavaScript">
+<Tab title="TypeScript">
 ```js
 const { jobTitle } = await page.extract({
 	instruction: "Extract the job title from the job posting",
@@ -60,14 +60,14 @@ job_title = result  # Result is returned as a dictionary or direct value
 </Tab>
 </Tabs>
 
-Stagehand uses [Zod](https://zod.dev/) for JavaScript to help you define the schema of the data to be extracted. For Python, extraction returns structured data based on your instruction.
+Stagehand uses [Zod](https://zod.dev/) for TypeScript to help you define the schema of the data to be extracted. For Python, extraction returns structured data based on your instruction.
 
 ## Preview/Cache an action
 
 Sometimes you want to preview an action before it's executed. You can do this by calling `page.observe()` before `act()`.
 
 <Tabs>
-<Tab title="JavaScript">
+<Tab title="TypeScript">
 ```js
 const [action] = await page.observe("click 'jobs'");
 
@@ -93,8 +93,8 @@ await page.act(action)
 `action` will be a JSON object that describes the action to be taken.
 
 <Tabs>
-<Tab title="JavaScript">
-```javascript
+<Tab title="TypeScript">
+```TypeScript
 /** action is a JSON-ified version of a Playwright action:
 {
 	description: "The jobs link",
@@ -140,7 +140,7 @@ We generally support the following actions:
 Each of these actions can be triggered using natural language commands. For example:
 
 <Tabs>
-<Tab title="JavaScript">
+<Tab title="TypeScript">
 ```js
 await page.act("scroll to the bottom of the page")
 await page.act("fill in the username field with 'john_doe'")

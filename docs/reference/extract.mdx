@@ -11,8 +11,8 @@ icon: 'brain-circuit'
 Here is how an `extract` call might look for a single object:
 
 <Tabs>
-<Tab title="JavaScript">
-```javascript
+<Tab title="TypeScript">
+```TypeScript
 const item = await page.extract({
   instruction: "extract the price of the item",
   schema: z.object({
@@ -41,8 +41,8 @@ Your output schema will look like:
 Here is how an `extract` call might look for extracting a link or URL.
 
 <Tabs>
-<Tab title="JavaScript">
-```javascript
+<Tab title="TypeScript">
+```TypeScript
 const extraction = await stagehand.page.extract({
   instruction: "extract the link to the 'contact us' page",
   schema: z.object({
@@ -67,8 +67,8 @@ print("the link to the contact us page is: ", extraction)
 Here is how an `extract` call might look for a list of objects.
 
 <Tabs>
-<Tab title="JavaScript">
-```javascript
+<Tab title="TypeScript">
+```TypeScript
 const apartments = await stagehand.page.extract({
   instruction:
     "Extract ALL the apartment listings and their details, including address, price, and square feet."
@@ -116,11 +116,11 @@ Your output schema will look like:
   ]
 ```
 
-<Tip>For JavaScript: You can provide additional context at the field level within your schema using `.describe()`. For Python: Include specific formatting requirements in your instruction string.</Tip>
+<Tip>For TypeScript: You can provide additional context at the field level within your schema using `.describe()`. For Python: Include specific formatting requirements in your instruction string.</Tip>
 
 <Tabs>
-<Tab title="JavaScript">
-```javascript
+<Tab title="TypeScript">
+```TypeScript
 const apartments = await stagehand.page.extract({
  instruction:
    "Extract ALL the apartment listings and their details, including address, price, and square feet."
@@ -152,7 +152,7 @@ apartments = await stagehand.page.extract(
   </ParamField>
 
   <ParamField path="schema" type="z.AnyZodObject" required>
-    Defines the structure of the data to extract (JavaScript only)
+    Defines the structure of the data to extract (TypeScript only)
   </ParamField>
 
   <ParamField path="iframes" type="boolean" optional>

@@ -82,8 +82,8 @@ await page.act(top_action)
 You can also use `observe()` with sensitive information, like below.
 
 <Tabs>
-<Tab title="JavaScript">
-```javascript
+<Tab title="TypeScript">
+```TypeScript
 const [topAction] = await page.observe("Type %email% into the email field");
 
 /** The observe result will be an object with the following shape:
@@ -129,8 +129,8 @@ await page.act({
 **Use `observe()` to get actionable suggestions from the current page**
 
 <Tabs>
-<Tab title="JavaScript">
-```javascript
+<Tab title="TypeScript">
+```TypeScript
 const actions = await page.observe();
 console.log("Possible actions:", actions);
 
@@ -155,8 +155,8 @@ buttons = await page.observe("find all the buttons on the page")
 Avoid instructions that aren't specific to the current page or try to do multiple things at once.
 
 <Tabs>
-<Tab title="JavaScript">
-```javascript
+<Tab title="TypeScript">
+```TypeScript
 // Too vague
 await page.act({ action: "find something interesting on the page" });
 
@@ -178,13 +178,13 @@ await page.act({"action": "fill out the form and submit it"})
 ### Use `observe()` to get entire form values
 
 <Tabs>
-<Tab title="JavaScript">
-```javascript
+<Tab title="TypeScript">
+```TypeScript
 const formValues = await page.observe("get the text inputs on the page");
 ```
 
 This will return an array of objects with the following shape:
-```javascript
+```TypeScript
 {
 	description: "The text input field",
 	action: "type",
@@ -194,7 +194,7 @@ This will return an array of objects with the following shape:
 ```
 
 You can then use these actions directly in your code.
-```javascript
+```TypeScript
 for (const formValue of formValues) {
 	await page.act({
 		...formValue,
