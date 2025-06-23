@@ -127,7 +127,7 @@ async def main():
     try:
         await stagehand.init()
         page = stagehand.page
-        await page.goto("https://github.com/browserbase/stagehand")
+        await page.goto("https://github.com/browserbase/stagehand-python")
         
         # Use a simple agent to automate a workflow
         agent = stagehand.agent()
@@ -177,7 +177,7 @@ async def main():
     try:
         await stagehand.init()
         page = stagehand.page
-        await page.goto("https://github.com/browserbase/stagehand")
+        await page.goto("https://github.com/browserbase/stagehand-python")
         
         await page.act("click on the contributors section")
         
@@ -193,7 +193,7 @@ asyncio.run(main())
 
 ```typescript Stagehand + Computer Use
 // You can use a Computer Use agent to automate an entire workflow
-await page.goto("https://github.com/browserbase/stagehand");
+await page.goto("https://github.com/browserbase/stagehand-python");
 
 const agent = stagehand.agent({
 	provider: "openai",
@@ -272,7 +272,7 @@ async def main():
     try:
         await stagehand.init()
         page = stagehand.page
-        await page.goto("https://github.com/browserbase/stagehand")
+        await page.goto("https://github.com/browserbase/stagehand-python")
         
         await page.get_by_role("link", name=r"Contributors \d+").click()
         
