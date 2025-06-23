@@ -11,11 +11,12 @@ For Stagehand's Cursor rules, check out [this file](https://github.com/browserba
 
 If you're using Windsurf, you can use the same rules by adding them to your `.windsurfrules` file.
 
-
-
 ### Avoid sending sensitive information to LLMs
 
 You can use `variables` in an `act` call to avoid sending sensitive information to LLMs.
+
+<Tabs>
+<Tab title="TypeScript">
 ```typescript
 await page.act({
 	action: "Type %email% into the email field",
@@ -24,11 +25,25 @@ await page.act({
 	},
 });
 ```
+</Tab>
+<Tab title="Python">
+```python
+await page.act({
+	"action": "Type %email% into the email field",
+	"variables": {
+		"email": "john.doe@example.com",
+	},
+})
+```
+</Tab>
+</Tabs>
 
 ### Preview actions before running them
 You can use `observe()` to get an action to run without running it.
 If you're satisfied with the action, you can run it with `act()` without any LLM inference.
 
+<Tabs>
+<Tab title="TypeScript">
 ```typescript
 const [topAction] = await page.observe("Click the quickstart link");
 
@@ -44,8 +59,30 @@ const [topAction] = await page.observe("Click the quickstart link");
 // NO LLM INFERENCE on observe results
 await page.act(topAction)
 ```
+</Tab>
+<Tab title="Python">
+```python
+actions = await page.observe("Click the quickstart link")
+top_action = actions[0]
+
+# The action will map 1:1 with a Playwright action:
+# {
+#	"description": "The quickstart link",
+#	"action": "click",
+#	"selector": "/html/body/div[1]/div[1]/a",
+#	"arguments": [],
+# }
+
+# NO LLM INFERENCE on observe results
+await page.act(top_action)
+```
+</Tab>
+</Tabs>
 
 You can also use `observe()` with sensitive information, like below.
+
+<Tabs>
+<Tab title="JavaScript">
 ```javascript
 const [topAction] = await page.observe("Type %email% into the email field");
 
@@ -65,9 +102,34 @@ await page.act({
 	arguments: [sensitiveEmail],
 })
 ```
+</Tab>
+<Tab title="Python">
+```python
+actions = await page.observe("Type %email% into the email field")
+top_action = actions[0]
+
+# The observe result will be a dictionary with the following shape:
+# {
+#	"description": "The email input field",
+#	"action": "type",
+#	"selector": "/html/body/div[1]/div[1]/input",
+#	"arguments": ["%email%"],
+# }
+
+await page.act({
+	**top_action,
+	# This prevents LLMs from seeing sensitive information
+	# No LLM inference is taken on observe results
+	"arguments": [sensitive_email],
+})
+```
+</Tab>
+</Tabs>
 
 **Use `observe()` to get actionable suggestions from the current page**
 
+<Tabs>
+<Tab title="JavaScript">
 ```javascript
 const actions = await page.observe();
 console.log("Possible actions:", actions);
@@ -77,10 +139,23 @@ const buttons = await page.observe({
 	instruction: "find all the buttons on the page",
 });
 ```
+</Tab>
+<Tab title="Python">
+```python
+actions = await page.observe()
+print("Possible actions:", actions)
+
+# You can also use `observe()` with a custom prompt
+buttons = await page.observe("find all the buttons on the page")
+```
+</Tab>
+</Tabs>
 
 ### Avoid broad or ambiguous instructions
 Avoid instructions that aren't specific to the current page or try to do multiple things at once.
 
+<Tabs>
+<Tab title="JavaScript">
 ```javascript
 // Too vague
 await page.act({ action: "find something interesting on the page" });
@@ -88,9 +163,22 @@ await page.act({ action: "find something interesting on the page" });
 // Avoid combining actions
 await page.act({ action: "fill out the form and submit it" });
 ```
+</Tab>
+<Tab title="Python">
+```python
+# Too vague
+await page.act({"action": "find something interesting on the page"})
+
+# Avoid combining actions
+await page.act({"action": "fill out the form and submit it"})
+```
+</Tab>
+</Tabs>
 
 ### Use `observe()` to get entire form values
 
+<Tabs>
+<Tab title="JavaScript">
 ```javascript
 const formValues = await page.observe("get the text inputs on the page");
 ```
@@ -114,5 +202,31 @@ for (const formValue of formValues) {
 	});
 }
 ```
+</Tab>
+<Tab title="Python">
+```python
+form_values = await page.observe("get the text inputs on the page")
+```
+
+This will return a list of dictionaries with the following shape:
+```python
+{
+	"description": "The text input field",
+	"action": "type",
+	"selector": "/html/body/div[1]/div[1]/input",
+	"arguments": ["some text"],
+}
+```
+
+You can then use these actions directly in your code.
+```python
+for form_value in form_values:
+	await page.act({
+		**form_value,
+		"arguments": [your_value_here],
+	})
+```
+</Tab>
+</Tabs>
 
 For a full example, check out the example in the Stagehand repo [here](https://github.com/browserbase/stagehand/blob/main/examples/form_filling_sensible.ts).

@@ -38,6 +38,8 @@ While MCP is really nascent, we're excited to see where it goes.
 
 Stagehand lets you leverage powerful computer use APIs from OpenAI and Anthropic with just one line of code. 
 
+<Tabs>
+<Tab title="TypeScript">
 ```typescript
 await page.goto("https://github.com/browserbase/stagehand");
 
@@ -51,6 +53,23 @@ const agent = stagehand.agent({
 const result = await agent.execute("Extract the top contributor's username");
 console.log(result);
 ```
+</Tab>
+<Tab title="Python">
+```python
+await page.goto("https://github.com/browserbase/stagehand")
+
+# Create a Computer Use agent with just one line of code!
+agent = stagehand.agent({
+    "provider": "openai",
+    "model": "computer-use-preview"
+})
+
+# Use the agent to execute a task
+result = await agent.execute("Extract the top contributor's username")
+print(result)
+```
+</Tab>
+</Tabs>
 
 <CardGroup>
 <Card title="Stagehand + Computer Use Docs" href="/examples/computer_use" icon="scroll">
@@ -76,6 +95,8 @@ It works by calling Stagehand tools in sequence:
 
 Incorporating Open Operator into your browser automation is as easy as adding a single line of code:
 
+<Tabs>
+<Tab title="TypeScript">
 ```typescript
 await stagehand.page.goto("https://github.com/browserbase/stagehand");
 
@@ -87,6 +108,19 @@ const { message, actions } = await operator.execute(
 
 console.log(message);
 ```
+</Tab>
+<Tab title="Python">
+```python
+await stagehand.page.goto("https://github.com/browserbase/stagehand")
+
+# Open Operator will use the default LLM from Stagehand config
+operator = stagehand.agent()
+result = await operator.execute("Extract the top contributor's username")
+
+print(result)
+```
+</Tab>
+</Tabs>
 
 ### Replay the agent's actions
 

@@ -4,61 +4,98 @@ description: 'Extract structured data from the page'
 icon: 'brain-circuit'
 ---
 
-`extract()` grabs structured text from the current page using [zod](https://github.com/colinhacks/zod). Given instructions and `schema`, you will receive structured data.
+`extract()` grabs structured text from the current page using structured schemas. Given instructions and `schema`, you will receive structured data.
 
 ### `extract` a single object
 
 Here is how an `extract` call might look for a single object:
-```javascript
-  const item = await page.extract({
-    instruction: "extract the price of the item",
-    schema: z.object({
-      price: z.number(),
-    }),
-  });
 
+<Tabs>
+<Tab title="JavaScript">
+```javascript
+const item = await page.extract({
+  instruction: "extract the price of the item",
+  schema: z.object({
+    price: z.number(),
+  }),
+});
 ```
+</Tab>
+<Tab title="Python">
+```python
+item = await page.extract("extract the price of the item")
+# Python extract returns a dictionary with the extracted data
+# For structured extraction, you can also specify the expected format in the instruction
+```
+</Tab>
+</Tabs>
+
 Your output schema will look like:
 ```
 { price: number }
 ```
 
 ### `extract` a link
-<Note>To extract links or URLs, the relevant field in your schema needs to be defined using `z.string().url()`. See the snippet below: </Note>
+<Note>To extract links or URLs, specify this clearly in your instruction. See the snippet below: </Note>
 
 Here is how an `extract` call might look for extracting a link or URL.
+
+<Tabs>
+<Tab title="JavaScript">
 ```javascript
-  const extraction = await stagehand.page.extract({
-    instruction: "extract the link to the 'contact us' page",
-    schema: z.object({
-      link: z.string().url(),
-    }),
-  });
+const extraction = await stagehand.page.extract({
+  instruction: "extract the link to the 'contact us' page",
+  schema: z.object({
+    link: z.string().url(),
+  }),
+});
 
-  console.log("the link to the contact us page is: ", extraction.link);
+console.log("the link to the contact us page is: ", extraction.link);
 ```
+</Tab>
+<Tab title="Python">
+```python
+extraction = await stagehand.page.extract("extract the link to the 'contact us' page")
 
+print("the link to the contact us page is: ", extraction)
+```
+</Tab>
+</Tabs>
 
 ### `extract` a list of objects
 
-Here is how an `extract` call might look for a list of objects. Note that you need to wrap the `z.array` in an outer `z.object`.
-```javascript
-  const apartments = await stagehand.page.extract({
-    instruction:
-      "Extract ALL the apartment listings and their details, including address, price, and square feet."
-    schema: z.object({
-      list_of_apartments: z.array(
-        z.object({
-          address: z.string(),
-          price: z.string(),
-          square_feet: z.string(),
-        }),
-      ),
-    }}
-  })
+Here is how an `extract` call might look for a list of objects.
 
-  console.log("the apartment data is: ", apartments));
+<Tabs>
+<Tab title="JavaScript">
+```javascript
+const apartments = await stagehand.page.extract({
+  instruction:
+    "Extract ALL the apartment listings and their details, including address, price, and square feet."
+  schema: z.object({
+    list_of_apartments: z.array(
+      z.object({
+        address: z.string(),
+        price: z.string(),
+        square_feet: z.string(),
+      }),
+    ),
+  })
+})
+
+console.log("the apartment data is: ", apartments);
 ```
+</Tab>
+<Tab title="Python">
+```python
+apartments = await stagehand.page.extract(
+  "Extract ALL the apartment listings and their details as a list, including address, price, and square feet for each apartment"
+)
+
+print("the apartment data is: ", apartments)
+```
+</Tab>
+</Tabs>
 
 Your output schema will look like:
 ```
@@ -79,8 +116,10 @@ Your output schema will look like:
   ]
 ```
 
-<Tip>To provide some additional context at the field level within your schema, you can use `.describe()`. See the snippet below: </Tip>
+<Tip>For JavaScript: You can provide additional context at the field level within your schema using `.describe()`. For Python: Include specific formatting requirements in your instruction string.</Tip>
 
+<Tabs>
+<Tab title="JavaScript">
 ```javascript
 const apartments = await stagehand.page.extract({
  instruction:
@@ -93,9 +132,18 @@ const apartments = await stagehand.page.extract({
        square_feet: z.string().describe("the square footage of the apartment"),
      }),
    ),
- }}
+ })
 })
 ```
+</Tab>
+<Tab title="Python">
+```python
+apartments = await stagehand.page.extract(
+  "Extract ALL the apartment listings and their details as a list. For each apartment, include: the address of the apartment, the price of the apartment, and the square footage of the apartment"
+)
+```
+</Tab>
+</Tabs>
 
 ### **Arguments:** [`ExtractOptions<T extends z.AnyZodObject>`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
 
@@ -104,7 +152,7 @@ const apartments = await stagehand.page.extract({
   </ParamField>
 
   <ParamField path="schema" type="z.AnyZodObject" required>
-    Defines the structure of the data to extract
+    Defines the structure of the data to extract (JavaScript only)
   </ParamField>
 
   <ParamField path="iframes" type="boolean" optional>

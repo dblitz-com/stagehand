@@ -18,6 +18,8 @@ The [Browserbase SDK](https://docs.browserbase.com/reference/sdk/nodejs) is very
 
 Using Browserbase is as easy as setting `env: "BROWSERBASE"` in your Stagehand constructor:
 
+<Tabs>
+<Tab title="TypeScript">
 ```ts
 const stagehand = new Stagehand({
   env: "BROWSERBASE",
@@ -27,10 +29,28 @@ const stagehand = new Stagehand({
   projectId: process.env.BROWSERBASE_PROJECT_ID,
 });
 ```
+</Tab>
+<Tab title="Python">
+```python
+import os
+from stagehand import Stagehand, StagehandConfig
+
+stagehand = Stagehand(StagehandConfig(
+    env="BROWSERBASE",
+    # Stagehand will automatically read your Browserbase API key and project ID from your environment variables
+    # If you'd like to pass in your own API key and project ID, you can do so like this:
+    api_key=os.getenv("BROWSERBASE_API_KEY"),
+    project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
+))
+```
+</Tab>
+</Tabs>
 
 ### Create a Browserbase session
 To create a custom Browserbase session, you can pass in `browserbaseSessionCreateParams` to the `Stagehand` constructor. For full documentation on the `browserbaseSessionCreateParams` object, see the [Browserbase API documentation](https://docs.browserbase.com/reference/api/create-a-session).
 
+<Tabs>
+<Tab title="TypeScript">
 ```ts
 const stagehand = new Stagehand({
 	env: "BROWSERBASE",
@@ -57,19 +77,67 @@ const stagehand = new Stagehand({
 	},
 });
 ```
+</Tab>
+<Tab title="Python">
+```python
+from stagehand import Stagehand, StagehandConfig
+
+stagehand = Stagehand(StagehandConfig(
+    env="BROWSERBASE",
+    browserbase_session_create_params={
+        "projectId": "your-project-id",
+        "extensionId": "your-extension-id",
+        "browserSettings": {
+            "viewport": {
+                "width": 1920,
+                "height": 1080,
+            },
+            "proxies": [
+                {
+                    "type": "external",
+                    "server": "your-proxy-server",
+                    "username": "your-proxy-username",
+                    "password": "your-proxy-password",
+                },
+            ],
+            "context": {
+                "id": "your-context-id",
+            },
+        },
+    },
+))
+```
+</Tab>
+</Tabs>
 
 ### Resume an existing Browserbase session
 You can reconnect to an existing Browserbase session by passing in the `browserbaseSessionId` to the `Stagehand` constructor.
 
+<Tabs>
+<Tab title="TypeScript">
 ```ts
 const stagehand = new Stagehand({
   env: "BROWSERBASE",
   browserbaseSessionId: "your-session-id",
 });
 ```
+</Tab>
+<Tab title="Python">
+```python
+from stagehand import Stagehand, StagehandConfig
+
+stagehand = Stagehand(StagehandConfig(
+    env="BROWSERBASE",
+    browserbase_session_id="your-session-id",
+))
+```
+</Tab>
+</Tabs>
 
 You can also pass in `browserbaseSessionCreateParams`, but it will be ignored if `browserbaseSessionId` is provided.
 
+<Tabs>
+<Tab title="TypeScript">
 ```ts
 const stagehand = new Stagehand({
   env: "BROWSERBASE",
@@ -81,6 +149,23 @@ const stagehand = new Stagehand({
   },
 });
 ```
+</Tab>
+<Tab title="Python">
+```python
+from stagehand import Stagehand, StagehandConfig
+
+stagehand = Stagehand(StagehandConfig(
+    env="BROWSERBASE",
+    browserbase_session_id="your-session-id",
+    
+    # This will be ignored because we're providing a browserbase_session_id
+    browserbase_session_create_params={
+        "projectId": "your-project-id",
+    },
+))
+```
+</Tab>
+</Tabs>
 
 ## Local Browser Customization
 
@@ -88,6 +173,8 @@ Stagehand allows you to customize your local browser in a few different ways.
 
 You can use [`localBrowserLaunchOptions` type](https://github.com/browserbase/stagehand/blob/84f810b4631291307a32a47addad7e26e9c1deb3/types/stagehand.ts#L134-L174) to customize the browser you want Stagehand to use.
 
+<Tabs>
+<Tab title="TypeScript">
 ```ts
 const stagehand = new Stagehand({
   localBrowserLaunchOptions: {
@@ -95,6 +182,19 @@ const stagehand = new Stagehand({
   }
 })
 ```
+</Tab>
+<Tab title="Python">
+```python
+from stagehand import Stagehand, StagehandConfig
+
+stagehand = Stagehand(StagehandConfig(
+    local_browser_launch_options={
+        "cdp_url": "your-cdp-url",
+    }
+))
+```
+</Tab>
+</Tabs>
 
 ### Use your personal browser
 
@@ -112,6 +212,8 @@ open -a "Google Chrome" --args --remote-debugging-port=9222
 
 This will open Chrome with remote debugging enabled on port 9222. You can then pass in the `cdpUrl` to Stagehand like so:
 
+<Tabs>
+<Tab title="TypeScript">
 ```ts
 const stagehand = new Stagehand({
   localBrowserLaunchOptions: {
@@ -119,3 +221,16 @@ const stagehand = new Stagehand({
   },
 });
 ```
+</Tab>
+<Tab title="Python">
+```python
+from stagehand import Stagehand, StagehandConfig
+
+stagehand = Stagehand(StagehandConfig(
+    local_browser_launch_options={
+        "cdp_url": "http://localhost:9222",
+    },
+))
+```
+</Tab>
+</Tabs>

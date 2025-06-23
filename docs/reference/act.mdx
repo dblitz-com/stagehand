@@ -3,22 +3,48 @@ title: 'Act'
 description: 'Perform actions on the current page'
 icon: 'arrow-pointer'
 ---
- ```javascript
-  await page.act("click on add to cart");
-  ```
+
+<Tabs>
+<Tab title="JavaScript">
+```javascript
+await page.act("click on add to cart");
+```
+</Tab>
+<Tab title="Python">
+```python
+await page.act("click on add to cart")
+```
+</Tab>
+</Tabs>
 
 `act()` allows Stagehand to interact with a web page. Provide an `action` like `"Click on the add to cart button"`, or `"Type 'Browserbase' into the search bar"`.
 
 You can define variables that will not be shared with LLM providers
+
+<Tabs>
+<Tab title="JavaScript">
 ```javascript
-  await page.act({
-    action: "fill in the form with %username% and %password%",
-    variables: {
-      username: "john.doe",
-      password: "secretpass123",
-    },
-  });
+await page.act({
+  action: "fill in the form with %username% and %password%",
+  variables: {
+    username: "john.doe",
+    password: "secretpass123",
+  },
+});
 ```
+</Tab>
+<Tab title="Python">
+```python
+await page.act({
+  "action": "fill in the form with %username% and %password%",
+  "variables": {
+    "username": "john.doe",
+    "password": "secretpass123",
+  },
+})
+```
+</Tab>
+</Tabs>
 
 Small atomic goals perform the best. Avoid using `act()` to perform complex actions. For multi-step actions, use [`Agent`](/reference/agent) instead
 
