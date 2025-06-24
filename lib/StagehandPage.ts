@@ -190,11 +190,6 @@ ${scriptContent} \
     const browserbase = new Browserbase({
       apiKey: this.stagehand["apiKey"] ?? process.env.BROWSERBASE_API_KEY,
     });
-    this.stagehand.log({
-      category: "browserbase",
-      message: `apiKey: ${this.stagehand["apiKey"]}, ${process.env.BROWSERBASE_API_KEY}`,
-      level: 1,
-    });
 
     const sessionStatus = await browserbase.sessions.retrieve(sessionId);
 
