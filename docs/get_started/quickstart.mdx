@@ -11,7 +11,7 @@ For TypeScript/Node.js: We highly recommend using the Node.js runtime environmen
 
 **Bun does not support Stagehand** since it doesn't support [Playwright](https://github.com/search?q=repo:oven-sh/bun+playwright&type=issues).
 
-For Python: We require Python 3.9+ and recommend using [pyenv](https://github.com/pyenv/pyenv) to manage your Python versions.
+For Python: We require Python 3.9+ and recommend using [uv](https://docs.astral.sh/uv/) to manage your virtual environment.
 </Tip>
 
 <Tabs>
@@ -182,13 +182,13 @@ Use the package manager of your choice to install the dependencies. We also have
 
 <Steps>
 <Step title="Prerequisites">
-   Before you begin, you'll need Python 3.9+ installed. We recommend using [pyenv](https://github.com/pyenv/pyenv) to manage your Python versions.
+   Before you begin, you'll need Python 3.9+ installed. We recommend using [uv](https://docs.astral.sh/uv/) to manage your virtual environment.
 </Step>
 
 <Step title="Install Stagehand Python">
 
 ```bash
-pip install stagehand python-dotenv
+pip install stagehand
 ```
 
 </Step>

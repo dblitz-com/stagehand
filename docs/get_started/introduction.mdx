@@ -40,49 +40,31 @@ const { text } = await page.extract({
 ```
 
 ```python Python
-import asyncio
-from stagehand import Stagehand, StagehandConfig
-from dotenv import load_dotenv
-import os
+page = stagehand.page
+await page.goto("https://docs.stagehand.dev")
 
-load_dotenv()
+# Use act() to take an action on the page
+await page.act("Click the search box")
 
-async def main():
-    stagehand = Stagehand(StagehandConfig(
-        env="BROWSERBASE",
-        api_key=os.getenv("BROWSERBASE_API_KEY"),
-        project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
-        model_name="gpt-4o",
-        model_client_options={"apiKey": os.getenv("MODEL_API_KEY")}
-    ))
-    
-    try:
-        await stagehand.init()
-        page = stagehand.page
-        await page.goto("https://docs.stagehand.dev")
-        
-        # Use act() to take an action on the page
-        await page.act("Click the search box")
-        
-        # Use observe() to plan an action before doing it
-        actions = await page.observe(
-            "Type 'Tell me in one sentence why I should use Stagehand' into the search box"
-        )
-        await page.act(actions[0])
-        
-        # Cache actions to avoid redundant LLM calls!
-        await page.act("Click the suggestion to use AI")
-        await page.wait_for_timeout(2000)
-        
-        # Use extract() to extract structured data from the page
-        result = await page.extract("extract the text of the AI suggestion from the search results")
-        
-        print(result)
-        
-    finally:
-        await stagehand.close()
+# Use observe() to plan an action before doing it
+actions = await page.observe(
+    "Type 'Tell me in one sentence why I should use Stagehand' into the search box"
+)
+await page.act(actions[0])
 
-asyncio.run(main())
+# Cache actions to avoid redundant LLM calls!
+await page.act("Click the suggestion to use AI")
+await page.wait_for_timeout(2000)
+
+# Define a custom schema for the extraction
+class Extraction(BaseModel):
+    text: str
+
+# Use extract() to extract structured data from the page
+result = await page.extract(
+    "extract the text of the AI suggestion from the search results",
+    schema=Extraction 
+)
 ```
 </CodeGroup>
 
