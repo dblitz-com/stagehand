@@ -382,8 +382,8 @@ export async function clickElement(ctx: MethodHandlerContext) {
       message: "Playwright click failed, falling back to JS click",
       level: 1,
       auxiliary: {
-        error: { value: (e).message, type: "string" },
-        trace: { value: (e).stack, type: "string" },
+        error: { value: e.message, type: "string" },
+        trace: { value: e.stack, type: "string" },
         xpath: { value: xpath, type: "string" },
         method: { value: "click", type: "string" },
         args: { value: JSON.stringify(args), type: "object" },
@@ -400,14 +400,14 @@ export async function clickElement(ctx: MethodHandlerContext) {
         message: "error performing click (JS fallback)",
         level: 0,
         auxiliary: {
-          error: { value: (e).message, type: "string" },
-          trace: { value: (e).stack, type: "string" },
+          error: { value: e.message, type: "string" },
+          trace: { value: e.stack, type: "string" },
           xpath: { value: xpath, type: "string" },
           method: { value: "click", type: "string" },
           args: { value: JSON.stringify(args), type: "object" },
         },
       });
-      throw new StagehandClickError(xpath, (e).message);
+      throw new StagehandClickError(xpath, e.message);
     }
   }
 
