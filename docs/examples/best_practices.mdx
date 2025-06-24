@@ -50,7 +50,7 @@ const [topAction] = await page.observe("Click the quickstart link");
 /** The action will map 1:1 with a Playwright action:
 {
 	description: "The quickstart link",
-	action: "click",
+	method: "click",
 	selector: "/html/body/div[1]/div[1]/a",
 	arguments: [],
 }
@@ -68,7 +68,7 @@ top_action = actions[0]
 # The action will map 1:1 with a Playwright action:
 # {
 #	"description": "The quickstart link",
-#	"action": "click",
+#	"method": "click",
 #	"selector": "/html/body/div[1]/div[1]/a",
 #	"arguments": [],
 # }
@@ -89,7 +89,7 @@ const [topAction] = await page.observe("Type %email% into the email field");
 /** The observe result will be an object with the following shape:
 {
 	description: "The email input field",
-	action: "type",
+	method: "type",
 	selector: "/html/body/div[1]/div[1]/input",
 	arguments: ["%email%"],
 }
@@ -111,7 +111,7 @@ top_action = actions[0]
 # The observe result will be a dictionary with the following shape:
 # {
 #	"description": "The email input field",
-#	"action": "type",
+#	"method": "type",
 #	"selector": "/html/body/div[1]/div[1]/input",
 #	"arguments": ["%email%"],
 # }
@@ -187,7 +187,7 @@ This will return an array of objects with the following shape:
 ```TypeScript
 {
 	description: "The text input field",
-	action: "type",
+	method: "type",
 	selector: "/html/body/div[1]/div[1]/input",
 	arguments: ["some text"],
 }
@@ -212,7 +212,7 @@ This will return a list of dictionaries with the following shape:
 ```python
 {
 	"description": "The text input field",
-	"action": "type",
+	"method": "type",
 	"selector": "/html/body/div[1]/div[1]/input",
 	"arguments": ["some text"],
 }

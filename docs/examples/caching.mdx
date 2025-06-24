@@ -16,7 +16,7 @@ const [actionPreview] = await page.observe("Click the quickstart link");
 /** actionPreview is a JSON-ified version of a Playwright action:
 {
 	description: "The quickstart link",
-	action: "click",
+	method: "click",
 	selector: "/html/body/div[1]/div[1]/a",
 	arguments: [],
 }
@@ -34,7 +34,7 @@ action_preview = actions[0]
 # action_preview is a dictionary version of a Playwright action:
 # {
 #	"description": "The quickstart link",
-#	"action": "click",
+#	"method": "click",
 #	"selector": "/html/body/div[1]/div[1]/a",
 #	"arguments": [],
 # }

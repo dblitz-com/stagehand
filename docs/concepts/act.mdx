@@ -98,7 +98,7 @@ await page.act(action)
 /** action is a JSON-ified version of a Playwright action:
 {
 	description: "The jobs link",
-	action: "click",
+	method: "click",
 	selector: "/html/body/div[1]/div[1]/a",
 	arguments: [],
 }
@@ -110,7 +110,7 @@ await page.act(action)
 # action is a dictionary version of a Playwright action:
 # {
 #	"description": "The jobs link",
-#	"action": "click",
+#	"method": "click",
 #	"selector": "/html/body/div[1]/div[1]/a",
 #	"arguments": [],
 # }
