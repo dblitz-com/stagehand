@@ -36,6 +36,17 @@
         ]
       },
       {
+        "group": "Reference",
+        "pages": [
+          "reference/initialization_config",
+          "reference/agent",
+          "reference/act",
+          "reference/extract",
+          "reference/observe",
+          "reference/playwright_interop"
+        ]
+      },
+      {
         "group": "Integrations",
         "pages": [
           "integrations/langchain",
@@ -45,17 +56,6 @@
           "integrations/cline",
           "integrations/claude-code",
           "integrations/crew-ai"
-        ]
-      },
-      {
-        "group": "Reference",
-        "pages": [
-          "reference/initialization_config",
-          "reference/agent",
-          "reference/act",
-          "reference/extract",
-          "reference/observe",
-          "reference/playwright_interop"
         ]
       }
     ],
