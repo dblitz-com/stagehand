@@ -372,10 +372,8 @@ export async function clickElement(ctx: MethodHandlerContext) {
     },
   });
 
-  let clickSucceeded = false;
   try {
     await locator.click({ timeout: 3_500 });
-    clickSucceeded = true;
   } catch (e) {
     logger({
       category: "action",
@@ -389,9 +387,7 @@ export async function clickElement(ctx: MethodHandlerContext) {
         args: { value: JSON.stringify(args), type: "object" },
       },
     });
-  }
 
-  if (!clickSucceeded) {
     try {
       await locator.evaluate((el) => (el as HTMLElement).click());
     } catch (e) {
