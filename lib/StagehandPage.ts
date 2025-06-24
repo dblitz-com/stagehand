@@ -188,7 +188,12 @@ ${scriptContent} \
     }
 
     const browserbase = new Browserbase({
-      apiKey: process.env.BROWSERBASE_API_KEY,
+      apiKey: this.stagehand["apiKey"] ?? process.env.BROWSERBASE_API_KEY,
+    });
+    this.stagehand.log({
+      category: "browserbase",
+      message: `apiKey: ${this.stagehand["apiKey"]}, ${process.env.BROWSERBASE_API_KEY}`,
+      level: 1,
     });
 
     const sessionStatus = await browserbase.sessions.retrieve(sessionId);
@@ -209,14 +214,6 @@ ${scriptContent} \
 
     this.intPage = newStagehandPage.page;
 
-    if (this.stagehand.debugDom) {
-      this.stagehand.log({
-        category: "deprecation",
-        message:
-          "Warning: debugDom is not supported in this version of Stagehand",
-        level: 1,
-      });
-    }
     await this.intPage.waitForLoadState("domcontentloaded");
     await this._waitForSettledDom();
   }
