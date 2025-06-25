@@ -26,14 +26,14 @@ const stagehand = new Stagehand({
     modelClientOptions: {
       apiKey: process.env.ANTHROPIC_API_KEY, /* Model API key */
     }, /* Configuration options for the model client */
-	apiKey: process.env.BROWSERBASE_API_KEY, 
+	apiKey: process.env.BROWSERBASE_API_KEY,
 	projectId: process.env.BROWSERBASE_PROJECT_ID,
 	/* API keys for authentication (if you want to use Browserbase) */
 	browserbaseSessionID:
       undefined, /* Can set Session ID for resuming Browserbase sessions */
     browserbaseSessionCreateParams: { /* Browser Session Params */
       projectId: process.env.BROWSERBASE_PROJECT_ID!,
-      proxies: true, /* Using Browserbase's Proxies */ 
+      proxies: true, /* Using Browserbase's Proxies */
       browserSettings: {
 		advancedStealth: true, /* Only available on Scale Plans */
         blockAds: true, /* To Block Ad Popups (defaults to False) */
@@ -256,11 +256,11 @@ This constructor is used to create an instance of Stagehand.
   <ParamField path="systemPrompt" type="string" optional>
     A custom system prompt to use for the LLM in addition to the default system prompt for act, extract, and observe methods.
   </ParamField>
-  
+
   <ParamField path="selfHeal" type="boolean" optional>
     Enables self-healing mode. When set to `true`, Stagehand will attempt to recover from errors (eg. outdated cached element not resolving) by retrying the last action. Defaults to `true`. Set to `false` to disable LLM inference on cache errors.
   </ParamField>
-  
+
 <ResponseField name="localBrowserLaunchOptions" type="LocalBrowserLaunchOptions">
   Provides comprehensive options for local browser instances.
   <Expandable title="properties">
@@ -293,6 +293,9 @@ This constructor is used to create an instance of Stagehand.
     </ResponseField>
     <ResponseField name="ignoreDefaultArgs" type="boolean | string[]">
       Ignore all default arguments or specify an array to ignore.
+    </ResponseField>
+    <ResponseField name="preserveUserDataDir" type="boolean">
+      Whether to preserve the custom user data directory between runs. Defaults to `false`.
     </ResponseField>
     <ResponseField name="proxy" type="object">
       <Expandable title="properties">
