@@ -70,6 +70,8 @@ const DEFAULT_EVAL_CATEGORIES = process.env.EVAL_CATEGORIES
       "agent",
     ];
 
+const providerDefault = process.env.EVAL_PROVIDER ?? undefined;
+
 function buildUsage(detailed = false): string {
   const header = chalk.blue.bold("Stagehand • Eval Runner");
   const synopsis = chalk.cyan(
@@ -87,11 +89,13 @@ function buildUsage(detailed = false): string {
       ${chalk.cyan(
         "concurrency",
       )}  max parallel sessions   (default ${chalk.dim("10")})
-      ${chalk.cyan(
-        "provider",
-      )}     override LLM provider   (default ${chalk.dim(
-        process.env.EVAL_MODELS,
-      )})
+      ${chalk.cyan("provider")}  override LLM provider   (default ${chalk.dim(
+        providerDefault,
+      )})       [${chalk.yellow("OPENAI")}, ${chalk.yellow(
+        "ANTHROPIC",
+      )}, ${chalk.yellow("GOOGLE")}, ${chalk.yellow("TOGETHER")}, ${chalk.yellow(
+        "GROQ",
+      )}, ${chalk.yellow("CEREBRAS")}]
 
     ${chalk.magenta.underline("Positional filters\n")}
       category <category_name>   one of: ${DEFAULT_EVAL_CATEGORIES.map((c) =>
