@@ -256,7 +256,7 @@ async def main():
         page = stagehand.page
         await page.goto("https://github.com/browserbase/stagehand-python")
         
-        await page.get_by_role("link", name=r"Contributors \d+").click()
+        await page.get_by_role("link", name="Contributors \\d+").click()
         
         top_contributor = await page.locator(
             'a[href^="/browserbase/stagehand/commits?author="]'
