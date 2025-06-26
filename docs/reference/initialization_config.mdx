@@ -6,9 +6,8 @@ icon: 'gear'
 
 ## Stagehand constructor
 
-<Tabs>
-<Tab title="TypeScript">
-```typescript
+<CodeGroup>
+```typescript TypeScript
 // Basic usage
 // Defaults to Browserbase; if no API key is provided, it will default to LOCAL
 // Default model is gpt-4o
@@ -93,9 +92,8 @@ const stagehand = new Stagehand({
 	browserbaseSessionID: "existing-session-id",
 });
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 import os
 from stagehand import Stagehand
 
@@ -183,8 +181,7 @@ stagehand = Stagehand(
     browserbase_session_id="existing-session-id",
 )
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 This constructor is used to create an instance of Stagehand.
 

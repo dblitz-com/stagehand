@@ -5,10 +5,6 @@ icon: 'robot'
 ---
 import { Excalidraw } from '/snippets/excalidraw.mdx';
 
-<Tip>
-Stagehand agents are brand new in Stagehand 2.0. 
-</Tip>
-
 Stagehand gives AI agents powerful tools to control a browser completely autonomously. Watch below as a Stagehand agent autonomously navigates to a URL, takes actions on the page, and extracts structured data to answer a question.
 There's quite a few ways to build an agent with Stagehand. Let's look at a few of them.
 
@@ -38,9 +34,8 @@ While MCP is really nascent, we're excited to see where it goes.
 
 Stagehand lets you leverage powerful computer use APIs from OpenAI and Anthropic with just one line of code. 
 
-<Tabs>
-<Tab title="TypeScript">
-```typescript
+<CodeGroup>
+```typescript TypeScript
 await page.goto("https://github.com/browserbase/stagehand");
 
 // Create a Computer Use agent with just one line of code!
@@ -53,9 +48,7 @@ const agent = stagehand.agent({
 const result = await agent.execute("Extract the top contributor's username");
 console.log(result);
 ```
-</Tab>
-<Tab title="Python">
-```python
+```python Python
 await page.goto("https://github.com/browserbase/stagehand-python")
 
 # Create a Computer Use agent with just one line of code!
@@ -68,8 +61,7 @@ agent = stagehand.agent({
 result = await agent.execute("Extract the top contributor's username")
 print(result)
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 <CardGroup>
 <Card title="Stagehand + Computer Use Docs" href="/examples/computer_use" icon="scroll">
@@ -95,9 +87,8 @@ It works by calling Stagehand tools in sequence:
 
 Incorporating Open Operator into your browser automation is as easy as adding a single line of code:
 
-<Tabs>
-<Tab title="TypeScript">
-```typescript
+<CodeGroup>
+```typescript TypeScript
 await stagehand.page.goto("https://github.com/browserbase/stagehand");
 
 // Open Operator will use the default LLM from Stagehand config
@@ -108,9 +99,7 @@ const { message, actions } = await operator.execute(
 
 console.log(message);
 ```
-</Tab>
-<Tab title="Python">
-```python
+```python Python
 await stagehand.page.goto("https://github.com/browserbase/stagehand")
 
 # Open Operator will use the default LLM from Stagehand config
@@ -119,8 +108,7 @@ result = await operator.execute("Extract the top contributor's username")
 
 print(result)
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ### Replay the agent's actions
 

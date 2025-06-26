@@ -12,9 +12,8 @@ Stagehand has an `act()` function that can be used to execute actions on a page 
 
 This workflow is as simple as the following lines of code:
 
-<Tabs>
-<Tab title="TypeScript">
-```js
+<CodeGroup>
+```typescript TypeScript
 const page = stagehand.page
 // Navigate to the URL
 await page.goto("https://linkedin.com");
@@ -23,28 +22,26 @@ await page.act("click 'jobs'");
 // Click on first posting
 await page.act("click the first job posting");
 ```
-</Tab>
-<Tab title="Python">
-```python
+```python Python
 page = stagehand.page
 # Navigate to the URL
 await page.goto("https://linkedin.com")
-
+# Click on jobs menu selection
 await page.act("click 'jobs'")
+# Click on first posting
 await page.act("click the first job posting")
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 The `page` object extends the Playwright page object, so you can use any of the [Playwright page methods](https://playwright.dev/docs/api/class-page) with it.
 
-## Read structured data from the page
+## Get structured data from the page
 
-You can use the `extract()` method to extract structured data from the page. Here's an example of how to extract the job title from the job posting:
+You can use `extract()` to get structured data from the page.
+Here's an example of how to extract the job title from the job posting:
 
-<Tabs>
-<Tab title="TypeScript">
-```js
+<CodeGroup>
+```typescript TypeScript
 const { jobTitle } = await page.extract({
 	instruction: "Extract the job title from the job posting",
 	schema: z.object({
@@ -52,24 +49,21 @@ const { jobTitle } = await page.extract({
 	}),
 });
 ```
-</Tab>
-<Tab title="Python">
-```python
+```python Python
 result = await page.extract("Extract the job title from the job posting")
-job_title = result  # Result is returned as a dictionary or direct value
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
-Stagehand uses [Zod](https://zod.dev/) for TypeScript to help you define the schema of the data to be extracted. For Python, extraction returns structured data based on your instruction.
+<Info>
+Stagehand uses [Zod](https://zod.dev/) for TypeScript and [Pydantic](https://docs.pydantic.dev/) for Python to help you define the schema of the data to be extracted.
+</Info>
 
 ## Preview/Cache an action
 
 Sometimes you want to preview an action before it's executed. You can do this by calling `page.observe()` before `act()`.
 
-<Tabs>
-<Tab title="TypeScript">
-```js
+<CodeGroup>
+```typescript TypeScript
 const [action] = await page.observe("click 'jobs'");
 
 console.log("Going to execute action:", action)
@@ -77,9 +71,7 @@ console.log("Going to execute action:", action)
 
 await page.act(action)
 ```
-</Tab>
-<Tab title="Python">
-```python
+```python Python
 actions = await page.observe("click 'jobs'")
 action = actions[0]
 
@@ -88,36 +80,21 @@ print("Going to execute action:", action)
 
 await page.act(action)
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 `action` will be a JSON object that describes the action to be taken.
 
-<Tabs>
-<Tab title="TypeScript">
+
 ```TypeScript
-/** action is a JSON-ified version of a Playwright action:
+// action is a JSON-ified version of a Playwright action:
 {
 	description: "The jobs link",
 	method: "click",
 	selector: "/html/body/div[1]/div[1]/a",
 	arguments: [],
 }
-**/
 ```
-</Tab>
-<Tab title="Python">
-```python
-# action is a dictionary version of a Playwright action:
-# {
-#	"description": "The jobs link",
-#	"method": "click",
-#	"selector": "/html/body/div[1]/div[1]/a",
-#	"arguments": [],
-# }
-```
-</Tab>
-</Tabs>
+
 
 For more on caching, see the [caching docs](/examples/caching).
 
@@ -140,21 +117,17 @@ We generally support the following actions:
 
 Each of these actions can be triggered using natural language commands. For example:
 
-<Tabs>
-<Tab title="TypeScript">
-```js
+<CodeGroup>
+```typescript TypeScript
 await page.act("scroll to the bottom of the page")
 await page.act("fill in the username field with 'john_doe'")
 await page.act("scroll the modal to the next chunk")
 ```
-</Tab>
-<Tab title="Python">
-```python
+```python Python
 await page.act("scroll to the bottom of the page")
 await page.act("fill in the username field with 'john_doe'")
 await page.act("scroll the modal to the next chunk")
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 

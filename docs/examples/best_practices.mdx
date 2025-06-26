@@ -15,9 +15,8 @@ If you're using Windsurf, you can use the same rules by adding them to your `.wi
 
 You can use `variables` in an `act` call to avoid sending sensitive information to LLMs.
 
-<Tabs>
-<Tab title="TypeScript">
-```typescript
+<CodeGroup>
+```typescript TypeScript
 await page.act({
 	action: "Type %email% into the email field",
 	variables: {
@@ -25,9 +24,7 @@ await page.act({
 	},
 });
 ```
-</Tab>
-<Tab title="Python">
-```python
+```python Python
 await page.act({
 	"action": "Type %email% into the email field",
 	"variables": {
@@ -35,16 +32,14 @@ await page.act({
 	},
 })
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ### Preview actions before running them
 You can use `observe()` to get an action to run without running it.
 If you're satisfied with the action, you can run it with `act()` without any LLM inference.
 
-<Tabs>
-<Tab title="TypeScript">
-```typescript
+<CodeGroup>
+```typescript TypeScript
 const [topAction] = await page.observe("Click the quickstart link");
 
 /** The action will map 1:1 with a Playwright action:
@@ -59,9 +54,7 @@ const [topAction] = await page.observe("Click the quickstart link");
 // NO LLM INFERENCE on observe results
 await page.act(topAction)
 ```
-</Tab>
-<Tab title="Python">
-```python
+```python Python
 actions = await page.observe("Click the quickstart link")
 top_action = actions[0]
 
@@ -76,14 +69,12 @@ top_action = actions[0]
 # NO LLM INFERENCE on observe results
 await page.act(top_action)
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 You can also use `observe()` with sensitive information, like below.
 
-<Tabs>
-<Tab title="TypeScript">
-```TypeScript
+<CodeGroup>
+```typescript TypeScript
 const [topAction] = await page.observe("Type %email% into the email field");
 
 /** The observe result will be an object with the following shape:
@@ -102,8 +93,7 @@ await page.act({
 	arguments: [sensitiveEmail],
 })
 ```
-</Tab>
-<Tab title="Python">
+
 ```python
 actions = await page.observe("Type %email% into the email field")
 top_action = actions[0]
@@ -123,14 +113,12 @@ await page.act({
 	"arguments": [sensitive_email],
 })
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 **Use `observe()` to get actionable suggestions from the current page**
 
-<Tabs>
-<Tab title="TypeScript">
-```TypeScript
+<CodeGroup>
+```typescript TypeScript
 const actions = await page.observe();
 console.log("Possible actions:", actions);
 
@@ -139,47 +127,41 @@ const buttons = await page.observe({
 	instruction: "find all the buttons on the page",
 });
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 actions = await page.observe()
 print("Possible actions:", actions)
 
 # You can also use `observe()` with a custom prompt
 buttons = await page.observe("find all the buttons on the page")
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ### Avoid broad or ambiguous instructions
 Avoid instructions that aren't specific to the current page or try to do multiple things at once.
 
-<Tabs>
-<Tab title="TypeScript">
-```TypeScript
+<CodeGroup>
+```typescript TypeScript
 // Too vague
 await page.act({ action: "find something interesting on the page" });
 
 // Avoid combining actions
 await page.act({ action: "fill out the form and submit it" });
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 # Too vague
 await page.act({"action": "find something interesting on the page"})
 
 # Avoid combining actions
 await page.act({"action": "fill out the form and submit it"})
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ### Use `observe()` to get entire form values
 
-<Tabs>
-<Tab title="TypeScript">
-```TypeScript
+<CodeGroup>
+```typescript TypeScript
 const formValues = await page.observe("get the text inputs on the page");
 ```
 
@@ -202,9 +184,8 @@ for (const formValue of formValues) {
 	});
 }
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 form_values = await page.observe("get the text inputs on the page")
 ```
 
@@ -226,7 +207,6 @@ for form_value in form_values:
 		"arguments": [your_value_here],
 	})
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 For a full example, check out the example in the Stagehand repo [here](https://github.com/browserbase/stagehand/blob/main/examples/form_filling_sensible.ts).

@@ -10,9 +10,8 @@ icon: 'brain-circuit'
 
 Here is how an `extract` call might look for a single object:
 
-<Tabs>
-<Tab title="TypeScript">
-```TypeScript
+<CodeGroup>
+```typescript TypeScript
 const item = await page.extract({
   instruction: "extract the price of the item",
   schema: z.object({
@@ -20,15 +19,13 @@ const item = await page.extract({
   }),
 });
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 item = await page.extract("extract the price of the item")
 # Python extract returns a dictionary with the extracted data
 # For structured extraction, you can also specify the expected format in the instruction
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 Your output schema will look like:
 ```
@@ -40,9 +37,8 @@ Your output schema will look like:
 
 Here is how an `extract` call might look for extracting a link or URL.
 
-<Tabs>
-<Tab title="TypeScript">
-```TypeScript
+<CodeGroup>
+```typescript TypeScript
 const extraction = await stagehand.page.extract({
   instruction: "extract the link to the 'contact us' page",
   schema: z.object({
@@ -52,23 +48,20 @@ const extraction = await stagehand.page.extract({
 
 console.log("the link to the contact us page is: ", extraction.link);
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 extraction = await stagehand.page.extract("extract the link to the 'contact us' page")
 
 print("the link to the contact us page is: ", extraction)
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ### `extract` a list of objects
 
 Here is how an `extract` call might look for a list of objects.
 
-<Tabs>
-<Tab title="TypeScript">
-```TypeScript
+<CodeGroup>
+```typescript TypeScript
 const apartments = await stagehand.page.extract({
   instruction:
     "Extract ALL the apartment listings and their details, including address, price, and square feet."
@@ -85,17 +78,15 @@ const apartments = await stagehand.page.extract({
 
 console.log("the apartment data is: ", apartments);
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 apartments = await stagehand.page.extract(
   "Extract ALL the apartment listings and their details as a list, including address, price, and square feet for each apartment"
 )
 
 print("the apartment data is: ", apartments)
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 Your output schema will look like:
 ```
@@ -118,9 +109,8 @@ Your output schema will look like:
 
 <Tip>For TypeScript: You can provide additional context at the field level within your schema using `.describe()`. For Python: Include specific formatting requirements in your instruction string.</Tip>
 
-<Tabs>
-<Tab title="TypeScript">
-```TypeScript
+<CodeGroup>
+```typescript TypeScript
 const apartments = await stagehand.page.extract({
  instruction:
    "Extract ALL the apartment listings and their details, including address, price, and square feet."
@@ -135,15 +125,13 @@ const apartments = await stagehand.page.extract({
  })
 })
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 apartments = await stagehand.page.extract(
   "Extract ALL the apartment listings and their details as a list. For each apartment, include: the address of the apartment, the price of the apartment, and the square footage of the apartment"
 )
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ### **Arguments:** [`ExtractOptions<T extends z.AnyZodObject>`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
 

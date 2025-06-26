@@ -1,6 +1,5 @@
 ---
 title: 'Quickstart'
-description: 'Use create-browser-app to get started in 1 minute'
 icon: 'rocket'
 ---
 
@@ -14,13 +13,12 @@ For TypeScript/Node.js: We highly recommend using the Node.js runtime environmen
 For Python: We require Python 3.9+ and recommend using [uv](https://docs.astral.sh/uv/) to manage your virtual environment.
 </Tip>
 
+
 <Tabs>
-<Tab title="TypeScript/Node.js">
+<Tab title="TypeScript">
+	Before you begin, you'll need to install Node.js and NPM. We highly recommend using [nvm](https://github.com/nvm-sh/nvm) to manage your Node.js versions, and running on Node version 20+.
 
 <Steps>
-<Step title="Prerequisites">
-   Before you begin, you'll need to install Node.js and NPM. We highly recommend using [nvm](https://github.com/nvm-sh/nvm) to manage your Node.js versions, and running on Node version 20+.
-</Step>
 
 <Step title="Create a new project">
 
@@ -179,12 +177,9 @@ Use the package manager of your choice to install the dependencies. We also have
 </Tab>
 
 <Tab title="Python">
+Before you begin, you'll need Python 3.9+ installed. We recommend using [uv](https://docs.astral.sh/uv/) to manage your virtual environment.
 
 <Steps>
-<Step title="Prerequisites">
-   Before you begin, you'll need Python 3.9+ installed. We recommend using [uv](https://docs.astral.sh/uv/) to manage your virtual environment.
-</Step>
-
 <Step title="Install Stagehand Python">
 
 ```bash
@@ -205,7 +200,7 @@ export MODEL_API_KEY="your_model_api_key"  # OpenAI, Anthropic, etc.
 
 </Step>
 
-<Step title="Create and run your first script">
+<Step title="Create your first script">
 
 Create a file `main.py`:
 
@@ -245,8 +240,9 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+</Step>
 
-Run the script:
+<Step title="Run the script">
 
 ```bash
 python main.py
@@ -258,7 +254,7 @@ python main.py
 </Tab>
 </Tabs>
 
-## Next Steps
+**Next Steps**
 
 <CardGroup cols={2}>
 <Card

@@ -78,7 +78,7 @@
   "logo": {
     "light": "/logo/light_logo.png",
     "dark": "/logo/dark_logo.png",
-    "href": "https://docs.stagehand.dev"
+    "href": "https://stagehand.dev"
   },
   "navbar": {
     "links": [

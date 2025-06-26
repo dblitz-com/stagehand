@@ -18,9 +18,8 @@ The [Browserbase SDK](https://docs.browserbase.com/reference/sdk/nodejs) is very
 
 Using Browserbase is as easy as setting `env: "BROWSERBASE"` in your Stagehand constructor:
 
-<Tabs>
-<Tab title="TypeScript">
-```ts
+<CodeGroup>
+```typescript TypeScript
 const stagehand = new Stagehand({
   env: "BROWSERBASE",
   // Stagehand will automatically read your Browserbase API key and project ID from your environment variables
@@ -29,9 +28,8 @@ const stagehand = new Stagehand({
   projectId: process.env.BROWSERBASE_PROJECT_ID,
 });
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 import os
 from stagehand import Stagehand, StagehandConfig
 
@@ -47,15 +45,13 @@ config = StagehandConfig(
 # Create a Stagehand client using the configuration object.
 stagehand = Stagehand(config)
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ### Create a Browserbase session
 To create a custom Browserbase session, you can pass in `browserbaseSessionCreateParams` to the `Stagehand` constructor. For full documentation on the `browserbaseSessionCreateParams` object, see the [Browserbase API documentation](https://docs.browserbase.com/reference/api/create-a-session).
 
-<Tabs>
-<Tab title="TypeScript">
-```ts
+<CodeGroup>
+```typescript TypeScript
 const stagehand = new Stagehand({
 	env: "BROWSERBASE",
  	browserbaseSessionCreateParams: {
@@ -81,9 +77,8 @@ const stagehand = new Stagehand({
 	},
 });
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 from stagehand import Stagehand, StagehandConfig
 
 stagehand = Stagehand(StagehandConfig(
@@ -111,23 +106,20 @@ stagehand = Stagehand(StagehandConfig(
     },
 ))
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ### Resume an existing Browserbase session
 You can reconnect to an existing Browserbase session by passing in the `browserbaseSessionId` to the `Stagehand` constructor.
 
-<Tabs>
-<Tab title="TypeScript">
-```ts
+<CodeGroup>
+```typescript TypeScript
 const stagehand = new Stagehand({
   env: "BROWSERBASE",
   browserbaseSessionId: "your-session-id",
 });
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 from stagehand import Stagehand, StagehandConfig
 
 stagehand = Stagehand(StagehandConfig(
@@ -135,14 +127,12 @@ stagehand = Stagehand(StagehandConfig(
     browserbase_session_id="your-session-id",
 ))
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 You can also pass in `browserbaseSessionCreateParams`, but it will be ignored if `browserbaseSessionId` is provided.
 
-<Tabs>
-<Tab title="TypeScript">
-```ts
+<CodeGroup>
+```typescript TypeScript
 const stagehand = new Stagehand({
   env: "BROWSERBASE",
   browserbaseSessionId: "your-session-id",
@@ -153,9 +143,8 @@ const stagehand = new Stagehand({
   },
 });
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 from stagehand import Stagehand, StagehandConfig
 
 stagehand = Stagehand(StagehandConfig(
@@ -168,8 +157,7 @@ stagehand = Stagehand(StagehandConfig(
     },
 ))
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ## Local Browser Customization
 
@@ -177,18 +165,16 @@ Stagehand allows you to customize your local browser in a few different ways.
 
 You can use [`localBrowserLaunchOptions` type](https://github.com/browserbase/stagehand/blob/84f810b4631291307a32a47addad7e26e9c1deb3/types/stagehand.ts#L134-L174) to customize the browser you want Stagehand to use.
 
-<Tabs>
-<Tab title="TypeScript">
-```ts
+<CodeGroup>
+```typescript TypeScript
 const stagehand = new Stagehand({
   localBrowserLaunchOptions: {
 	cdpUrl: 'your-cdp-url',
   }
 })
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 from stagehand import Stagehand, StagehandConfig
 
 stagehand = Stagehand(StagehandConfig(
@@ -197,8 +183,7 @@ stagehand = Stagehand(StagehandConfig(
     }
 ))
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 ### Use your personal browser
 
@@ -216,18 +201,16 @@ open -a "Google Chrome" --args --remote-debugging-port=9222
 
 This will open Chrome with remote debugging enabled on port 9222. You can then pass in the `cdpUrl` to Stagehand like so:
 
-<Tabs>
-<Tab title="TypeScript">
-```ts
+<CodeGroup>
+```typescript TypeScript
 const stagehand = new Stagehand({
   localBrowserLaunchOptions: {
 	cdpUrl: 'http://localhost:9222',
   },
 });
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 from stagehand import Stagehand, StagehandConfig
 
 stagehand = Stagehand(StagehandConfig(
@@ -236,5 +219,4 @@ stagehand = Stagehand(StagehandConfig(
     },
 ))
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
