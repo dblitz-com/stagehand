@@ -43,7 +43,8 @@
           "reference/act",
           "reference/extract",
           "reference/observe",
-          "reference/playwright_interop"
+          "reference/playwright_interop",
+          "integrations/guides"
         ]
       },
       {

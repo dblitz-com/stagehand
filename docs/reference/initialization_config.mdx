@@ -117,14 +117,14 @@ stagehand = Stagehand(
     # LLM configuration
     model_name="google/gemini-2.0-flash",  # Name of the model to use in "provider/model" format
     model_client_options={
-        "api_key": os.environ.get("ANTHROPIC_API_KEY"),  # Model API key
+        "api_key": os.getenv("ANTHROPIC_API_KEY"),  # Model API key
     },  # Configuration options for the model client
-    api_key=os.environ.get("BROWSERBASE_API_KEY"),
-    project_id=os.environ.get("BROWSERBASE_PROJECT_ID"),
+    api_key=os.getenv("BROWSERBASE_API_KEY"),
+    project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
     # API keys for authentication (if you want to use Browserbase)
     browserbase_session_id=None,  # Can set Session ID for resuming Browserbase sessions
     browserbase_session_create_params={  # Browser Session Params
-        "project_id": os.environ.get("BROWSERBASE_PROJECT_ID"),
+        "project_id": os.getenv("BROWSERBASE_PROJECT_ID"),
         "proxies": True,  # Using Browserbase's Proxies
         "browser_settings": {
             "advanced_stealth": True,  # Only available on Scale Plans
@@ -362,10 +362,10 @@ This constructor is used to create an instance of Stagehand.
       Additional command-line arguments to pass to the browser.
     </ResponseField>
     <ResponseField name="chromiumSandbox" type="boolean">
-      Enable or disable Chromium’s sandbox.
+      Enable or disable Chromium's sandbox.
     </ResponseField>
     <ResponseField name="devtools" type="boolean">
-      Open the browser’s developer tools on launch.
+      Open the browser's developer tools on launch.
     </ResponseField>
     <ResponseField name="env" type="Record&lt;string, string | number | boolean&gt;">
       Environment variables for the browser process.
@@ -439,7 +439,7 @@ This constructor is used to create an instance of Stagehand.
       Whether to ignore HTTPS errors.
     </ResponseField>
     <ResponseField name="locale" type="string">
-      Sets the browser’s locale.
+      Sets the browser's locale.
     </ResponseField>
     <ResponseField name="permissions" type="string[]">
       Array of permissions to grant (e.g., "geolocation", "notifications").
