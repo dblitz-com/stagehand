@@ -11,28 +11,48 @@
   "navigation": {
     "groups": [
       {
-        "group": "Get Started",
+        "group": "Introduction",
         "pages": [
-          "get_started/introduction",
-          "get_started/quickstart",
-          "get_started/integrate_stagehand"
+          "introduction/what_is_sh",
+          "introduction/typescript",
+          "introduction/python"
         ]
       },
       {
-        "group": "Concepts",
-        "pages": ["concepts/act", "concepts/agent"]
+        "group": "Agent",
+        "pages": [
+          "agent/introduction",
+          "agent/model_routing",
+          "agent/repeatability",
+          "agent/cua"
+        ]
       },
       {
-        "group": "Playbooks",
+        "group": "Act",
         "pages": [
-          "examples/best_practices",
-          "examples/caching",
-          "examples/running_evals",
-          "examples/nextjs",
-          "examples/custom_llms",
-          "examples/customize_browser",
-          "examples/computer_use",
-          "examples/contributing"
+          "act/introduction",
+          "act/self_healing",
+          "act/variables",
+          "act/caching"
+        ]
+      },
+      {
+        "group": "Extract",
+        "pages": [
+          "extract/introduction",
+          "extract/structured_output",
+          "extract/ask",
+          "extract/download",
+          "extract/dataframe"
+        ]
+      },
+      {
+        "group": "Guides",
+        "pages": [
+          "guides/llm_customization",
+          "guides/vibe_coding",
+          "guides/cost_optimization",
+          "guides/browser_customization"
         ]
       },
       {
@@ -45,17 +65,6 @@
           "integrations/cline",
           "integrations/claude-code",
           "integrations/crew-ai"
-        ]
-      },
-      {
-        "group": "Reference",
-        "pages": [
-          "reference/initialization_config",
-          "reference/agent",
-          "reference/act",
-          "reference/extract",
-          "reference/observe",
-          "reference/playwright_interop"
         ]
       }
     ],
