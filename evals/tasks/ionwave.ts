@@ -1,22 +1,21 @@
-import { initStagehand } from "@/evals/initStagehand";
 import { EvalFunction } from "@/types/evals";
 
-export const ionwave: EvalFunction = async ({ modelName, logger }) => {
-  const { stagehand, initResponse } = await initStagehand({
-    modelName,
-    logger,
-  });
-
-  const { debugUrl, sessionUrl } = initResponse;
-
-  await stagehand.page.goto("https://elpasotexas.ionwave.net/Login.aspx");
+export const ionwave: EvalFunction = async ({
+  debugUrl,
+  sessionUrl,
+  stagehand,
+  logger,
+}) => {
+  await stagehand.page.goto(
+    "https://browserbase.github.io/stagehand-eval-sites/sites/ionwave/",
+  );
 
   await stagehand.page.act({
     action: 'Click on "Closed Bids"',
   });
 
   const expectedUrl =
-    "https://elpasotexas.ionwave.net/SourcingEvents.aspx?SourceType=2";
+    "https://browserbase.github.io/stagehand-eval-sites/sites/ionwave/closed-bids.html";
   const currentUrl = stagehand.page.url();
 
   await stagehand.close();

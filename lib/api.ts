@@ -19,17 +19,30 @@ import {
   ObserveResult,
 } from "../types/stagehand";
 import { AgentExecuteOptions, AgentResult } from ".";
+import {
+  StagehandAPIUnauthorizedError,
+  StagehandHttpError,
+  StagehandAPIError,
+  StagehandServerError,
+  StagehandResponseBodyError,
+  StagehandResponseParseError,
+} from "../types/stagehandApiErrors";
+import makeFetchCookie from "fetch-cookie";
 
 export class StagehandAPI {
   private apiKey: string;
   private projectId: string;
   private sessionId?: string;
+  private modelApiKey: string;
   private logger: (message: LogLine) => void;
+  private fetchWithCookies;
 
   constructor({ apiKey, projectId, logger }: StagehandAPIConstructorParams) {
     this.apiKey = apiKey;
     this.projectId = projectId;
     this.logger = logger;
+    // Create a single cookie jar instance that will persist across all requests
+    this.fetchWithCookies = makeFetchCookie(fetch);
   }
 
   async init({
@@ -43,7 +56,17 @@ export class StagehandAPI {
     waitForCaptchaSolves,
     actionTimeoutMs,
     browserbaseSessionCreateParams,
+    browserbaseSessionID,
   }: StartSessionParams): Promise<StartSessionResult> {
+    if (!modelApiKey) {
+      throw new StagehandAPIError("modelApiKey is required");
+    }
+    this.modelApiKey = modelApiKey;
+
+    const region = browserbaseSessionCreateParams?.region;
+    if (region && region !== "us-west-2") {
+      return { sessionId: browserbaseSessionID ?? null, available: false };
+    }
     const sessionResponse = await this.request("/sessions/start", {
       method: "POST",
       body: JSON.stringify({
@@ -56,34 +79,37 @@ export class StagehandAPI {
         waitForCaptchaSolves,
         actionTimeoutMs,
         browserbaseSessionCreateParams,
+        browserbaseSessionID,
       }),
-      headers: {
-        "x-model-api-key": modelApiKey,
-      },
     });
 
     if (sessionResponse.status === 401) {
-      throw new Error(
+      throw new StagehandAPIUnauthorizedError(
         "Unauthorized. Ensure you provided a valid API key and that it is whitelisted.",
       );
     } else if (sessionResponse.status !== 200) {
       console.log(await sessionResponse.text());
-      throw new Error(`Unknown error: ${sessionResponse.status}`);
+      throw new StagehandHttpError(`Unknown error: ${sessionResponse.status}`);
     }
 
     const sessionResponseBody =
       (await sessionResponse.json()) as ApiResponse<StartSessionResult>;
 
     if (sessionResponseBody.success === false) {
-      throw new Error(sessionResponseBody.message);
+      throw new StagehandAPIError(sessionResponseBody.message);
     }
 
     this.sessionId = sessionResponseBody.data.sessionId;
 
+    // Temporary reroute for rollout
+    if (!sessionResponseBody.data?.available && browserbaseSessionID) {
+      sessionResponseBody.data.sessionId = browserbaseSessionID;
+    }
+
     return sessionResponseBody.data;
   }
 
-  async act(options: ActOptions): Promise<ActResult> {
+  async act(options: ActOptions | ObserveResult): Promise<ActResult> {
     return this.execute<ActResult>({
       method: "act",
       args: { ...options },
@@ -132,9 +158,10 @@ export class StagehandAPI {
 
   async end(): Promise<Response> {
     const url = `/sessions/${this.sessionId}/end`;
-    return await this.request(url, {
+    const response = await this.request(url, {
       method: "POST",
     });
+    return response;
   }
 
   private async execute<T>({
@@ -153,13 +180,13 @@ export class StagehandAPI {
 
     if (!response.ok) {
       const errorBody = await response.text();
-      throw new Error(
+      throw new StagehandHttpError(
         `HTTP error! status: ${response.status}, body: ${errorBody}`,
       );
     }
 
     if (!response.body) {
-      throw new Error("Response body is null");
+      throw new StagehandResponseBodyError();
     }
 
     const reader = response.body.getReader();
@@ -185,7 +212,7 @@ export class StagehandAPI {
 
           if (eventData.type === "system") {
             if (eventData.data.status === "error") {
-              throw new Error(eventData.data.error);
+              throw new StagehandServerError(eventData.data.error);
             }
             if (eventData.data.status === "finished") {
               return eventData.data.result as T;
@@ -195,7 +222,9 @@ export class StagehandAPI {
           }
         } catch (e) {
           console.error("Error parsing event data:", e);
-          throw new Error("Failed to parse server response");
+          throw new StagehandResponseParseError(
+            "Failed to parse server response",
+          );
         }
       }
 
@@ -213,19 +242,25 @@ export class StagehandAPI {
       "x-bb-session-id": this.sessionId,
       // we want real-time logs, so we stream the response
       "x-stream-response": "true",
+      "x-model-api-key": this.modelApiKey,
+      "x-sent-at": new Date().toISOString(),
+      "x-language": "typescript",
     };
 
     if (options.method === "POST" && options.body) {
       defaultHeaders["Content-Type"] = "application/json";
     }
 
-    const response = await fetch(`${process.env.STAGEHAND_API_URL}${path}`, {
-      ...options,
-      headers: {
-        ...defaultHeaders,
-        ...options.headers,
+    const response = await this.fetchWithCookies(
+      `${process.env.STAGEHAND_API_URL ?? "https://api.stagehand.browserbase.com/v1"}${path}`,
+      {
+        ...options,
+        headers: {
+          ...defaultHeaders,
+          ...options.headers,
+        },
       },
-    });
+    );
 
     return response;
   }

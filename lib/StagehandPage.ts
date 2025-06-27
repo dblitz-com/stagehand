@@ -1,6 +1,6 @@
 import { Browserbase } from "@browserbasehq/sdk";
-import type { CDPSession, Page as PlaywrightPage } from "@playwright/test";
-import { chromium } from "@playwright/test";
+import type { CDPSession, Page as PlaywrightPage, Frame } from "playwright";
+import { chromium } from "playwright";
 import { z } from "zod";
 import { Page, defaultExtractSchema } from "../types/page";
 import {
@@ -16,18 +16,27 @@ import { StagehandObserveHandler } from "./handlers/observeHandler";
 import { ActOptions, ActResult, GotoOptions, Stagehand } from "./index";
 import { LLMClient } from "./llm/LLMClient";
 import { StagehandContext } from "./StagehandContext";
-import { EnhancedContext } from "../types/context";
+import { EncodedId, EnhancedContext } from "../types/context";
 import { clearOverlays } from "./utils";
-
-const BROWSERBASE_REGION_DOMAIN = {
-  "us-west-2": "wss://connect.usw2.browserbase.com",
-  "us-east-1": "wss://connect.use1.browserbase.com",
-  "eu-central-1": "wss://connect.euc1.browserbase.com",
-  "ap-southeast-1": "wss://connect.apse1.browserbase.com",
-};
+import {
+  StagehandError,
+  StagehandNotInitializedError,
+  StagehandEnvironmentError,
+  CaptchaTimeoutError,
+  BrowserbaseSessionNotFoundError,
+  MissingLLMConfigurationError,
+  HandlerNotInitializedError,
+  StagehandDefaultError,
+  ExperimentalApiConflictError,
+  ExperimentalNotConfiguredError,
+} from "../types/stagehandErrors";
+import { StagehandAPIError } from "@/types/stagehandApiErrors";
+import { scriptContent } from "@/lib/dom/build/scriptContent";
+import type { Protocol } from "devtools-protocol";
 
 export class StagehandPage {
   private stagehand: Stagehand;
+  private rawPage: PlaywrightPage;
   private intPage: Page;
   private intContext: StagehandContext;
   private actHandler: StagehandActHandler;
@@ -39,6 +48,13 @@ export class StagehandPage {
   private userProvidedInstructions?: string;
   private waitForCaptchaSolves: boolean;
   private initialized: boolean = false;
+  private readonly cdpClients = new WeakMap<
+    PlaywrightPage | Frame,
+    CDPSession
+  >();
+  private fidOrdinals: Map<string | undefined, number> = new Map([
+    [undefined, 0],
+  ]);
 
   constructor(
     page: PlaywrightPage,
@@ -49,6 +65,10 @@ export class StagehandPage {
     api?: StagehandAPI,
     waitForCaptchaSolves?: boolean,
   ) {
+    if (stagehand.experimental && api) {
+      throw new ExperimentalApiConflictError();
+    }
+    this.rawPage = page;
     // Create a proxy to intercept all method calls and property access
     this.intPage = new Proxy(page, {
       get: (target: PlaywrightPage, prop: keyof PlaywrightPage) => {
@@ -61,9 +81,7 @@ export class StagehandPage {
             prop === ("on" as keyof Page))
         ) {
           return () => {
-            throw new Error(
-              `You seem to be calling \`${String(prop)}\` on a page in an uninitialized \`Stagehand\` object. Ensure you are running \`await stagehand.init()\` on the Stagehand object before referencing the \`page\` object.`,
-            );
+            throw new StagehandNotInitializedError(String(prop));
           };
         }
 
@@ -89,17 +107,9 @@ export class StagehandPage {
 
     if (this.llmClient) {
       this.actHandler = new StagehandActHandler({
-        stagehand: this.stagehand,
-        verbose: this.stagehand.verbose,
-        llmProvider: this.stagehand.llmProvider,
-        enableCaching: this.stagehand.enableCaching,
         logger: this.stagehand.logger,
         stagehandPage: this,
-        stagehandContext: this.intContext,
-        llmClient: llmClient,
-        userProvidedInstructions,
         selfHeal: this.stagehand.selfHeal,
-        waitForCaptchaSolves: this.waitForCaptchaSolves,
       });
       this.extractHandler = new StagehandExtractHandler({
         stagehand: this.stagehand,
@@ -116,24 +126,74 @@ export class StagehandPage {
     }
   }
 
+  public ordinalForFrameId(fid: string | undefined): number {
+    if (fid === undefined) return 0;
+
+    const cached = this.fidOrdinals.get(fid);
+    if (cached !== undefined) return cached;
+
+    const next: number = this.fidOrdinals.size;
+    this.fidOrdinals.set(fid, next);
+    return next;
+  }
+
+  public encodeWithFrameId(
+    fid: string | undefined,
+    backendId: number,
+  ): EncodedId {
+    return `${this.ordinalForFrameId(fid)}-${backendId}` as EncodedId;
+  }
+
+  public resetFrameOrdinals(): void {
+    this.fidOrdinals = new Map([[undefined, 0]]);
+  }
+
+  private async ensureStagehandScript(): Promise<void> {
+    try {
+      const injected = await this.rawPage.evaluate(
+        () => !!window.__stagehandInjected,
+      );
+
+      if (injected) return;
+
+      const guardedScript = `if (!window.__stagehandInjected) { \
+window.__stagehandInjected = true; \
+${scriptContent} \
+}`;
+
+      await this.rawPage.addInitScript({ content: guardedScript });
+      await this.rawPage.evaluate(guardedScript);
+    } catch (err) {
+      if (!this.stagehand.isClosed) {
+        this.stagehand.log({
+          category: "dom",
+          message: "Failed to inject Stagehand helper script",
+          level: 1,
+          auxiliary: {
+            error: { value: (err as Error).message, type: "string" },
+            trace: { value: (err as Error).stack, type: "string" },
+          },
+        });
+        throw err;
+      }
+    }
+  }
+
   private async _refreshPageFromAPI() {
     if (!this.api) return;
 
     const sessionId = this.stagehand.browserbaseSessionID;
     if (!sessionId) {
-      throw new Error("No Browserbase session ID found");
+      throw new BrowserbaseSessionNotFoundError();
     }
 
     const browserbase = new Browserbase({
-      apiKey: process.env.BROWSERBASE_API_KEY,
+      apiKey: this.stagehand["apiKey"] ?? process.env.BROWSERBASE_API_KEY,
     });
 
     const sessionStatus = await browserbase.sessions.retrieve(sessionId);
-    const browserbaseDomain =
-      BROWSERBASE_REGION_DOMAIN[sessionStatus.region] ||
-      "wss://connect.browserbase.com";
-    const connectUrl = `${browserbaseDomain}?apiKey=${process.env.BROWSERBASE_API_KEY}&sessionId=${sessionId}`;
 
+    const connectUrl = sessionStatus.connectUrl;
     const browser = await chromium.connectOverCDP(connectUrl);
     const context = browser.contexts()[0];
     const newPage = context.pages()[0];
@@ -149,14 +209,6 @@ export class StagehandPage {
 
     this.intPage = newStagehandPage.page;
 
-    if (this.stagehand.debugDom) {
-      this.stagehand.log({
-        category: "deprecation",
-        message:
-          "Warning: debugDom is not supported in this version of Stagehand",
-        level: 1,
-      });
-    }
     await this.intPage.waitForLoadState("domcontentloaded");
     await this._waitForSettledDom();
   }
@@ -165,14 +217,16 @@ export class StagehandPage {
    * Waits for a captcha to be solved when using Browserbase environment.
    *
    * @param timeoutMs - Optional timeout in milliseconds. If provided, the promise will reject if the captcha solving hasn't started within the given time.
-   * @throws Error if called in a LOCAL environment
-   * @throws Error if the timeout is reached before captcha solving starts
+   * @throws StagehandEnvironmentError if called in a LOCAL environment
+   * @throws CaptchaTimeoutError if the timeout is reached before captcha solving starts
    * @returns Promise that resolves when the captcha is solved
    */
   public async waitForCaptchaSolve(timeoutMs?: number) {
     if (this.stagehand.env === "LOCAL") {
-      throw new Error(
-        "The waitForCaptcha method may only be used when using the Browserbase environment.",
+      throw new StagehandEnvironmentError(
+        this.stagehand.env,
+        "BROWSERBASE",
+        "waitForCaptcha method",
       );
     }
 
@@ -189,7 +243,7 @@ export class StagehandPage {
       if (timeoutMs) {
         timeoutId = setTimeout(() => {
           if (!started) {
-            reject(new Error("Captcha timeout"));
+            reject(new CaptchaTimeoutError());
           }
         }, timeoutMs);
       }
@@ -216,153 +270,180 @@ export class StagehandPage {
   }
 
   async init(): Promise<StagehandPage> {
-    const page = this.intPage;
-    const stagehand = this.stagehand;
+    try {
+      const page = this.rawPage;
+      const stagehand = this.stagehand;
 
-    // Create a proxy that updates active page on method calls
-    const handler = {
-      get: (target: PlaywrightPage, prop: string | symbol) => {
-        const value = target[prop as keyof PlaywrightPage];
+      // Create a proxy that updates active page on method calls
+      const handler = {
+        get: (target: PlaywrightPage, prop: string | symbol) => {
+          const value = target[prop as keyof PlaywrightPage];
 
-        // Handle enhanced methods
-        if (prop === "act" || prop === "extract" || prop === "observe") {
-          if (!this.llmClient) {
-            return () => {
-              throw new Error(
-                "No LLM API key or LLM Client configured. An LLM API key or a custom LLM Client is required to use act, extract, or observe.",
+          // Inject-on-demand for evaluate
+          if (
+            prop === "evaluate" ||
+            prop === "evaluateHandle" ||
+            prop === "$eval" ||
+            prop === "$$eval"
+          ) {
+            return async (...args: unknown[]) => {
+              this.intContext.setActivePage(this);
+              // Make sure helpers exist
+              await this.ensureStagehandScript();
+              return (value as (...a: unknown[]) => unknown).apply(
+                target,
+                args,
               );
             };
           }
 
-          // Use type assertion to safely call the method with proper typing
-          type EnhancedMethod = (
-            options:
-              | ActOptions
-              | ExtractOptions<z.AnyZodObject>
-              | ObserveOptions,
-          ) => Promise<
-            ActResult | ExtractResult<z.AnyZodObject> | ObserveResult[]
-          >;
+          // Handle enhanced methods
+          if (prop === "act" || prop === "extract" || prop === "observe") {
+            if (!this.llmClient) {
+              return () => {
+                throw new MissingLLMConfigurationError();
+              };
+            }
 
-          const method = this[prop as keyof StagehandPage] as EnhancedMethod;
-          return async (options: unknown) => {
-            this.intContext.setActivePage(this);
-            return method.call(this, options);
-          };
-        }
+            // Use type assertion to safely call the method with proper typing
+            type EnhancedMethod = (
+              options:
+                | ActOptions
+                | ExtractOptions<z.AnyZodObject>
+                | ObserveOptions,
+            ) => Promise<
+              ActResult | ExtractResult<z.AnyZodObject> | ObserveResult[]
+            >;
 
-        // Handle screenshots with CDP
-        if (prop === "screenshot") {
-          return async (
-            options: {
-              type?: "png" | "jpeg";
-              quality?: number;
-              fullPage?: boolean;
-              clip?: { x: number; y: number; width: number; height: number };
-              omitBackground?: boolean;
-            } = {},
-          ) => {
-            const cdpOptions: Record<string, unknown> = {
-              format: options.type === "jpeg" ? "jpeg" : "png",
-              quality: options.quality,
-              clip: options.clip,
-              omitBackground: options.omitBackground,
-              fromSurface: true,
+            const method = this[prop as keyof StagehandPage] as EnhancedMethod;
+            return async (options: unknown) => {
+              this.intContext.setActivePage(this);
+              return method.call(this, options);
             };
+          }
 
-            if (options.fullPage) {
-              cdpOptions.captureBeyondViewport = true;
-            }
+          // Handle screenshots with CDP
+          if (prop === "screenshot" && this.stagehand.env === "BROWSERBASE") {
+            return async (
+              options: {
+                type?: "png" | "jpeg";
+                quality?: number;
+                fullPage?: boolean;
+                clip?: { x: number; y: number; width: number; height: number };
+                omitBackground?: boolean;
+              } = {},
+            ) => {
+              const cdpOptions: Record<string, unknown> = {
+                format: options.type === "jpeg" ? "jpeg" : "png",
+                quality: options.quality,
+                clip: options.clip,
+                omitBackground: options.omitBackground,
+                fromSurface: true,
+              };
 
-            const data = await this.sendCDP<{ data: string }>(
-              "Page.captureScreenshot",
-              cdpOptions,
-            );
-
-            // Convert base64 to buffer
-            const buffer = Buffer.from(data.data, "base64");
-
-            return buffer;
-          };
-        }
-
-        // Handle goto specially
-        if (prop === "goto") {
-          return async (url: string, options: GotoOptions) => {
-            this.intContext.setActivePage(this);
-            const result = this.api
-              ? await this.api.goto(url, options)
-              : await target.goto(url, options);
-
-            if (this.waitForCaptchaSolves) {
-              try {
-                await this.waitForCaptchaSolve(1000);
-              } catch {
-                // ignore
+              if (options.fullPage) {
+                cdpOptions.captureBeyondViewport = true;
               }
-            }
 
-            if (this.api) {
-              await this._refreshPageFromAPI();
-            } else {
-              if (stagehand.debugDom) {
-                this.stagehand.log({
-                  category: "deprecation",
-                  message:
-                    "Warning: debugDom is not supported in this version of Stagehand",
-                  level: 1,
+              const data = await this.sendCDP<{ data: string }>(
+                "Page.captureScreenshot",
+                cdpOptions,
+              );
+
+              // Convert base64 to buffer
+              const buffer = Buffer.from(data.data, "base64");
+
+              return buffer;
+            };
+          }
+
+          // Handle goto specially
+          if (prop === "goto") {
+            const rawGoto: typeof target.goto =
+              Object.getPrototypeOf(target).goto.bind(target);
+            return async (url: string, options: GotoOptions) => {
+              this.intContext.setActivePage(this);
+              const result = this.api
+                ? await this.api.goto(url, options)
+                : await rawGoto(url, options);
+
+              this.stagehand.addToHistory("navigate", { url, options }, result);
+
+              if (this.waitForCaptchaSolves) {
+                try {
+                  await this.waitForCaptchaSolve(1000);
+                } catch {
+                  // ignore
+                }
+              }
+
+              if (this.api) {
+                await this._refreshPageFromAPI();
+              } else {
+                if (stagehand.debugDom) {
+                  this.stagehand.log({
+                    category: "deprecation",
+                    message:
+                      "Warning: debugDom is not supported in this version of Stagehand",
+                    level: 1,
+                  });
+                }
+                await target.waitForLoadState("domcontentloaded");
+                await this._waitForSettledDom();
+              }
+              return result;
+            };
+          }
+
+          // Handle event listeners
+          if (prop === "on") {
+            return (
+              event: keyof PlaywrightPage["on"],
+              listener: Parameters<PlaywrightPage["on"]>[1],
+            ) => {
+              if (event === "popup") {
+                return this.context.on("page", async (page: PlaywrightPage) => {
+                  const newContext = await StagehandContext.init(
+                    page.context(),
+                    stagehand,
+                  );
+                  const newStagehandPage = new StagehandPage(
+                    page,
+                    stagehand,
+                    newContext,
+                    this.llmClient,
+                  );
+
+                  await newStagehandPage.init();
+                  listener(newStagehandPage.page);
                 });
               }
-              await target.waitForLoadState("domcontentloaded");
-              await this._waitForSettledDom();
-            }
-            return result;
-          };
-        }
+              this.intContext.setActivePage(this);
+              return target.on(event, listener);
+            };
+          }
 
-        // Handle event listeners
-        if (prop === "on") {
-          return (
-            event: keyof PlaywrightPage["on"],
-            listener: Parameters<PlaywrightPage["on"]>[1],
-          ) => {
-            if (event === "popup") {
-              return this.context.on("page", async (page: PlaywrightPage) => {
-                const newContext = await StagehandContext.init(
-                  page.context(),
-                  stagehand,
-                );
-                const newStagehandPage = new StagehandPage(
-                  page,
-                  stagehand,
-                  newContext,
-                  this.llmClient,
-                );
+          // For all other method calls, update active page
+          if (typeof value === "function") {
+            return (...args: unknown[]) => {
+              this.intContext.setActivePage(this);
+              return value.apply(target, args);
+            };
+          }
 
-                await newStagehandPage.init();
-                listener(newStagehandPage.page);
-              });
-            }
-            this.intContext.setActivePage(this);
-            return target.on(event, listener);
-          };
-        }
+          return value;
+        },
+      };
 
-        // For all other method calls, update active page
-        if (typeof value === "function") {
-          return (...args: unknown[]) => {
-            this.intContext.setActivePage(this);
-            return value.apply(target, args);
-          };
-        }
-
-        return value;
-      },
-    };
-
-    this.intPage = new Proxy(page, handler) as unknown as Page;
-    this.initialized = true;
-    return this;
+      this.intPage = new Proxy(page, handler) as unknown as Page;
+      this.initialized = true;
+      return this;
+    } catch (err: unknown) {
+      if (err instanceof StagehandError || err instanceof StagehandAPIError) {
+        throw err;
+      }
+      throw new StagehandDefaultError(err);
+    }
   }
 
   public get page(): Page {
@@ -373,461 +454,573 @@ export class StagehandPage {
     return this.intContext.context;
   }
 
-  // We can make methods public because StagehandPage is private to the Stagehand class.
-  // When a user gets stagehand.page, they are getting a proxy to the Playwright page.
-  // We can override the methods on the proxy to add our own behavior
-  public async _waitForSettledDom(timeoutMs?: number) {
-    try {
-      const timeout = timeoutMs ?? this.stagehand.domSettleTimeoutMs;
-      let timeoutHandle: NodeJS.Timeout;
+  /**
+   * `_waitForSettledDom` waits until the DOM is settled, and therefore is
+   * ready for actions to be taken.
+   *
+   * **Definition of “settled”**
+   *   • No in-flight network requests (except WebSocket / Server-Sent-Events).
+   *   • That idle state lasts for at least **500 ms** (the “quiet-window”).
+   *
+   * **How it works**
+   *   1.  Subscribes to CDP Network and Page events for the main target and all
+   *       out-of-process iframes (via `Target.setAutoAttach { flatten:true }`).
+   *   2.  Every time `Network.requestWillBeSent` fires, the request ID is added
+   *       to an **`inflight`** `Set`.
+   *   3.  When the request finishes—`loadingFinished`, `loadingFailed`,
+   *       `requestServedFromCache`, or a *data:* response—the request ID is
+   *       removed.
+   *   4.  *Document* requests are also mapped **frameId → requestId**; when
+   *       `Page.frameStoppedLoading` fires the corresponding Document request is
+   *       removed immediately (covers iframes whose network events never close).
+   *   5.  A **stalled-request sweep timer** runs every 500 ms.  If a *Document*
+   *       request has been open for ≥ 2 s it is forcibly removed; this prevents
+   *       ad/analytics iframes from blocking the wait forever.
+   *   6.  When `inflight` becomes empty the helper starts a 500 ms timer.
+   *       If no new request appears before the timer fires, the promise
+   *       resolves → **DOM is considered settled**.
+   *   7.  A global guard (`timeoutMs` or `stagehand.domSettleTimeoutMs`,
+   *       default ≈ 30 s) ensures we always resolve; if it fires we log how many
+   *       requests were still outstanding.
+   *
+   * @param timeoutMs – Optional hard cap (ms).  Defaults to
+   *                    `this.stagehand.domSettleTimeoutMs`.
+   */
+  public async _waitForSettledDom(timeoutMs?: number): Promise<void> {
+    const timeout = timeoutMs ?? this.stagehand.domSettleTimeoutMs;
+    const client = await this.getCDPClient();
 
-      await this.page.waitForLoadState("domcontentloaded");
+    const hasDoc = !!(await this.page.title().catch(() => false));
+    if (!hasDoc) await this.page.waitForLoadState("domcontentloaded");
 
-      const timeoutPromise = new Promise<void>((resolve) => {
-        timeoutHandle = setTimeout(() => {
+    await client.send("Network.enable");
+    await client.send("Page.enable");
+    await client.send("Target.setAutoAttach", {
+      autoAttach: true,
+      waitForDebuggerOnStart: false,
+      flatten: true,
+    });
+
+    return new Promise<void>((resolve) => {
+      const inflight = new Set<string>();
+      const meta = new Map<string, { url: string; start: number }>();
+      const docByFrame = new Map<string, string>();
+
+      let quietTimer: NodeJS.Timeout | null = null;
+      let stalledRequestSweepTimer: NodeJS.Timeout | null = null;
+
+      const clearQuiet = () => {
+        if (quietTimer) {
+          clearTimeout(quietTimer);
+          quietTimer = null;
+        }
+      };
+
+      const maybeQuiet = () => {
+        if (inflight.size === 0 && !quietTimer)
+          quietTimer = setTimeout(() => resolveDone(), 500);
+      };
+
+      const finishReq = (id: string) => {
+        if (!inflight.delete(id)) return;
+        meta.delete(id);
+        for (const [fid, rid] of docByFrame)
+          if (rid === id) docByFrame.delete(fid);
+        clearQuiet();
+        maybeQuiet();
+      };
+
+      const onRequest = (p: Protocol.Network.RequestWillBeSentEvent) => {
+        if (p.type === "WebSocket" || p.type === "EventSource") return;
+
+        inflight.add(p.requestId);
+        meta.set(p.requestId, { url: p.request.url, start: Date.now() });
+
+        if (p.type === "Document" && p.frameId)
+          docByFrame.set(p.frameId, p.requestId);
+
+        clearQuiet();
+      };
+
+      const onFinish = (p: { requestId: string }) => finishReq(p.requestId);
+      const onCached = (p: { requestId: string }) => finishReq(p.requestId);
+      const onDataUrl = (p: Protocol.Network.ResponseReceivedEvent) =>
+        p.response.url.startsWith("data:") && finishReq(p.requestId);
+
+      const onFrameStop = (f: Protocol.Page.FrameStoppedLoadingEvent) => {
+        const id = docByFrame.get(f.frameId);
+        if (id) finishReq(id);
+      };
+
+      client.on("Network.requestWillBeSent", onRequest);
+      client.on("Network.loadingFinished", onFinish);
+      client.on("Network.loadingFailed", onFinish);
+      client.on("Network.requestServedFromCache", onCached);
+      client.on("Network.responseReceived", onDataUrl);
+      client.on("Page.frameStoppedLoading", onFrameStop);
+
+      stalledRequestSweepTimer = setInterval(() => {
+        const now = Date.now();
+        for (const [id, m] of meta) {
+          if (now - m.start > 2_000) {
+            inflight.delete(id);
+            meta.delete(id);
+            this.stagehand.log({
+              category: "dom",
+              message: "⏳ forcing completion of stalled iframe document",
+              level: 2,
+              auxiliary: {
+                url: {
+                  value: m.url.slice(0, 120),
+                  type: "string",
+                },
+              },
+            });
+          }
+        }
+        maybeQuiet();
+      }, 500);
+
+      maybeQuiet();
+
+      const guard = setTimeout(() => {
+        if (inflight.size)
           this.stagehand.log({
             category: "dom",
-            message: "DOM settle timeout exceeded, continuing anyway",
-            level: 1,
+            message:
+              "⚠️ DOM-settle timeout reached – network requests still pending",
+            level: 2,
             auxiliary: {
-              timeout_ms: {
-                value: timeout.toString(),
+              count: {
+                value: inflight.size.toString(),
                 type: "integer",
               },
             },
           });
-          resolve();
-        }, timeout);
-      });
+        resolveDone();
+      }, timeout);
 
-      try {
-        await Promise.race([
-          this.page.evaluate(() => {
-            return new Promise<void>((resolve) => {
-              if (typeof window.waitForDomSettle === "function") {
-                window.waitForDomSettle().then(resolve);
-              } else {
-                console.warn(
-                  "waitForDomSettle is not defined, considering DOM as settled",
-                );
-                resolve();
-              }
-            });
-          }),
-          this.page.waitForLoadState("domcontentloaded"),
-          this.page.waitForSelector("body"),
-          timeoutPromise,
-        ]);
-      } finally {
-        clearTimeout(timeoutHandle!);
-      }
-    } catch (e) {
-      this.stagehand.log({
-        category: "dom",
-        message: "Error in waitForSettledDom",
-        level: 1,
-        auxiliary: {
-          error: {
-            value: e.message,
-            type: "string",
-          },
-          trace: {
-            value: e.stack,
-            type: "string",
-          },
-        },
-      });
-    }
+      const resolveDone = () => {
+        client.off("Network.requestWillBeSent", onRequest);
+        client.off("Network.loadingFinished", onFinish);
+        client.off("Network.loadingFailed", onFinish);
+        client.off("Network.requestServedFromCache", onCached);
+        client.off("Network.responseReceived", onDataUrl);
+        client.off("Page.frameStoppedLoading", onFrameStop);
+        if (quietTimer) clearTimeout(quietTimer);
+        if (stalledRequestSweepTimer) clearInterval(stalledRequestSweepTimer);
+        clearTimeout(guard);
+        resolve();
+      };
+    });
   }
 
   async act(
     actionOrOptions: string | ActOptions | ObserveResult,
   ): Promise<ActResult> {
-    if (!this.actHandler) {
-      throw new Error("Act handler not initialized");
-    }
-
-    await clearOverlays(this.page);
-
-    // If actionOrOptions is an ObserveResult, we call actFromObserveResult.
-    // We need to ensure there is both a selector and a method in the ObserveResult.
-    if (typeof actionOrOptions === "object" && actionOrOptions !== null) {
-      // If it has selector AND method => treat as ObserveResult
-      if ("selector" in actionOrOptions && "method" in actionOrOptions) {
-        const observeResult = actionOrOptions as ObserveResult;
-        // validate observeResult.method, etc.
-        return this.actHandler.actFromObserveResult(observeResult);
-      } else {
-        // If it's an object but no selector/method,
-        // check that it's truly ActOptions (i.e., has an `action` field).
-        if (!("action" in actionOrOptions)) {
-          throw new Error(
-            "Invalid argument. Valid arguments are: a string, an ActOptions object, " +
-              "or an ObserveResult WITH 'selector' and 'method' fields.",
-          );
-        }
+    try {
+      if (!this.actHandler) {
+        throw new HandlerNotInitializedError("Act");
       }
-    } else if (typeof actionOrOptions === "string") {
-      // Convert string to ActOptions
-      actionOrOptions = { action: actionOrOptions };
-    } else {
-      throw new Error(
-        "Invalid argument: you may have called act with an empty ObserveResult.\n" +
-          "Valid arguments are: a string, an ActOptions object, or an ObserveResult " +
-          "WITH 'selector' and 'method' fields.",
-      );
-    }
 
-    const {
-      action,
-      modelName,
-      modelClientOptions,
-      useVision, // still destructure this but will not pass it on
-      variables = {},
-      domSettleTimeoutMs,
-      slowDomBasedAct = true,
-      timeoutMs = this.stagehand.actTimeoutMs,
-    } = actionOrOptions;
+      await clearOverlays(this.page);
 
-    if (typeof useVision !== "undefined") {
+      // If actionOrOptions is an ObserveResult, we call actFromObserveResult.
+      // We need to ensure there is both a selector and a method in the ObserveResult.
+      if (typeof actionOrOptions === "object" && actionOrOptions !== null) {
+        if ("iframes" in actionOrOptions && !this.stagehand.experimental) {
+          throw new ExperimentalNotConfiguredError("iframes");
+        }
+        // If it has selector AND method => treat as ObserveResult
+        if ("selector" in actionOrOptions && "method" in actionOrOptions) {
+          const observeResult = actionOrOptions as ObserveResult;
+
+          if (this.api) {
+            const result = await this.api.act(observeResult);
+            await this._refreshPageFromAPI();
+            this.stagehand.addToHistory("act", observeResult, result);
+            return result;
+          }
+
+          // validate observeResult.method, etc.
+          return this.actHandler.actFromObserveResult(observeResult);
+        } else {
+          // If it's an object but no selector/method,
+          // check that it's truly ActOptions (i.e., has an `action` field).
+          if (!("action" in actionOrOptions)) {
+            throw new StagehandError(
+              "Invalid argument. Valid arguments are: a string, an ActOptions object, " +
+                "or an ObserveResult WITH 'selector' and 'method' fields.",
+            );
+          }
+        }
+      } else if (typeof actionOrOptions === "string") {
+        // Convert string to ActOptions
+        actionOrOptions = { action: actionOrOptions };
+      } else {
+        throw new StagehandError(
+          "Invalid argument: you may have called act with an empty ObserveResult.\n" +
+            "Valid arguments are: a string, an ActOptions object, or an ObserveResult " +
+            "WITH 'selector' and 'method' fields.",
+        );
+      }
+
+      const { action, modelName, modelClientOptions } = actionOrOptions;
+
+      if (this.api) {
+        const result = await this.api.act(actionOrOptions);
+        await this._refreshPageFromAPI();
+        this.stagehand.addToHistory("act", actionOrOptions, result);
+        return result;
+      }
+
+      const requestId = Math.random().toString(36).substring(2);
+      const llmClient: LLMClient = modelName
+        ? this.stagehand.llmProvider.getClient(modelName, modelClientOptions)
+        : this.llmClient;
+
       this.stagehand.log({
-        category: "deprecation",
-        message:
-          "Warning: vision is not supported in this version of Stagehand",
+        category: "act",
+        message: "running act",
         level: 1,
-      });
-    }
-
-    if (this.api) {
-      const result = await this.api.act(actionOrOptions);
-      await this._refreshPageFromAPI();
-      return result;
-    }
-
-    const requestId = Math.random().toString(36).substring(2);
-    const llmClient: LLMClient = modelName
-      ? this.stagehand.llmProvider.getClient(modelName, modelClientOptions)
-      : this.llmClient;
-
-    if (!slowDomBasedAct) {
-      return this.actHandler.observeAct(actionOrOptions);
-    }
-
-    this.stagehand.log({
-      category: "act",
-      message: "running act",
-      level: 1,
-      auxiliary: {
-        action: {
-          value: action,
-          type: "string",
-        },
-        requestId: {
-          value: requestId,
-          type: "string",
-        },
-        modelName: {
-          value: llmClient.modelName,
-          type: "string",
-        },
-      },
-    });
-
-    // `useVision` is no longer passed to the handler
-    return this.actHandler
-      .act({
-        action,
-        llmClient,
-        chunksSeen: [],
-        requestId,
-        variables,
-        previousSelectors: [],
-        skipActionCacheForThisStep: false,
-        domSettleTimeoutMs,
-        timeoutMs,
-      })
-      .catch((e) => {
-        this.stagehand.log({
-          category: "act",
-          message: "error acting",
-          level: 1,
-          auxiliary: {
-            error: {
-              value: e.message,
-              type: "string",
-            },
-            trace: {
-              value: e.stack,
-              type: "string",
-            },
+        auxiliary: {
+          action: {
+            value: action,
+            type: "string",
           },
-        });
-
-        return {
-          success: false,
-          message: `Internal error: Error acting: ${e.message}`,
-          action: action,
-        };
+          requestId: {
+            value: requestId,
+            type: "string",
+          },
+          modelName: {
+            value: llmClient.modelName,
+            type: "string",
+          },
+        },
       });
+
+      const result = await this.actHandler.observeAct(
+        actionOrOptions,
+        this.observeHandler,
+        llmClient,
+        requestId,
+      );
+      this.stagehand.addToHistory("act", actionOrOptions, result);
+      return result;
+    } catch (err: unknown) {
+      if (err instanceof StagehandError || err instanceof StagehandAPIError) {
+        throw err;
+      }
+      throw new StagehandDefaultError(err);
+    }
   }
 
   async extract<T extends z.AnyZodObject = typeof defaultExtractSchema>(
     instructionOrOptions?: string | ExtractOptions<T>,
   ): Promise<ExtractResult<T>> {
-    if (!this.extractHandler) {
-      throw new Error("Extract handler not initialized");
-    }
-
-    await clearOverlays(this.page);
-
-    // check if user called extract() with no arguments
-    if (!instructionOrOptions) {
-      if (this.api) {
-        return this.api.extract<T>({});
+    try {
+      if (!this.extractHandler) {
+        throw new HandlerNotInitializedError("Extract");
       }
-      return this.extractHandler.extract();
-    }
 
-    const options: ExtractOptions<T> =
-      typeof instructionOrOptions === "string"
-        ? {
-            instruction: instructionOrOptions,
-            schema: defaultExtractSchema as T,
-          }
-        : instructionOrOptions;
+      await clearOverlays(this.page);
 
-    const {
-      instruction,
-      schema,
-      modelName,
-      modelClientOptions,
-      domSettleTimeoutMs,
-      useTextExtract,
-      selector,
-    } = options;
+      // check if user called extract() with no arguments
+      if (!instructionOrOptions) {
+        let result: ExtractResult<T>;
+        if (this.api) {
+          result = await this.api.extract<T>({});
+        } else {
+          result = await this.extractHandler.extract();
+        }
+        this.stagehand.addToHistory("extract", instructionOrOptions, result);
+        return result;
+      }
 
-    // Throw a NotImplementedError if the user passed in an `xpath`
-    // and `useTextExtract` is false
-    if (selector && useTextExtract !== true) {
-      throw new Error(
-        "NotImplementedError: Passing an xpath into extract is only supported when `useTextExtract: true`.",
-      );
-    }
+      const options: ExtractOptions<T> =
+        typeof instructionOrOptions === "string"
+          ? {
+              instruction: instructionOrOptions,
+              schema: defaultExtractSchema as T,
+            }
+          : instructionOrOptions;
 
-    if (this.api) {
-      return this.api.extract<T>(options);
-    }
-
-    const requestId = Math.random().toString(36).substring(2);
-    const llmClient = modelName
-      ? this.stagehand.llmProvider.getClient(modelName, modelClientOptions)
-      : this.llmClient;
-
-    this.stagehand.log({
-      category: "extract",
-      message: "running extract",
-      level: 1,
-      auxiliary: {
-        instruction: {
-          value: instruction,
-          type: "string",
-        },
-        requestId: {
-          value: requestId,
-          type: "string",
-        },
-        modelName: {
-          value: llmClient.modelName,
-          type: "string",
-        },
-      },
-    });
-
-    return this.extractHandler
-      .extract({
+      const {
         instruction,
         schema,
-        llmClient,
-        requestId,
+        modelName,
+        modelClientOptions,
         domSettleTimeoutMs,
         useTextExtract,
         selector,
-      })
-      .catch((e) => {
-        this.stagehand.log({
-          category: "extract",
-          message: "error extracting",
-          level: 1,
-          auxiliary: {
-            error: {
-              value: e.message,
-              type: "string",
-            },
-            trace: {
-              value: e.stack,
-              type: "string",
-            },
+        iframes,
+      } = options;
+
+      if (iframes !== undefined && !this.stagehand.experimental) {
+        throw new ExperimentalNotConfiguredError("iframes");
+      }
+
+      if (this.api) {
+        const result = await this.api.extract<T>(options);
+        this.stagehand.addToHistory("extract", instructionOrOptions, result);
+        return result;
+      }
+
+      const requestId = Math.random().toString(36).substring(2);
+      const llmClient = modelName
+        ? this.stagehand.llmProvider.getClient(modelName, modelClientOptions)
+        : this.llmClient;
+
+      this.stagehand.log({
+        category: "extract",
+        message: "running extract",
+        level: 1,
+        auxiliary: {
+          instruction: {
+            value: instruction,
+            type: "string",
           },
+          requestId: {
+            value: requestId,
+            type: "string",
+          },
+          modelName: {
+            value: llmClient.modelName,
+            type: "string",
+          },
+        },
+      });
+
+      const result = await this.extractHandler
+        .extract({
+          instruction,
+          schema,
+          llmClient,
+          requestId,
+          domSettleTimeoutMs,
+          useTextExtract,
+          selector,
+          iframes,
+        })
+        .catch((e) => {
+          this.stagehand.log({
+            category: "extract",
+            message: "error extracting",
+            level: 1,
+            auxiliary: {
+              error: {
+                value: e.message,
+                type: "string",
+              },
+              trace: {
+                value: e.stack,
+                type: "string",
+              },
+            },
+          });
+
+          if (this.stagehand.enableCaching) {
+            this.stagehand.llmProvider.cleanRequestCache(requestId);
+          }
+
+          throw e;
         });
 
-        if (this.stagehand.enableCaching) {
-          this.stagehand.llmProvider.cleanRequestCache(requestId);
-        }
+      this.stagehand.addToHistory("extract", instructionOrOptions, result);
 
-        throw e;
-      });
+      return result;
+    } catch (err: unknown) {
+      if (err instanceof StagehandError || err instanceof StagehandAPIError) {
+        throw err;
+      }
+      throw new StagehandDefaultError(err);
+    }
   }
 
   async observe(
     instructionOrOptions?: string | ObserveOptions,
   ): Promise<ObserveResult[]> {
-    if (!this.observeHandler) {
-      throw new Error("Observe handler not initialized");
-    }
+    try {
+      if (!this.observeHandler) {
+        throw new HandlerNotInitializedError("Observe");
+      }
 
-    await clearOverlays(this.page);
+      await clearOverlays(this.page);
 
-    const options: ObserveOptions =
-      typeof instructionOrOptions === "string"
-        ? { instruction: instructionOrOptions }
-        : instructionOrOptions || {};
+      const options: ObserveOptions =
+        typeof instructionOrOptions === "string"
+          ? { instruction: instructionOrOptions }
+          : instructionOrOptions || {};
 
-    const {
-      instruction,
-      modelName,
-      modelClientOptions,
-      useVision, // still destructure but will not pass it on
-      domSettleTimeoutMs,
-      returnAction = true,
-      onlyVisible = false,
-      useAccessibilityTree,
-      drawOverlay,
-    } = options;
-
-    if (useAccessibilityTree !== undefined) {
-      this.stagehand.log({
-        category: "deprecation",
-        message:
-          "useAccessibilityTree is deprecated.\n" +
-          "  To use accessibility tree as context:\n" +
-          "    1. Set onlyVisible to false (default)\n" +
-          "    2. Don't declare useAccessibilityTree",
-        level: 1,
-      });
-      throw new Error(
-        "useAccessibilityTree is deprecated. Use onlyVisible instead.",
-      );
-    }
-
-    if (typeof useVision !== "undefined") {
-      this.stagehand.log({
-        category: "deprecation",
-        message:
-          "Warning: vision is not supported in this version of Stagehand",
-        level: 1,
-      });
-    }
-
-    if (this.api) {
-      return this.api.observe(options);
-    }
-
-    const requestId = Math.random().toString(36).substring(2);
-    const llmClient = modelName
-      ? this.stagehand.llmProvider.getClient(modelName, modelClientOptions)
-      : this.llmClient;
-
-    this.stagehand.log({
-      category: "observe",
-      message: "running observe",
-      level: 1,
-      auxiliary: {
-        instruction: {
-          value: instruction,
-          type: "string",
-        },
-        requestId: {
-          value: requestId,
-          type: "string",
-        },
-        modelName: {
-          value: llmClient.modelName,
-          type: "string",
-        },
-        onlyVisible: {
-          value: onlyVisible ? "true" : "false",
-          type: "boolean",
-        },
-      },
-    });
-
-    return this.observeHandler
-      .observe({
+      const {
         instruction,
-        llmClient,
-        requestId,
+        modelName,
+        modelClientOptions,
         domSettleTimeoutMs,
-        returnAction,
+        returnAction = true,
         onlyVisible,
         drawOverlay,
-      })
-      .catch((e) => {
-        this.stagehand.log({
-          category: "observe",
-          message: "error observing",
-          level: 1,
-          auxiliary: {
-            error: {
-              value: e.message,
-              type: "string",
-            },
-            trace: {
-              value: e.stack,
-              type: "string",
-            },
-            requestId: {
-              value: requestId,
-              type: "string",
-            },
-            instruction: {
-              value: instruction,
-              type: "string",
-            },
+        iframes,
+      } = options;
+
+      if (iframes !== undefined && !this.stagehand.experimental) {
+        throw new ExperimentalNotConfiguredError("iframes");
+      }
+
+      if (this.api) {
+        const result = await this.api.observe(options);
+        this.stagehand.addToHistory("observe", instructionOrOptions, result);
+        return result;
+      }
+
+      const requestId = Math.random().toString(36).substring(2);
+      const llmClient = modelName
+        ? this.stagehand.llmProvider.getClient(modelName, modelClientOptions)
+        : this.llmClient;
+
+      this.stagehand.log({
+        category: "observe",
+        message: "running observe",
+        level: 1,
+        auxiliary: {
+          instruction: {
+            value: instruction,
+            type: "string",
           },
+          requestId: {
+            value: requestId,
+            type: "string",
+          },
+          modelName: {
+            value: llmClient.modelName,
+            type: "string",
+          },
+          ...(onlyVisible !== undefined && {
+            onlyVisible: {
+              value: onlyVisible ? "true" : "false",
+              type: "boolean",
+            },
+          }),
+        },
+      });
+
+      const result = await this.observeHandler
+        .observe({
+          instruction,
+          llmClient,
+          requestId,
+          domSettleTimeoutMs,
+          returnAction,
+          onlyVisible,
+          drawOverlay,
+          iframes,
+        })
+        .catch((e) => {
+          this.stagehand.log({
+            category: "observe",
+            message: "error observing",
+            level: 1,
+            auxiliary: {
+              error: {
+                value: e.message,
+                type: "string",
+              },
+              trace: {
+                value: e.stack,
+                type: "string",
+              },
+              requestId: {
+                value: requestId,
+                type: "string",
+              },
+              instruction: {
+                value: instruction,
+                type: "string",
+              },
+            },
+          });
+
+          if (this.stagehand.enableCaching) {
+            this.stagehand.llmProvider.cleanRequestCache(requestId);
+          }
+
+          throw e;
         });
 
-        if (this.stagehand.enableCaching) {
-          this.stagehand.llmProvider.cleanRequestCache(requestId);
-        }
+      this.stagehand.addToHistory("observe", instructionOrOptions, result);
 
-        throw e;
-      });
-  }
-
-  async getCDPClient(): Promise<CDPSession> {
-    if (!this.cdpClient) {
-      this.cdpClient = await this.context.newCDPSession(this.page);
+      return result;
+    } catch (err: unknown) {
+      if (err instanceof StagehandError || err instanceof StagehandAPIError) {
+        throw err;
+      }
+      throw new StagehandDefaultError(err);
     }
-    return this.cdpClient;
   }
 
-  async sendCDP<T>(
-    command: string,
-    args?: Record<string, unknown>,
+  /**
+   * Get or create a CDP session for the given target.
+   * @param target  The Page or (OOPIF) Frame you want to talk to.
+   */
+  async getCDPClient(
+    target: PlaywrightPage | Frame = this.page,
+  ): Promise<CDPSession> {
+    const cached = this.cdpClients.get(target);
+    if (cached) return cached;
+
+    try {
+      const session = await this.context.newCDPSession(target);
+      this.cdpClients.set(target, session);
+      return session;
+    } catch (err) {
+      // Fallback for same-process iframes
+      const msg = (err as Error).message ?? "";
+      if (msg.includes("does not have a separate CDP session")) {
+        // Re-use / create the top-level session instead
+        const rootSession = await this.getCDPClient(this.page);
+        // cache the alias so we don’t try again for this frame
+        this.cdpClients.set(target, rootSession);
+        return rootSession;
+      }
+      throw err;
+    }
+  }
+
+  /**
+   * Send a CDP command to the chosen DevTools target.
+   *
+   * @param method  Any valid CDP method, e.g. `"DOM.getDocument"`.
+   * @param params  Command parameters (optional).
+   * @param target  A `Page` or OOPIF `Frame`. Defaults to the main page.
+   *
+   * @typeParam T  Expected result shape (defaults to `unknown`).
+   */
+  async sendCDP<T = unknown>(
+    method: string,
+    params: Record<string, unknown> = {},
+    target?: PlaywrightPage | Frame,
   ): Promise<T> {
-    const client = await this.getCDPClient();
-    // Type assertion needed because CDP command strings are not fully typed
+    const client = await this.getCDPClient(target ?? this.page);
+
     return client.send(
-      command as Parameters<CDPSession["send"]>[0],
-      args || {},
+      method as Parameters<CDPSession["send"]>[0],
+      params as Parameters<CDPSession["send"]>[1],
     ) as Promise<T>;
   }
 
-  async enableCDP(domain: string): Promise<void> {
-    await this.sendCDP(`${domain}.enable`, {});
+  /** Enable a CDP domain (e.g. `"Network"` or `"DOM"`) on the chosen target. */
+  async enableCDP(
+    domain: string,
+    target?: PlaywrightPage | Frame,
+  ): Promise<void> {
+    await this.sendCDP<void>(`${domain}.enable`, {}, target);
   }
 
-  async disableCDP(domain: string): Promise<void> {
-    await this.sendCDP(`${domain}.disable`, {});
+  /** Disable a CDP domain on the chosen target. */
+  async disableCDP(
+    domain: string,
+    target?: PlaywrightPage | Frame,
+  ): Promise<void> {
+    await this.sendCDP<void>(`${domain}.disable`, {}, target);
   }
 }

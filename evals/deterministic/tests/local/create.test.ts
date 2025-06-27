@@ -1,24 +1,14 @@
 import { test, expect } from "@playwright/test";
-import { Stagehand } from "@/dist";
+import { Stagehand } from "@browserbasehq/stagehand";
 import path from "path";
 import fs from "fs";
 import os from "os";
 import type { Cookie } from "@playwright/test";
+import StagehandConfig from "../../stagehand.config";
 
 test.describe("Local browser launch options", () => {
   test("launches with default options when no localBrowserLaunchOptions provided", async () => {
-    const stagehand = new Stagehand({
-      env: "LOCAL",
-      verbose: 1,
-      headless: true,
-      debugDom: true,
-      domSettleTimeoutMs: 30_000,
-      enableCaching: true,
-      modelName: "gpt-4o",
-      modelClientOptions: {
-        apiKey: process.env.OPENAI_API_KEY,
-      },
-    });
+    const stagehand = new Stagehand(StagehandConfig);
     await stagehand.init();
 
     const context = stagehand.context;
@@ -32,18 +22,11 @@ test.describe("Local browser launch options", () => {
     const customUserDataDir = path.join(os.tmpdir(), "custom-user-data");
 
     const stagehand = new Stagehand({
-      env: "LOCAL",
-      verbose: 1,
-      headless: true,
-      debugDom: true,
-      domSettleTimeoutMs: 30_000,
-      enableCaching: true,
-      modelName: "gpt-4o",
-      modelClientOptions: {
-        apiKey: process.env.OPENAI_API_KEY,
-      },
+      ...StagehandConfig,
       localBrowserLaunchOptions: {
         userDataDir: customUserDataDir,
+        headless: true,
+        preserveUserDataDir: true,
       },
     });
     await stagehand.init();
@@ -52,25 +35,62 @@ test.describe("Local browser launch options", () => {
 
     await stagehand.close();
 
+    expect(fs.existsSync(customUserDataDir)).toBeTruthy();
+
     // Cleanup
     fs.rmSync(customUserDataDir, { recursive: true, force: true });
+  });
+
+  test("cleans up userDataDir by default when preserveUserDataDir is false", async () => {
+    const customUserDataDir = path.join(os.tmpdir(), "cleanup-user-data");
+
+    const stagehand = new Stagehand({
+      ...StagehandConfig,
+      localBrowserLaunchOptions: {
+        userDataDir: customUserDataDir,
+        headless: true,
+        preserveUserDataDir: false,
+      },
+    });
+    await stagehand.init();
+
+    expect(fs.existsSync(customUserDataDir)).toBeTruthy();
+
+    await stagehand.close();
+
+    expect(fs.existsSync(customUserDataDir)).toBeFalsy();
+  });
+
+  test("cleans up userDataDir by default when no preserveUserDataDir flag is provided", async () => {
+    const customUserDataDir = path.join(
+      os.tmpdir(),
+      "default-cleanup-user-data",
+    );
+
+    const stagehand = new Stagehand({
+      ...StagehandConfig,
+      localBrowserLaunchOptions: {
+        userDataDir: customUserDataDir,
+        headless: true,
+        // No preserveUserDataDir flag provided - should default to cleanup
+      },
+    });
+    await stagehand.init();
+
+    expect(fs.existsSync(customUserDataDir)).toBeTruthy();
+
+    await stagehand.close();
+
+    expect(fs.existsSync(customUserDataDir)).toBeFalsy();
   });
 
   test("applies custom viewport settings", async () => {
     const customViewport = { width: 1920, height: 1080 };
 
     const stagehand = new Stagehand({
-      env: "LOCAL",
-      verbose: 1,
-      headless: true,
-      debugDom: true,
-      domSettleTimeoutMs: 30_000,
-      enableCaching: true,
-      modelName: "gpt-4o",
-      modelClientOptions: {
-        apiKey: process.env.OPENAI_API_KEY,
-      },
+      ...StagehandConfig,
       localBrowserLaunchOptions: {
+        ...StagehandConfig.localBrowserLaunchOptions,
         viewport: customViewport,
       },
     });
@@ -99,17 +119,9 @@ test.describe("Local browser launch options", () => {
     ];
 
     const stagehand = new Stagehand({
-      env: "LOCAL",
-      verbose: 1,
-      headless: true,
-      debugDom: true,
-      domSettleTimeoutMs: 30_000,
-      enableCaching: true,
-      modelName: "gpt-4o",
-      modelClientOptions: {
-        apiKey: process.env.OPENAI_API_KEY,
-      },
+      ...StagehandConfig,
       localBrowserLaunchOptions: {
+        ...StagehandConfig.localBrowserLaunchOptions,
         cookies: testCookies,
       },
     });
@@ -133,17 +145,9 @@ test.describe("Local browser launch options", () => {
     };
 
     const stagehand = new Stagehand({
-      env: "LOCAL",
-      verbose: 1,
-      headless: true,
-      debugDom: true,
-      domSettleTimeoutMs: 30_000,
-      enableCaching: true,
-      modelName: "gpt-4o",
-      modelClientOptions: {
-        apiKey: process.env.OPENAI_API_KEY,
-      },
+      ...StagehandConfig,
       localBrowserLaunchOptions: {
+        ...StagehandConfig.localBrowserLaunchOptions,
         geolocation: customGeolocation,
         permissions: ["geolocation"],
       },
@@ -174,17 +178,9 @@ test.describe("Local browser launch options", () => {
 
   test("applies custom timezone and locale", async () => {
     const stagehand = new Stagehand({
-      env: "LOCAL",
-      verbose: 1,
-      headless: true,
-      debugDom: true,
-      domSettleTimeoutMs: 30_000,
-      enableCaching: true,
-      modelName: "gpt-4o",
-      modelClientOptions: {
-        apiKey: process.env.OPENAI_API_KEY,
-      },
+      ...StagehandConfig,
       localBrowserLaunchOptions: {
+        ...StagehandConfig.localBrowserLaunchOptions,
         locale: "ja-JP",
         timezoneId: "Asia/Tokyo",
       },
@@ -210,17 +206,9 @@ test.describe("Local browser launch options", () => {
     fs.mkdirSync(videoDir, { recursive: true });
 
     const stagehand = new Stagehand({
-      env: "LOCAL",
-      verbose: 1,
-      headless: true,
-      debugDom: true,
-      domSettleTimeoutMs: 30_000,
-      enableCaching: true,
-      modelName: "gpt-4o",
-      modelClientOptions: {
-        apiKey: process.env.OPENAI_API_KEY,
-      },
+      ...StagehandConfig,
       localBrowserLaunchOptions: {
+        ...StagehandConfig.localBrowserLaunchOptions,
         recordVideo: {
           dir: videoDir,
           size: { width: 800, height: 600 },

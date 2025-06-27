@@ -1,5 +1,5 @@
 import { LLMClient } from "../lib/llm/LLMClient";
-import { Locator } from "@playwright/test";
+import { Locator } from "playwright";
 import { Logger } from "@/types/log";
 import { StagehandPage } from "@/lib/StagehandPage";
 
@@ -35,7 +35,10 @@ export enum SupportedPlaywrightAction {
   CLICK = "click",
   FILL = "fill",
   TYPE = "type",
+  PRESS = "press",
   SCROLL = "scrollTo",
+  NEXT_CHUNK = "nextChunk",
+  PREV_CHUNK = "prevChunk",
 }
 
 /**

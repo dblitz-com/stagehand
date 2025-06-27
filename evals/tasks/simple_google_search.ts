@@ -1,18 +1,14 @@
 import { EvalFunction } from "@/types/evals";
-import { initStagehand } from "@/evals/initStagehand";
 
 export const simple_google_search: EvalFunction = async ({
-  modelName,
+  debugUrl,
+  sessionUrl,
+  stagehand,
   logger,
 }) => {
-  const { stagehand, initResponse } = await initStagehand({
-    modelName,
-    logger,
-  });
-
-  const { debugUrl, sessionUrl } = initResponse;
-
-  await stagehand.page.goto("https://www.google.com");
+  await stagehand.page.goto(
+    "https://browserbase.github.io/stagehand-eval-sites/sites/google/",
+  );
 
   await stagehand.page.act({
     action: 'type "OpenAI" into the search bar',
@@ -20,7 +16,8 @@ export const simple_google_search: EvalFunction = async ({
 
   await stagehand.page.act("click the search button");
 
-  const expectedUrl = "https://www.google.com/search?q=OpenAI";
+  const expectedUrl =
+    "https://browserbase.github.io/stagehand-eval-sites/sites/google/openai.html";
   const currentUrl = stagehand.page.url();
 
   await stagehand.close();

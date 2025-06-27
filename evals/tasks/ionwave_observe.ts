@@ -1,17 +1,16 @@
-import { initStagehand } from "@/evals/initStagehand";
 import { EvalFunction } from "@/types/evals";
 
-export const ionwave_observe: EvalFunction = async ({ modelName, logger }) => {
-  const { stagehand, initResponse } = await initStagehand({
-    modelName,
-    logger,
-  });
+export const ionwave_observe: EvalFunction = async ({
+  debugUrl,
+  sessionUrl,
+  stagehand,
+  logger,
+}) => {
+  await stagehand.page.goto(
+    "https://browserbase.github.io/stagehand-eval-sites/sites/ionwave/",
+  );
 
-  const { debugUrl, sessionUrl } = initResponse;
-
-  await stagehand.page.goto("https://elpasotexas.ionwave.net/Login.aspx");
-
-  const observations = await stagehand.page.observe({ onlyVisible: true });
+  const observations = await stagehand.page.observe();
 
   if (observations.length === 0) {
     await stagehand.close();
@@ -24,7 +23,7 @@ export const ionwave_observe: EvalFunction = async ({ modelName, logger }) => {
     };
   }
 
-  const expectedLocator = `div.rowLinks:nth-child(27) > div:nth-child(1) > a:nth-child(1)`;
+  const expectedLocator = `#Form1 > div:nth-child(5) > div:nth-child(1) > a`;
 
   const expectedResult = await stagehand.page
     .locator(expectedLocator)

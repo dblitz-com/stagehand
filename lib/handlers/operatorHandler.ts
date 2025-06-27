@@ -11,6 +11,10 @@ import { ChatMessage, LLMClient } from "../llm/LLMClient";
 import { buildOperatorSystemPrompt } from "../prompt";
 import { StagehandPage } from "../StagehandPage";
 import { ObserveResult } from "@/types/stagehand";
+import {
+  StagehandError,
+  StagehandMissingArgumentError,
+} from "@/types/stagehandErrors";
 
 export class StagehandOperatorHandler {
   private stagehandPage: StagehandPage;
@@ -117,9 +121,14 @@ export class StagehandOperatorHandler {
       }
       let extractionResult: unknown | undefined;
       if (result.method === "extract") {
-        extractionResult = await this.stagehandPage.page.extract(
-          result.parameters,
-        );
+        if (result.parameters === null || result.parameters === undefined) {
+          const extractionResultObj = await this.stagehandPage.page.extract();
+          extractionResult = extractionResultObj.page_text;
+        } else {
+          extractionResult = await this.stagehandPage.page.extract(
+            result.parameters,
+          );
+        }
       }
 
       await this.executeAction(result, playwrightArguments, extractionResult);
@@ -203,13 +212,18 @@ export class StagehandOperatorHandler {
     switch (method) {
       case "act":
         if (!playwrightArguments) {
-          throw new Error("No playwright arguments provided");
+          throw new StagehandMissingArgumentError(
+            "No arguments provided to `act()`. " +
+              "Please ensure that all required arguments are passed in.",
+          );
         }
         await page.act(playwrightArguments);
         break;
       case "extract":
         if (!extractionResult) {
-          throw new Error("No extraction result provided");
+          throw new StagehandError(
+            "Error in OperatorHandler: Cannot complete extraction. No extractionResult provided.",
+          );
         }
         return extractionResult;
       case "goto":
@@ -225,7 +239,9 @@ export class StagehandOperatorHandler {
         await page.reload();
         break;
       default:
-        throw new Error(`Unknown action: ${method}`);
+        throw new StagehandError(
+          `Error in OperatorHandler: Cannot execute unknown action: ${method}`,
+        );
     }
   }
 }

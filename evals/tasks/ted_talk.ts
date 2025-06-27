@@ -1,20 +1,13 @@
 import { EvalFunction } from "@/types/evals";
-import { initStagehand } from "@/evals/initStagehand";
 import { normalizeString } from "@/evals/utils";
 import { z } from "zod";
 
 export const ted_talk: EvalFunction = async ({
-  modelName,
+  debugUrl,
+  sessionUrl,
+  stagehand,
   logger,
-  useTextExtract,
 }) => {
-  const { stagehand, initResponse } = await initStagehand({
-    modelName,
-    logger,
-  });
-
-  const { debugUrl, sessionUrl } = initResponse;
-
   await stagehand.page.goto(
     "https://www.ted.com/talks/sir_ken_robinson_do_schools_kill_creativity",
     {
@@ -39,8 +32,6 @@ export const ted_talk: EvalFunction = async ({
         )
         .describe("List of culture video playlists"),
     }),
-    modelName,
-    useTextExtract,
   });
 
   await stagehand.close();

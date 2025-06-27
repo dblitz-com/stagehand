@@ -24,10 +24,12 @@ export interface StartSessionParams {
   selfHeal?: boolean;
   waitForCaptchaSolves?: boolean;
   actionTimeoutMs?: number;
+  browserbaseSessionID?: string;
 }
 
 export interface StartSessionResult {
   sessionId: string;
+  available?: boolean;
 }
 
 export interface SuccessResponse<T> {
