@@ -370,6 +370,10 @@
     {
       "name": "tab_handling",
       "categories": ["act"]
+    },
+    {
+      "name": "kayak",
+      "categories": ["agent"]
     }
   ]
 }
