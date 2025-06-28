@@ -399,6 +399,25 @@ export class Stagehand {
   private _isClosed: boolean = false;
   private _history: Array<HistoryEntry> = [];
   public readonly experimental: boolean;
+  private _livePageProxy?: Page;
+
+  private createLivePageProxy<T extends Page>(): T {
+    const handler: ProxyHandler<T> = {
+      get: (_target, prop, receiver) => {
+        const current = this.stagehandPage.page as unknown as T;
+        const value = Reflect.get(current, prop, receiver);
+        return typeof value === "function" ? value.bind(current) : value;
+      },
+      set: (_target, prop, value) => {
+        const current = this.stagehandPage.page as unknown as T;
+        Reflect.set(current, prop, value);
+        return true;
+      },
+      has: (_target, prop) => prop in (this.stagehandPage.page as unknown as T),
+    };
+    return new Proxy({} as T, handler);
+  }
+
   public get history(): ReadonlyArray<HistoryEntry> {
     return Object.freeze([...this._history]);
   }
@@ -410,7 +429,10 @@ export class Stagehand {
     if (!this.stagehandContext) {
       throw new StagehandNotInitializedError("page");
     }
-    return this.stagehandPage.page;
+    if (!this._livePageProxy) {
+      this._livePageProxy = this.createLivePageProxy<Page>();
+    }
+    return this._livePageProxy;
   }
 
   public stagehandMetrics: StagehandMetrics = {
