@@ -402,20 +402,25 @@ export class Stagehand {
   private _livePageProxy?: Page;
 
   private createLivePageProxy<T extends Page>(): T {
+    const proto = Object.getPrototypeOf(this.stagehandPage.page) as object;
+    const target = Object.create(proto) as T;
+
     const handler: ProxyHandler<T> = {
-      get: (_target, prop, receiver) => {
-        const current = this.stagehandPage.page as unknown as T;
-        const value = Reflect.get(current, prop, receiver);
-        return typeof value === "function" ? value.bind(current) : value;
+      get: (_t, prop, receiver) => {
+        const real = this.stagehandPage.page as unknown as T;
+        const value = Reflect.get(real, prop, receiver);
+        return typeof value === "function" ? value.bind(real) : value;
       },
-      set: (_target, prop, value) => {
-        const current = this.stagehandPage.page as unknown as T;
-        Reflect.set(current, prop, value);
+      set: (_t, prop, value) => {
+        const real = this.stagehandPage.page as unknown as T;
+        Reflect.set(real, prop, value);
         return true;
       },
-      has: (_target, prop) => prop in (this.stagehandPage.page as unknown as T),
+      has: (_t, prop) => prop in (this.stagehandPage.page as unknown as T),
+      getPrototypeOf: () => proto,
     };
-    return new Proxy({} as T, handler);
+
+    return new Proxy(target, handler);
   }
 
   public get history(): ReadonlyArray<HistoryEntry> {
