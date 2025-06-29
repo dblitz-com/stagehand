@@ -34,7 +34,7 @@ export class Evaluator {
     modelClientOptions?: ClientOptions,
   ) {
     this.stagehand = stagehand;
-    this.modelName = modelName || "gemini-2.0-flash";
+    this.modelName = modelName || "google/gemini-2.0-flash";
     this.modelClientOptions = modelClientOptions || {
       apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || "",
     };

@@ -189,7 +189,7 @@ test.describe("StagehandContext - Multi-page Support", () => {
    * Test active page tracking
    */
   test("should update stagehand.page when creating new pages", async () => {
-    const initialTitle = await stagehand.page.title();   // "about:blank" → ""
+    const initialTitle = await stagehand.page.title(); // "about:blank" → ""
 
     // Create a new page
     const newPage = await stagehand.context.newPage();

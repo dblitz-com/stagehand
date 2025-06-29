@@ -372,7 +372,7 @@
       "categories": ["act"]
     },
     {
-      "name": "kayak",
+      "name": "agent/kayak",
       "categories": ["agent"]
     }
   ]
