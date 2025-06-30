@@ -40,7 +40,6 @@ export const kayak: EvalFunction = async ({
       question: "Are the flights shown sorted by price?",
     });
 
-    await stagehand.close();
     const success = evaluation === "YES";
     if (!success) {
       return {
