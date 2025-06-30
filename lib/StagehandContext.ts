@@ -89,8 +89,14 @@ export class StagehandContext {
       }
     }
 
-    context.on("page", async (pwPage: PlaywrightPage) => {
-      void instance.getStagehandPage(pwPage);
+    context.on("page", (pwPage) => {
+      instance.handleNewPlaywrightPage(pwPage).catch((err) =>
+        stagehand.logger({
+          category: "context",
+          message: `Failed to initialise new page: ${err}`,
+          level: 0,
+        }),
+      );
     });
 
     return instance;
@@ -125,5 +131,13 @@ export class StagehandContext {
 
   public getActivePage(): StagehandPage | null {
     return this.activeStagehandPage;
+  }
+
+  private async handleNewPlaywrightPage(pwPage: PlaywrightPage): Promise<void> {
+    let stagehandPage = this.pageMap.get(pwPage);
+    if (!stagehandPage) {
+      stagehandPage = await this.createStagehandPage(pwPage);
+    }
+    this.setActivePage(stagehandPage);
   }
 }
