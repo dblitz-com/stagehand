@@ -374,6 +374,10 @@
     {
       "name": "agent/kayak",
       "categories": ["agent"]
+    },
+    {
+      "name": "multi_tab",
+      "categories": ["act"]
     }
   ]
 }
