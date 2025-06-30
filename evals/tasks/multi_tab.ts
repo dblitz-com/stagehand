@@ -80,6 +80,6 @@ export const multi_tab: EvalFunction = async ({
       logs: logger.getLogs(),
     };
   } finally {
-    stagehand.close();
+    await stagehand.close();
   }
 };
