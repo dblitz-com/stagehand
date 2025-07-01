@@ -3,12 +3,6 @@ title: Computer Use Agents
 description: Incorporate Computer Use APIs from Anthropic and OpenAI with one line of code in Stagehand.
 ---
 
-<Tip>
-**Computer Use agents are only available in Stagehand 2.0.**
-
-We strongly recommend using computer use agents when you find an iframe or other difficult-to-navigate elements on a page. IFrames are notoriously difficult to navigate with Playwright due to security constraints.
-</Tip>
-
 ## What is a Computer Use Agent?
 
 <iframe
@@ -30,12 +24,20 @@ Stagehand not only handles the execution of Computer Use outputs, but also lets 
 
 Stagehand lets you use Computer Use Agents with one line of code:
 
-### IMPORTANT! Configure your browser dimensions
+<Note>
+**IMPORTANT! Configure your browser dimensions**
+
 Computer Use Agents will often return XY-coordinates to click on the screen, so you'll need to configure your browser dimensions.
+If not specified, the default browser dimensions are 1024x768. You can also configure the browser dimensions in the `browserbaseSessionCreateParams` or `localBrowserLaunchOptions` options.
+</Note>
+
+
+### Configuring browser dimensions
 
 <Tabs>
-<Tab title="TypeScript - Browserbase">
-```ts
+<Tab title="BROWSERBASE">
+<CodeGroup>  
+```typescript TypeScript
 import { Stagehand } from "@browserbasehq/stagehand";
 
 const stagehand = new Stagehand({
@@ -57,9 +59,7 @@ const stagehand = new Stagehand({
 
 await stagehand.init();
 ```
-</Tab>
-<Tab title="Python - Browserbase">
-```python
+```python Python
 import os
 from stagehand import Stagehand, StagehandConfig
 
@@ -82,9 +82,11 @@ stagehand = Stagehand(StagehandConfig(
 
 await stagehand.init()
 ```
+</CodeGroup>
 </Tab>
-<Tab title="TypeScript - Local">
-```ts
+<Tab title="LOCAL">
+<CodeGroup>
+```typescript TypeScript
 import { Stagehand } from "@browserbasehq/stagehand";
 
 const stagehand = new Stagehand({
@@ -100,9 +102,7 @@ const stagehand = new Stagehand({
 
 await stagehand.init();
 ```
-</Tab>
-<Tab title="Python - Local">
-```python
+```python Python
 from stagehand import Stagehand, StagehandConfig
 
 stagehand = Stagehand(StagehandConfig(
@@ -118,14 +118,15 @@ stagehand = Stagehand(StagehandConfig(
 
 await stagehand.init()
 ```
+</CodeGroup>
 </Tab>
 </Tabs>
 
+
 ### Direct your Computer Use Agent
 
-<Tabs>
-<Tab title="TypeScript">
-```ts
+<CodeGroup>
+```typescript TypeScript
 // Navigate to a website
 await stagehand.page.goto("https://www.google.com");
 
@@ -148,26 +149,22 @@ const agent = stagehand.agent({
 // Execute the agent
 await agent.execute("Apply for a library card at the San Francisco Public Library");
 ```
-</Tab>
-<Tab title="Python">
-```python
+
+```python Python
 import os
 
 # Navigate to a website
 await stagehand.page.goto("https://www.google.com")
 
 agent = stagehand.agent({
-    # You can use either OpenAI or Anthropic
-    "provider": "openai",
-    # The model to use (claude-3-7-sonnet-latest for Anthropic)
-    "model": "computer-use-preview",
+    # The model to use
+    model="computer-use-preview",
 
     # Customize the system prompt
-    "instructions": """You are a helpful assistant that can use a web browser.
-    Do not ask follow up questions, the user will trust your judgement.""",
+    instructions="You are a helpful assistant that can use a web browser. Do not ask follow up questions, the user will trust your judgement.",
 
     # Customize the API key
-    "options": {
+    options={
         "apiKey": os.getenv("OPENAI_API_KEY"),
     },
 })
@@ -175,5 +172,4 @@ agent = stagehand.agent({
 # Execute the agent
 await agent.execute("Apply for a library card at the San Francisco Public Library")
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
