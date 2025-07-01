@@ -29,8 +29,6 @@ export const tab_handling: EvalFunction = async ({
       "You’re on the other page",
     );
 
-    await stagehand.close();
-
     return {
       _success: extraction1Success && extraction2Success,
       debugUrl,
@@ -46,6 +44,6 @@ export const tab_handling: EvalFunction = async ({
       logs: logger.getLogs(),
     };
   } finally {
-    stagehand.close();
+    await stagehand.close();
   }
 };

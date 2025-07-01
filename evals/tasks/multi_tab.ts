@@ -71,6 +71,13 @@ export const multi_tab: EvalFunction = async ({
         logs: logger.getLogs(),
       };
     }
+    return {
+      _success: false,
+      message: `extracted page text: ${page2text.page_text} does not match expected page text: ${expectedPage2text}`,
+      debugUrl,
+      sessionUrl,
+      logs: logger.getLogs(),
+    };
   } catch (error) {
     return {
       _success: false,
