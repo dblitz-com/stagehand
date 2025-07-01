@@ -25,7 +25,7 @@ const stagehand = new Stagehand({
     // LLM configuration
     modelName: "google/gemini-2.0-flash", /* Name of the model to use in "provider/model" format */
     modelClientOptions: {
-      apiKey: process.env.ANTHROPIC_API_KEY, /* Model API key */
+      apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY, /* Model API key */
     }, /* Configuration options for the model client */
 	apiKey: process.env.BROWSERBASE_API_KEY, 
 	projectId: process.env.BROWSERBASE_PROJECT_ID,
@@ -115,7 +115,7 @@ stagehand = Stagehand(
     # LLM configuration
     model_name="google/gemini-2.0-flash",  # Name of the model to use in "provider/model" format
     model_client_options={
-        "api_key": os.getenv("ANTHROPIC_API_KEY"),  # Model API key
+        "api_key": os.getenv("GOOGLE_GENERATIVE_AI_API_KEY"),  # Model API key
     },  # Configuration options for the model client
     api_key=os.getenv("BROWSERBASE_API_KEY"),
     project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
@@ -511,34 +511,26 @@ The constructor returns an instance of the `Stagehand` class configured with the
 
 ## `stagehand.init()`
 
-<Tabs>
-<Tab title="TypeScript">
-```typescript
+<CodeGroup>
+```typescript TypeScript
 await stagehand.init();
 ```
-</Tab>
-<Tab title="Python">
-```python
+```python Python
 await stagehand.init()
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 `init()` asynchronously initializes the Stagehand instance. It should be called before any other methods.
 
 ## `stagehand.close()`
 
-<Tabs>
-<Tab title="TypeScript">
-```typescript
+<CodeGroup>
+```typescript TypeScript
 await stagehand.close();
 ```
-</Tab>
-<Tab title="Python">
-```python
+```python Python
 await stagehand.close()
 ```
-</Tab>
-</Tabs>
+</CodeGroup>
 
 `close()` is a cleanup method to remove the temporary files created by Stagehand. It's recommended that you call this explicitly when you're done with your automation.

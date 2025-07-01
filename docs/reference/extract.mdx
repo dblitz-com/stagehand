@@ -6,7 +6,13 @@ icon: 'brain-circuit'
 
 `extract()` grabs structured text from the current page using structured schemas. Given instructions and `schema`, you will receive structured data.
 
-### `extract` a single object
+<Note>
+For TypeScript, the extract schemas are defined using zod schemas.
+
+For Python, the extract schemas are defined using pydantic models.
+</Note>
+
+### Extract a single object
 
 Here is how an `extract` call might look for a single object:
 
@@ -21,9 +27,13 @@ const item = await page.extract({
 ```
 
 ```python Python
-item = await page.extract("extract the price of the item")
-# Python extract returns a dictionary with the extracted data
-# For structured extraction, you can also specify the expected format in the instruction
+class Extraction(BaseModel):
+    price: float
+
+item = await page.extract(
+    "extract the price of the item", 
+    schema=Extraction
+)
 ```
 </CodeGroup>
 
@@ -32,14 +42,14 @@ Your output schema will look like:
 { price: number }
 ```
 
-### `extract` a link
+### Extract a link
 <Note>To extract links or URLs, specify this clearly in your instruction. See the snippet below. </Note>
 
 Here is how an `extract` call might look for extracting a link or URL.
 
 <CodeGroup>
 ```typescript TypeScript
-const extraction = await stagehand.page.extract({
+const extraction = await page.extract({
   instruction: "extract the link to the 'contact us' page",
   schema: z.object({
     link: z.string().url(),
@@ -50,19 +60,25 @@ console.log("the link to the contact us page is: ", extraction.link);
 ```
 
 ```python Python
-extraction = await stagehand.page.extract("extract the link to the 'contact us' page")
+class Extraction(BaseModel):
+    link: HttpUrl
 
-print("the link to the contact us page is: ", extraction)
+extraction = await page.extract(
+    "extract the link to the 'contact us' page", 
+    schema=Extraction
+)
+
+print("the link to the contact us page is: ", extraction.link)
 ```
 </CodeGroup>
 
-### `extract` a list of objects
+### Extract a list of objects
 
 Here is how an `extract` call might look for a list of objects.
 
 <CodeGroup>
 ```typescript TypeScript
-const apartments = await stagehand.page.extract({
+const apartments = await page.extract({
   instruction:
     "Extract ALL the apartment listings and their details, including address, price, and square feet."
   schema: z.object({
@@ -76,42 +92,54 @@ const apartments = await stagehand.page.extract({
   })
 })
 
-console.log("the apartment data is: ", apartments);
+console.log("the apartment list is: ", apartments);
 ```
 
 ```python Python
-apartments = await stagehand.page.extract(
-  "Extract ALL the apartment listings and their details as a list, including address, price, and square feet for each apartment"
+class Apartment(BaseModel):
+    address: str
+    price: str
+    square_feet: str
+
+class Apartments(BaseModel):
+    list_of_apartments: list[Apartment]
+
+apartments = await page.extract(
+    "Extract ALL the apartment listings and their details as a list, including address, price, and square feet for each apartment",
+    schema=Apartments
 )
 
-print("the apartment data is: ", apartments)
+print("the apartment list is: ", apartments)
 ```
 </CodeGroup>
 
 Your output schema will look like:
 ```
-  list_of_apartments: [
-      {
-        address: "street address here",
-        price: "$1234.00",
-        square_feet: "700"
-      },
-      {
-         address: "another address here",
-         price: "1010.00",
-         square_feet: "500"
-      },
-      .
-      .
-      .
-  ]
+list_of_apartments: [
+    {
+      address: "street address here",
+      price: "$1234.00",
+      square_feet: "700"
+    },
+    {
+        address: "another address here",
+        price: "1010.00",
+        square_feet: "500"
+    },
+    .
+    .
+    .
+]
 ```
 
-<Tip>For TypeScript: You can provide additional context at the field level within your schema using `.describe()`. For Python: Include specific formatting requirements in your instruction string.</Tip>
+
+### Extract with additional context
+
+You can provide additional context to your schema to help the model extract the data more accurately.
 
 <CodeGroup>
 ```typescript TypeScript
-const apartments = await stagehand.page.extract({
+const apartments = await page.extract({
  instruction:
    "Extract ALL the apartment listings and their details, including address, price, and square feet."
  schema: z.object({
@@ -127,8 +155,17 @@ const apartments = await stagehand.page.extract({
 ```
 
 ```python Python
-apartments = await stagehand.page.extract(
-  "Extract ALL the apartment listings and their details as a list. For each apartment, include: the address of the apartment, the price of the apartment, and the square footage of the apartment"
+class Apartment(BaseModel):
+    address: str = Field(..., description="the address of the apartment")
+    price: str = Field(..., description="the price of the apartment")
+    square_feet: str = Field(..., description="the square footage of the apartment")
+
+class Apartments(BaseModel):
+    list_of_apartments: list[Apartment]
+
+apartments = await page.extract(
+    "Extract ALL the apartment listings and their details as a list. For each apartment, include: the address of the apartment, the price of the apartment, and the square footage of the apartment",
+    schema=Apartments
 )
 ```
 </CodeGroup>

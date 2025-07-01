@@ -18,7 +18,7 @@ observations = await page.observe()
 
 `observe()` returns an array of objects, each with an XPath `selector` and short `description`.
 
-If you are looking for a specific element, you can also pass in an instruction to observe via: `observe({ instruction: "your instruction"})`.
+If you are looking for a specific element, you can also pass in an instruction to observe:
 
 <CodeGroup>
 ```typescript TypeScript
@@ -41,6 +41,10 @@ Observe can also return a suggested action for the candidate element by setting 
     "selector": 'xpath=/html/body[1]/div[1]/main[1]/button[1]'
   }
 ```
+
+<Note>
+In Python, the ObserveResult is wrapped in a Pydantic model. You can use model_dump() to get the `dict` equivalent.
+</Note>
 
 ### **Arguments:** [`ObserveOptions`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
 

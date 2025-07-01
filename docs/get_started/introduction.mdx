@@ -26,10 +26,6 @@ const [action] = await page.observe(
 );
 await page.act(action);
 
-// Cache actions to avoid redundant LLM calls!
-await actWithCache(page, "Click the suggestion to use AI");
-await page.waitForTimeout(2000);
-
 // Use extract() to extract structured data from the page
 const { text } = await page.extract({
   instruction: "extract the text of the AI suggestion from the search results",

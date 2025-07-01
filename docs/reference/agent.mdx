@@ -11,8 +11,9 @@ await agent.execute("Sign me up for a library card");
 ```
 
 ```python Python
-agent = stagehand.agent()
-await agent.execute("Sign me up for a library card")
+# Native Stagehand agent support for Python is coming soon.
+# agent = stagehand.agent()
+# await agent.execute("Sign me up for a library card")
 ```
 </CodeGroup>
 
@@ -31,18 +32,30 @@ const agent = stagehand.agent({
     apiKey: process.env.OPENAI_API_KEY,
   },
 });
+
+// You can define additional options like max_steps and auto_screenshot
+await agent.execute({
+  instruction="Sign me up for a library card",
+  max_steps=20,
+})
 ```
 
 ```python Python
 # For Computer Use Agent (CUA) models
 agent = stagehand.agent({
-  "provider": "openai",
-  "model": "computer-use-preview",
-  "instructions": "You are a helpful assistant that can use a web browser.",
-  "options": {
-    "apiKey": os.getenv("OPENAI_API_KEY"),
-  },
+    model="computer-use-preview",
+    instructions="You are a helpful assistant that can use a web browser.",
+    options={
+      "apiKey": os.getenv("OPENAI_API_KEY"),
+    },
 })
+
+# You can define additional options like max_steps and auto_screenshot
+result = await agent.execute({
+    instruction="Sign me up for a library card",
+    max_steps=20
+})
+
 ```
 </CodeGroup>
 

@@ -85,7 +85,11 @@ It works by calling Stagehand tools in sequence:
 
 <Excalidraw className="w-full" url="https://link.excalidraw.com/readonly/dKh5sB1gEM1EjVqRCGKn" />
 
-Incorporating Open Operator into your browser automation is as easy as adding a single line of code:
+Incorporating `stagehand.agent` into your browser automation is as easy as adding a single line of code:
+
+<Note>
+Python currently supports `stagehand.agent` with Computer Use Agent (CUA) models. The default implementation is coming soon. 
+</Note>
 
 <CodeGroup>
 ```typescript TypeScript
@@ -98,15 +102,6 @@ const { message, actions } = await operator.execute(
 );
 
 console.log(message);
-```
-```python Python
-await stagehand.page.goto("https://github.com/browserbase/stagehand")
-
-# Open Operator will use the default LLM from Stagehand config
-operator = stagehand.agent()
-result = await operator.execute("Extract the top contributor's username")
-
-print(result)
 ```
 </CodeGroup>
 
