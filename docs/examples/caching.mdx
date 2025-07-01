@@ -69,10 +69,6 @@ async function setCache(key: string, value: ObserveResult): Promise<void> {
 ```
 
 ```python Python
-import json
-import aiofiles
-from typing import Optional, Dict, Any
-
 # Get the cached value (None if it doesn't exist)
 async def get_cache(key: str) -> Optional[Dict[str, Any]]:
     try:

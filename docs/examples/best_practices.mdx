@@ -26,10 +26,10 @@ await page.act({
 ```
 ```python Python
 await page.act({
-	"action": "Type %email% into the email field",
-	"variables": {
+	"Type %email% into the email field",
+	variables={
 		"email": "john.doe@example.com",
-	},
+	}
 })
 ```
 </CodeGroup>
@@ -60,10 +60,10 @@ top_action = actions[0]
 
 # The action will map 1:1 with a Playwright action:
 # {
-#	"description": "The quickstart link",
-#	"method": "click",
-#	"selector": "/html/body/div[1]/div[1]/a",
-#	"arguments": [],
+#		"description": "The quickstart link",
+#		"method": "click",
+#		"selector": "/html/body/div[1]/div[1]/a",
+#		"arguments": [],
 # }
 
 # NO LLM INFERENCE on observe results
@@ -94,16 +94,16 @@ await page.act({
 })
 ```
 
-```python
+```python Python
 actions = await page.observe("Type %email% into the email field")
 top_action = actions[0]
 
 # The observe result will be a dictionary with the following shape:
 # {
-#	"description": "The email input field",
-#	"method": "type",
-#	"selector": "/html/body/div[1]/div[1]/input",
-#	"arguments": ["%email%"],
+#		"description": "The email input field",
+#		"method": "type",
+#		"selector": "/html/body/div[1]/div[1]/input",
+#		"arguments": ["%email%"],
 # }
 
 await page.act({
@@ -151,10 +151,10 @@ await page.act({ action: "fill out the form and submit it" });
 
 ```python Python
 # Too vague
-await page.act({"action": "find something interesting on the page"})
+await page.act("find something interesting on the page")
 
 # Avoid combining actions
-await page.act({"action": "fill out the form and submit it"})
+await page.act("fill out the form and submit it")
 ```
 </CodeGroup>
 
@@ -164,9 +164,15 @@ await page.act({"action": "fill out the form and submit it"})
 ```typescript TypeScript
 const formValues = await page.observe("get the text inputs on the page");
 ```
+```python Python
+form_values = await page.observe("get the text inputs on the page")
+```
+</CodeGroup>
 
 This will return an array of objects with the following shape:
-```TypeScript
+
+<CodeGroup>
+```typescript TypeScript
 {
 	description: "The text input field",
 	method: "type",
@@ -175,8 +181,20 @@ This will return an array of objects with the following shape:
 }
 ```
 
+```python Python
+{
+	"description": "The text input field",
+	"method": "type",
+	"selector": "/html/body/div[1]/div[1]/input",
+	"arguments": ["some text"],
+}
+```
+</CodeGroup>
+
 You can then use these actions directly in your code.
-```TypeScript
+
+<CodeGroup>
+```typescript TypeScript
 for (const formValue of formValues) {
 	await page.act({
 		...formValue,
@@ -186,21 +204,6 @@ for (const formValue of formValues) {
 ```
 
 ```python Python
-form_values = await page.observe("get the text inputs on the page")
-```
-
-This will return a list of dictionaries with the following shape:
-```python
-{
-	"description": "The text input field",
-	"method": "type",
-	"selector": "/html/body/div[1]/div[1]/input",
-	"arguments": ["some text"],
-}
-```
-
-You can then use these actions directly in your code.
-```python
 for form_value in form_values:
 	await page.act({
 		**form_value,

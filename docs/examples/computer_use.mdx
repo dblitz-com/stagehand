@@ -28,11 +28,14 @@ Stagehand lets you use Computer Use Agents with one line of code:
 **IMPORTANT! Configure your browser dimensions**
 
 Computer Use Agents will often return XY-coordinates to click on the screen, so you'll need to configure your browser dimensions.
+
 If not specified, the default browser dimensions are 1024x768. You can also configure the browser dimensions in the `browserbaseSessionCreateParams` or `localBrowserLaunchOptions` options.
 </Note>
 
 
 ### Configuring browser dimensions
+
+Browser configuration differs by environment:
 
 <Tabs>
 <Tab title="BROWSERBASE">
@@ -122,8 +125,9 @@ await stagehand.init()
 </Tab>
 </Tabs>
 
-
 ### Direct your Computer Use Agent
+
+Call `execute` on the agent to assign a task to the agent.
 
 <CodeGroup>
 ```typescript TypeScript
@@ -173,3 +177,21 @@ agent = stagehand.agent({
 await agent.execute("Apply for a library card at the San Francisco Public Library")
 ```
 </CodeGroup>
+
+You can also define the maximum number of steps the agent can take with:
+
+<CodeGroup>
+```typescript TypeScript
+await agent.execute({
+	instructions: "Apply for a library card at the San Francisco Public Library",
+	maxSteps: 10,
+});
+```
+
+```python Python
+await agent.execute(
+	"Apply for a library card at the San Francisco Public Library",
+	max_steps=10,
+)
+```
+</CodeGroup> 

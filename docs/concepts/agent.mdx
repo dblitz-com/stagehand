@@ -16,8 +16,8 @@ The above example is a Claude agent that uses Stagehand to control a browser. At
 This means Claude is intelligent enough to know when to request a browser screenshot, and it can then use that screenshot to make decisions about what actions to take next.
 
 <CardGroup>
-<Card title="Stagehand MCP" href="https://github.com/browserbase/mcp-server-browserbase/tree/main/stagehand" icon="hand-horns">
-Have Claude control a browser with Stagehand MCP.
+<Card title="Browserbase MCP" href="https://github.com/browserbase/mcp-server-browserbase/" icon="hand-horns">
+Control a browser with Browserbase MCP powered by Stagehand
 </Card>
 </CardGroup>
 
@@ -52,10 +52,9 @@ console.log(result);
 await page.goto("https://github.com/browserbase/stagehand-python")
 
 # Create a Computer Use agent with just one line of code!
-agent = stagehand.agent({
-    "provider": "openai",
-    "model": "computer-use-preview"
-})
+agent = stagehand.agent(
+    model="computer-use-preview"
+)
 
 # Use the agent to execute a task
 result = await agent.execute("Extract the top contributor's username")
