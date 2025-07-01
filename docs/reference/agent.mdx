@@ -61,6 +61,8 @@ result = await agent.execute({
 
 ### **Arguments:** [`AgentOptions`](https://github.com/browserbase/stagehand/blob/main/types/agent.ts)
 
+<Tabs>
+<Tab title="TypeScript">
 <ParamField path="provider" type="string" required>
   Specifies the LLM provider.
   Currently supporting:
@@ -72,7 +74,7 @@ result = await agent.execute({
   Specifies the LLM model.
   Currently supporting:
   - **OpenAI**:  `computer-use-preview`
-  - **Anthropic**:  `claude-3-7-sonnet-20250219` and `claude-3-5-sonnet-20240620`
+  - **Anthropic**:  `claude-sonnet-4-latest` and `claude-3-7-sonnet-latest`
 </ParamField>
 
 <ParamField path="instructions" type="string">
@@ -82,6 +84,32 @@ result = await agent.execute({
 <ParamField path="options" type="object">
   Configuration options for the LLM provider. Currently supports OpenAI and Anthropic SDK client options. 
 </ParamField>
+</Tab>
+
+<Tab title="Python">
+<ParamField path="model" type="string" required>
+  Specifies the LLM model.
+  Currently supporting:
+  - **OpenAI**:  `computer-use-preview`
+  - **Anthropic**:  `claude-sonnet-4-latest` and `claude-3-7-sonnet-latest`
+</ParamField>
+
+<ParamField path="provider" type="string" optional>
+  Specifies the LLM provider.
+  Currently supporting:
+  - **OpenAI**:  `openai`
+  - **Anthropic**:  `anthropic`
+</ParamField>
+
+<ParamField path="instructions" type="string">
+  Specifies the system prompt
+</ParamField>
+
+<ParamField path="options" type="dict">
+  Configuration options for the LLM provider. Currently supports OpenAI and Anthropic SDK client options. 
+</ParamField>
+</Tab>
+</Tabs>
 
 ### **Returns:** [`Promise<AgentResult>`](https://github.com/browserbase/stagehand/blob/main/types/agent.ts)
 
@@ -101,7 +129,7 @@ result = await agent.execute({
     Whether the agent fully completed its task (can be false even if success is true)
   </ParamField>
 
-  <ParamField path="metadata" type="Record<string, unknown>">
+  <ParamField path="metadata" type="Record<string, unknown> | dict">
     Optional additional data about the execution
   </ParamField>
 

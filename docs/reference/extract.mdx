@@ -170,6 +170,8 @@ apartments = await page.extract(
 ```
 </CodeGroup>
 
+<Tabs>
+<Tab title="TypeScript">
 ### **Arguments:** [`ExtractOptions<T extends z.AnyZodObject>`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
 
   <ParamField path="instruction" type="string" required>
@@ -209,3 +211,34 @@ apartments = await page.extract(
 ### **Returns:** [`Promise<ExtractResult<T extends z.AnyZodObject>>`](https://github.com/browserbase/stagehand/blob/main/types/stagehand.ts)
 
 Resolves to the structured data as defined by the provided `schema`.
+
+</Tab>
+
+<Tab title="Python">
+### **Arguments:** [`ExtractOptions<T extends BaseModel>`](https://github.com/browserbase/stagehand-python/blob/main/stagehand/types/page.py)
+
+  <ParamField path="instruction" type="string" required>
+    Provides instructions for extraction
+  </ParamField>
+
+  <ParamField path="schema" type="BaseModel" required>
+    Defines the structure of the data to extract
+  </ParamField>
+
+  <ParamField path="model_name" type="AvailableModel" optional>
+    Specifies the model to use
+  </ParamField>
+
+  <ParamField path="model_client_options" type="dict" optional>
+    Configuration options for the model client. See [`ClientOptions`](https://github.com/browserbase/stagehand/blob/main/types/model.ts).
+  </ParamField>
+
+  <ParamField path="dom_settle_timeout_ms" type="int" optional>
+    Timeout in milliseconds for waiting for the DOM to settle
+  </ParamField>
+
+### **Returns:** [`Promise<ExtractResult<BaseModel>>`](https://github.com/browserbase/stagehand-python/blob/main/stagehand/types/page.py)
+
+Resolves to the structured data as defined by the provided `schema`.
+</Tab>
+</Tabs>
