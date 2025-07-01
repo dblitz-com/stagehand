@@ -20,7 +20,7 @@
       <img alt="MIT License" src="media/light_license.svg" />
     </picture>
   </a>
-  <a href="https://stagehand.dev/slack">
+  <a href="https://join.slack.com/t/stagehand-dev/shared_invite/zt-38khc8iv5-T2acb50_0OILUaX7lxeBOg">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="media/dark_slack.svg" />
       <img alt="Slack Community" src="media/light_slack.svg" />
@@ -31,6 +31,23 @@
 <p align="center">
 	<a href="https://trendshift.io/repositories/12122" target="_blank"><img src="https://trendshift.io/api/badge/repositories/12122" alt="browserbase%2Fstagehand | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 </p>
+
+<p align="center">
+If you're looking for the Python implementation, you can find it 
+<a href="https://github.com/browserbase/stagehand-python"> here</a>
+</p>
+
+<div align="center" style="display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 0;">
+  <b>Vibe code</b>
+  <span style="font-size: 1.05em;"> Stagehand with </span>
+  <a href="https://director.ai" style="display: flex; align-items: center;">
+    <span>Director</span>
+  </a>
+  <span> </span>
+  <picture>
+    <img alt="Director" src="media/director_icon.svg" width="25" />
+  </picture>
+</div>
 
 ## Why Stagehand?
 
@@ -120,9 +137,9 @@ nano .env # Edit the .env file to add API keys
 ## Contributing
 
 > [!NOTE]  
-> We highly value contributions to Stagehand! For questions or support, please join our [Slack community](https://stagehand.dev/slack).
+> We highly value contributions to Stagehand! For questions or support, please join our [Slack community](https://join.slack.com/t/stagehand-dev/shared_invite/zt-38khc8iv5-T2acb50_0OILUaX7lxeBOg).
 
-At a high level, we're focused on improving reliability, speed, and cost in that order of priority. If you're interested in contributing, we strongly recommend reaching out to [Anirudh Kamath](https://x.com/kamathematic) or [Paul Klein](https://x.com/pk_iv) in our [Slack community](https://stagehand.dev/slack) before starting to ensure that your contribution aligns with our goals.
+At a high level, we're focused on improving reliability, speed, and cost in that order of priority. If you're interested in contributing, we strongly recommend reaching out to [Miguel Gonzalez](https://x.com/miguel_gonzf) or [Paul Klein](https://x.com/pk_iv) in our [Slack community](https://join.slack.com/t/stagehand-dev/shared_invite/zt-38khc8iv5-T2acb50_0OILUaX7lxeBOg) before starting to ensure that your contribution aligns with our goals.
 
 For more information, please see our [Contributing Guide](https://docs.stagehand.dev/examples/contributing).
 

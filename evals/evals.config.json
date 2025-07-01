@@ -378,6 +378,10 @@
     {
       "name": "multi_tab",
       "categories": ["act"]
+    },
+    {
+      "name": "shadow_dom",
+      "categories": ["act"]
     }
   ]
 }
