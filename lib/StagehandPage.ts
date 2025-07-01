@@ -1,10 +1,6 @@
 import { Browserbase } from "@browserbasehq/sdk";
-import type {
-  CDPSession,
-  Page as PlaywrightPage,
-  Frame,
-} from "@playwright/test";
-import { chromium } from "@playwright/test";
+import type { CDPSession, Page as PlaywrightPage, Frame } from "playwright";
+import { chromium } from "playwright";
 import { z } from "zod";
 import { Page, defaultExtractSchema } from "../types/page";
 import {
@@ -92,11 +88,7 @@ export class StagehandPage {
         const value = target[prop];
         // If the property is a function, wrap it to update active page before execution
         if (typeof value === "function" && prop !== "on") {
-          return (...args: unknown[]) => {
-            // Update active page before executing the method
-            this.intContext.setActivePage(this);
-            return value.apply(target, args);
-          };
+          return (...args: unknown[]) => value.apply(target, args);
         }
         return value;
       },
@@ -192,7 +184,7 @@ ${scriptContent} \
     }
 
     const browserbase = new Browserbase({
-      apiKey: process.env.BROWSERBASE_API_KEY,
+      apiKey: this.stagehand["apiKey"] ?? process.env.BROWSERBASE_API_KEY,
     });
 
     const sessionStatus = await browserbase.sessions.retrieve(sessionId);
@@ -213,14 +205,6 @@ ${scriptContent} \
 
     this.intPage = newStagehandPage.page;
 
-    if (this.stagehand.debugDom) {
-      this.stagehand.log({
-        category: "deprecation",
-        message:
-          "Warning: debugDom is not supported in this version of Stagehand",
-        level: 1,
-      });
-    }
     await this.intPage.waitForLoadState("domcontentloaded");
     await this._waitForSettledDom();
   }
@@ -299,7 +283,6 @@ ${scriptContent} \
             prop === "$$eval"
           ) {
             return async (...args: unknown[]) => {
-              this.intContext.setActivePage(this);
               // Make sure helpers exist
               await this.ensureStagehandScript();
               return (value as (...a: unknown[]) => unknown).apply(
@@ -328,10 +311,7 @@ ${scriptContent} \
             >;
 
             const method = this[prop as keyof StagehandPage] as EnhancedMethod;
-            return async (options: unknown) => {
-              this.intContext.setActivePage(this);
-              return method.call(this, options);
-            };
+            return (options: unknown) => method.call(this, options);
           }
 
           // Handle screenshots with CDP
@@ -437,10 +417,7 @@ ${scriptContent} \
 
           // For all other method calls, update active page
           if (typeof value === "function") {
-            return (...args: unknown[]) => {
-              this.intContext.setActivePage(this);
-              return value.apply(target, args);
-            };
+            return (...args: unknown[]) => value.apply(target, args);
           }
 
           return value;
@@ -470,9 +447,9 @@ ${scriptContent} \
    * `_waitForSettledDom` waits until the DOM is settled, and therefore is
    * ready for actions to be taken.
    *
-   * **Definition of “settled”**
+   * **Definition of "settled"**
    *   • No in-flight network requests (except WebSocket / Server-Sent-Events).
-   *   • That idle state lasts for at least **500 ms** (the “quiet-window”).
+   *   • That idle state lasts for at least **500 ms** (the "quiet-window").
    *
    * **How it works**
    *   1.  Subscribes to CDP Network and Page events for the main target and all
@@ -511,6 +488,10 @@ ${scriptContent} \
       autoAttach: true,
       waitForDebuggerOnStart: false,
       flatten: true,
+      filter: [
+        { type: "worker", exclude: true },
+        { type: "shared_worker", exclude: true },
+      ],
     });
 
     return new Promise<void>((resolve) => {
@@ -990,7 +971,7 @@ ${scriptContent} \
       if (msg.includes("does not have a separate CDP session")) {
         // Re-use / create the top-level session instead
         const rootSession = await this.getCDPClient(this.page);
-        // cache the alias so we don’t try again for this frame
+        // cache the alias so we don't try again for this frame
         this.cdpClients.set(target, rootSession);
         return rootSession;
       }

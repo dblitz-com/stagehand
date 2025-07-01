@@ -2,4 +2,4 @@
 "@browserbasehq/stagehand": patch
 ---
 
-Update logos
+don't automatically close tabs

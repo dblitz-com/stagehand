@@ -4,7 +4,7 @@ import { LLMProvider } from "../lib/llm/LLMProvider";
 import { LogLine } from "./log";
 import { AvailableModel, ClientOptions } from "./model";
 import { LLMClient } from "../lib/llm/LLMClient";
-import { Cookie } from "@playwright/test";
+import { Cookie } from "playwright";
 import { AgentProviderType } from "./agent";
 
 export interface ConstructorParams {
@@ -181,6 +181,7 @@ export interface LocalBrowserLaunchOptions {
   };
   tracesDir?: string;
   userDataDir?: string;
+  preserveUserDataDir?: boolean;
   acceptDownloads?: boolean;
   downloadsPath?: string;
   extraHTTPHeaders?: Record<string, string>;

@@ -3,7 +3,7 @@ import { Stagehand, StagehandFunctionName } from "../index";
 import { observe } from "../inference";
 import { LLMClient } from "../llm/LLMClient";
 import { StagehandPage } from "../StagehandPage";
-import { drawObserveOverlay } from "../utils";
+import { drawObserveOverlay, trimTrailingTextNode } from "../utils";
 import {
   getAccessibilityTree,
   getAccessibilityTreeWithFrames,
@@ -168,23 +168,39 @@ export class StagehandObserveHandler {
           },
         });
 
-        const lookUpIndex = elementId as EncodedId;
-        const xpath = combinedXpathMap[lookUpIndex];
+        if (elementId.includes("-")) {
+          const lookUpIndex = elementId as EncodedId;
+          const xpath = combinedXpathMap[lookUpIndex];
 
-        if (!xpath || xpath === "") {
+          const trimmedXpath = trimTrailingTextNode(xpath);
+
+          if (!trimmedXpath || trimmedXpath === "") {
+            this.logger({
+              category: "observation",
+              message: `Empty xpath returned for element: ${elementId}`,
+              level: 1,
+            });
+          }
+
+          return {
+            ...rest,
+            selector: `xpath=${trimmedXpath}`,
+            // Provisioning or future use if we want to use direct CDP
+            // backendNodeId: elementId,
+          };
+        } else {
           this.logger({
             category: "observation",
-            message: `Empty xpath returned for element: ${elementId}`,
-            level: 1,
+            message: `Element is inside a shadow DOM: ${elementId}`,
+            level: 0,
           });
+          return {
+            description: "an element inside a shadow DOM",
+            method: "not-supported",
+            arguments: [] as string[],
+            selector: "not-supported",
+          };
         }
-
-        return {
-          ...rest,
-          selector: `xpath=${xpath}`,
-          // Provisioning or future use if we want to use direct CDP
-          // backendNodeId: elementId,
-        };
       }),
     );
 
