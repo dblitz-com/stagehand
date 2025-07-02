@@ -830,8 +830,6 @@ export class Stagehand {
 
     this.browserbaseSessionID = sessionId;
 
-    await this.stagehandPage.configureDownloads();
-
     return { debugUrl, sessionUrl, sessionId };
   }
 
