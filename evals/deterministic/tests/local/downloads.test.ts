@@ -10,6 +10,7 @@ test("Default download behaviour (local)", async () => {
   await fs.mkdir(downloadsDir, { recursive: true });
   const stagehand = new Stagehand({
     ...StagehandConfig,
+    env: "LOCAL",
   });
   await stagehand.init();
   const page = stagehand.page;
@@ -38,21 +39,67 @@ test("Default download behaviour (local)", async () => {
   const finalPath: string = path.join(downloadsDir, suggested);
 
   await expect
-    .poll(async () => {
-      try {
-        const stat = await fs.stat(finalPath);
-        return stat.isFile() && stat.size === expectedFileSize;
-      } catch {
-        return false;
-      }
-    }, {
-      message: `Expected "${suggested}" in ${downloadsDir}`,
-      timeout: 10_000,
-    })
+    .poll(
+      async () => {
+        try {
+          const stat = await fs.stat(finalPath);
+          return stat.isFile() && stat.size === expectedFileSize;
+        } catch {
+          return false;
+        }
+      },
+      {
+        message: `Expected "${suggested}" in ${downloadsDir}`,
+        timeout: 10_000,
+      },
+    )
     .toBe(true);
 
   const { size } = await fs.stat(finalPath);
   expect(size).toBe(expectedFileSize);
 
   await stagehand.close();
+});
+
+const downloadRe = /sandstorm\.mp3/;
+
+test("Downloads", async () => {
+  const stagehand = new Stagehand({
+    ...StagehandConfig,
+    env: "LOCAL",
+  });
+  await stagehand.init();
+  const page = stagehand.page;
+
+  await page.goto("https://browser-tests-alpha.vercel.app/api/download-test");
+
+  const [download] = await Promise.all([
+    page.waitForEvent("download"),
+    page.locator("#download").click(),
+  ]);
+
+  const downloadError = await download.failure();
+
+  if (downloadError !== null) {
+    throw new Error(`Download failed: ${downloadError}`);
+  }
+
+  const suggestedFilename = download.suggestedFilename();
+  const filePath = path.join(stagehand.downloadsPath, suggestedFilename);
+
+  await stagehand.close();
+
+  // Verify the download exists and matches expected pattern
+  expect(
+    await fs
+      .access(filePath)
+      .then(() => true)
+      .catch(() => false),
+  ).toBe(true);
+  expect(suggestedFilename).toMatch(downloadRe);
+
+  // Verify file size
+  const stats = await fs.stat(filePath);
+  const expectedFileSize = 6137541;
+  expect(stats.size).toBe(expectedFileSize);
 });
