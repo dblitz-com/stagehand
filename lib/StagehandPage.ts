@@ -33,6 +33,8 @@ import {
 import { StagehandAPIError } from "@/types/stagehandApiErrors";
 import { scriptContent } from "@/lib/dom/build/scriptContent";
 import type { Protocol } from "devtools-protocol";
+import fs from "fs";
+import path from "path";
 
 export class StagehandPage {
   private stagehand: Stagehand;
@@ -118,6 +120,71 @@ export class StagehandPage {
         logger: this.stagehand.logger,
         stagehandPage: this,
         userProvidedInstructions,
+      });
+    }
+  }
+
+  public async configureDownloads(): Promise<void> {
+    const downloadDir =
+      this.stagehand.env === "BROWSERBASE"
+        ? "downloads"
+        : (this.stagehand["localBrowserLaunchOptions"]?.downloadsPath ??
+          path.resolve(process.cwd(), "downloads"));
+
+    if (this.stagehand.env !== "BROWSERBASE") {
+      // Ensure the directory exists locally
+      fs.mkdirSync(downloadDir, { recursive: true });
+    }
+
+    const setBrowserLevel = async (): Promise<void> => {
+      const browser = this.stagehand["_browser"];
+      if (!browser) return;
+
+      const session = await browser.newBrowserCDPSession();
+      await session.send(
+        "Browser.setDownloadBehavior", {
+          behavior: "allow",
+          downloadPath: downloadDir,
+          eventsEnabled: true,
+        }
+      );
+    };
+
+    const setPageLevel = async (pg: PlaywrightPage): Promise<void> => {
+      const session = await this.context.newCDPSession(pg);
+      await session.send(
+        "Page.setDownloadBehavior", {
+          behavior: "allow",
+          downloadPath: downloadDir,
+        }
+      );
+    };
+
+    try {
+      if (this.stagehand.env === "BROWSERBASE") {
+        await setBrowserLevel();
+      } else {
+        // Apply to every existing page
+        await Promise.all(this.context.pages().map(setPageLevel));
+        // and to all future pages created in this context
+        this.context.on("page", setPageLevel);
+      }
+      this.stagehand.log({
+        category: "downloads",
+        level: 2,
+        message: "Download behaviour configured",
+        auxiliary: {
+          directory: { value: downloadDir, type: "string" },
+        },
+      });
+    } catch (err) {
+      this.stagehand.log({
+        category: "downloads",
+        message: "Failed to configure download behaviour",
+        level: 0,
+        auxiliary: {
+          error: { value: (err as Error).message, type: "string" },
+        },
       });
     }
   }
@@ -407,6 +474,7 @@ ${scriptContent} \
                   );
 
                   await newStagehandPage.init();
+                  await newStagehandPage.configureDownloads();
                   listener(newStagehandPage.page);
                 });
               }

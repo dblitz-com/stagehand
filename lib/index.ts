@@ -1,5 +1,5 @@
 import { Browserbase } from "@browserbasehq/sdk";
-import { Browser, CDPSession, chromium } from "playwright";
+import { Browser, chromium } from "playwright";
 import dotenv from "dotenv";
 import fs from "fs";
 import os from "os";
@@ -816,46 +816,7 @@ export class Stagehand {
 
     this.browserbaseSessionID = sessionId;
 
-    const downloadsDir =
-      this.env === "BROWSERBASE"
-        ? "downloads"
-        : (this.localBrowserLaunchOptions?.downloadsPath ??
-          path.resolve(process.cwd(), "downloads"));
-
-    const enableDownloads = async (): Promise<void> => {
-      try {
-        if (this._browser) {
-          const browserSession: CDPSession =
-            await this._browser.newBrowserCDPSession();
-          await browserSession.send("Browser.setDownloadBehavior", {
-            behavior: "allow",
-            downloadPath: downloadsDir,
-            eventsEnabled: true,
-          });
-          return;
-        }
-
-        const applyToPage = async (page: Page): Promise<void> => {
-          const pageSession: CDPSession =
-            await this.context.newCDPSession(page);
-          await pageSession.send("Page.setDownloadBehavior", {
-            behavior: "allow",
-            downloadPath: downloadsDir,
-          });
-        };
-
-        // existing pages
-        await Promise.all(this.context.pages().map(applyToPage));
-        // future pages
-        this.context.on("page", applyToPage);
-      } catch (err) {
-        this.stagehandLogger.warn("Failed to set download behaviour", {
-          error: String(err),
-        });
-      }
-    };
-
-    await enableDownloads();
+    await this.stagehandPage.configureDownloads();
 
     return { debugUrl, sessionUrl, sessionId };
   }
