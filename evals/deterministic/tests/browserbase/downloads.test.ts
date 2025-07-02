@@ -89,7 +89,7 @@ test("Default download behaviour", async () => {
     );
   }
 
-  expect(async () => {
+  await expect(async () => {
     const bb = new Browserbase();
     const zipBuffer = await bb.sessions.downloads.list(
       stagehand.browserbaseSessionID,
