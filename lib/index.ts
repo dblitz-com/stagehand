@@ -315,12 +315,6 @@ async function getBrowser(
     }
     // This will always be when null launched with chromium.launchPersistentContext, but not when connected over CDP to an existing browser
     const browser = context.browser();
-    const session = await browser.newBrowserCDPSession();
-    await session.send("Browser.setDownloadBehavior", {
-      behavior: "allow",
-      downloadPath: this.downloadsPath,
-      eventsEnabled: true,
-    });
 
     logger({
       category: "init",
@@ -825,6 +819,13 @@ export class Stagehand {
 `;
     await this.context.addInitScript({
       content: guardedScript,
+    });
+
+    const session = await this.context.newCDPSession(this.page);
+    await session.send("Browser.setDownloadBehavior", {
+      behavior: "allow",
+      downloadPath: this.downloadsPath,
+      eventsEnabled: true,
     });
 
     this.browserbaseSessionID = sessionId;
