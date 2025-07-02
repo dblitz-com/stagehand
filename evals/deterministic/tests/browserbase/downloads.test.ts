@@ -8,10 +8,7 @@ const downloadRe = /sandstorm-(\d{13})+\.mp3/;
 const pdfRe = /sample-(\d{13})+\.pdf/;
 
 test("Downloads", async () => {
-  const stagehand = new Stagehand({
-    ...StagehandConfig,
-    env: "BROWSERBASE",
-  });
+  const stagehand = new Stagehand({...StagehandConfig, env: "BROWSERBASE", useAPI: false});
   await stagehand.init();
   const page = stagehand.page;
 
@@ -32,7 +29,7 @@ test("Downloads", async () => {
     );
   }
 
-  expect(async () => {
+  await expect(async () => {
     const bb = new Browserbase();
     const zipBuffer = await bb.sessions.downloads.list(
       stagehand.browserbaseSessionID,
@@ -63,10 +60,7 @@ test("Downloads", async () => {
 });
 
 test("Default download behaviour", async () => {
-  const stagehand = new Stagehand({
-    ...StagehandConfig,
-    env: "BROWSERBASE",
-  });
+  const stagehand = new Stagehand({...StagehandConfig, env: "BROWSERBASE", useAPI: false});
   await stagehand.init();
   const page = stagehand.page;
 
