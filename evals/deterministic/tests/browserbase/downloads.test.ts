@@ -8,19 +8,13 @@ const downloadRe = /sandstorm-(\d{13})+\.mp3/;
 const pdfRe = /sample-(\d{13})+\.pdf/;
 
 test("Downloads", async () => {
-  const stagehand = new Stagehand({...StagehandConfig, env: "BROWSERBASE", useAPI: false});
+  const stagehand = new Stagehand({
+    ...StagehandConfig,
+    env: "BROWSERBASE",
+    useAPI: false,
+  });
   await stagehand.init();
   const page = stagehand.page;
-  const context = stagehand.context;
-
-  const client = await context.newCDPSession(page);
-  await client.send("Browser.setDownloadBehavior", {
-    behavior: "allow",
-    // `downloadPath` gets appended to the browser's default download directory.
-    // set to "downloads", it ends up being "/app/apps/browser/downloads/<file>".
-    downloadPath: "downloads",
-    eventsEnabled: true,
-  });
 
   await page.goto("https://browser-tests-alpha.vercel.app/api/download-test");
 
@@ -70,11 +64,17 @@ test("Downloads", async () => {
 });
 
 test("Default download behaviour", async () => {
-  const stagehand = new Stagehand({...StagehandConfig, env: "BROWSERBASE", useAPI: false});
+  const stagehand = new Stagehand({
+    ...StagehandConfig,
+    env: "BROWSERBASE",
+    useAPI: false,
+  });
   await stagehand.init();
   const page = stagehand.page;
 
-  await page.goto("https://browserbase.github.io/stagehand-eval-sites/sites/download-on-click/");
+  await page.goto(
+    "https://browserbase.github.io/stagehand-eval-sites/sites/download-on-click/",
+  );
 
   const [download] = await Promise.all([
     page.waitForEvent("download"),
@@ -104,9 +104,7 @@ test("Default download behaviour", async () => {
 
     const zip = new AdmZip(Buffer.from(await zipBuffer.arrayBuffer()));
     const zipEntries = zip.getEntries();
-    const pdfEntry = zipEntries.find((entry) =>
-      pdfRe.test(entry.entryName),
-    );
+    const pdfEntry = zipEntries.find((entry) => pdfRe.test(entry.entryName));
 
     if (!pdfEntry) {
       throw new Error(

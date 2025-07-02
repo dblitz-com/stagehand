@@ -137,6 +137,7 @@ test.describe("StagehandContext - Multi-page Support", () => {
 
     await mainPage.goto(`http://localhost:${serverPort}/page1`);
     await mainPage.click("#popupBtn");
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Verify popup has enhanced capabilities
     expect(popupPage).not.toBeNull();
