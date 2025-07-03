@@ -354,7 +354,7 @@ export async function selectOption(ctx: MethodHandlerContext) {
   const { locator, xpath, args, logger } = ctx;
   try {
     const text = args[0]?.toString() || "";
-    await locator.selectOption(text);
+    await locator.selectOption(text, { timeout: 5000 });
   } catch (e) {
     logger({
       category: "action",
