@@ -16,6 +16,17 @@ test("Downloads", async () => {
   await stagehand.init();
   const page = stagehand.page;
 
+  const context = stagehand.context;
+
+  const client = await context.newCDPSession(page);
+  await client.send("Browser.setDownloadBehavior", {
+    behavior: "allow",
+    // `downloadPath` gets appended to the browser's default download directory.
+    // set to "downloads", it ends up being "/app/apps/browser/downloads/<file>".
+    downloadPath: "downloads",
+    eventsEnabled: true,
+  });
+
   await page.goto("https://browser-tests-alpha.vercel.app/api/download-test");
 
   const [download] = await Promise.all([
