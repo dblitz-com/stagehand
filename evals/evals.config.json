@@ -386,6 +386,10 @@
     {
       "name": "os_dropdown",
       "categories": ["act"]
+    },
+    {
+      "name": "custom_dropdown",
+      "categories": ["act"]
     }
   ]
 }
