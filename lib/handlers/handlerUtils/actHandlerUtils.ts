@@ -359,7 +359,7 @@ export async function selectOption(ctx: MethodHandlerContext) {
     logger({
       category: "action",
       message: "error selecting option",
-      level: 1,
+      level: 0,
       auxiliary: {
         error: { value: e.message, type: "string" },
         trace: { value: e.stack, type: "string" },
