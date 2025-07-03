@@ -122,36 +122,6 @@ export class StagehandPage {
     }
   }
 
-  public async configureDownloads(): Promise<void> {
-    const downloadDir = this.stagehand.downloadsPath;
-
-    const session = await this.getCDPClient(this.rawPage);
-    await session.send("Page.setDownloadBehavior", {
-      behavior: "allow",
-      downloadPath: downloadDir,
-    });
-
-    try {
-      this.stagehand.log({
-        category: "downloads",
-        level: 2,
-        message: "Download behaviour configured",
-        auxiliary: {
-          directory: { value: downloadDir, type: "string" },
-        },
-      });
-    } catch (err) {
-      this.stagehand.log({
-        category: "downloads",
-        message: "Failed to configure download behaviour",
-        level: 0,
-        auxiliary: {
-          error: { value: (err as Error).message, type: "string" },
-        },
-      });
-    }
-  }
-
   public ordinalForFrameId(fid: string | undefined): number {
     if (fid === undefined) return 0;
 
@@ -455,7 +425,6 @@ ${scriptContent} \
       };
 
       this.intPage = new Proxy(page, handler) as unknown as Page;
-      await this.configureDownloads();
       this.initialized = true;
       return this;
     } catch (err: unknown) {
