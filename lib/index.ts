@@ -614,6 +614,13 @@ export class Stagehand {
 
     if (llmClient) {
       this.llmClient = llmClient;
+      this.logger({
+        category: "init",
+        message:
+          "Custom LLM clients are currently not supported in API mode, share your feedback in slack! https://stagehand.dev/slack",
+        level: 1,
+      });
+      this.usingAPI = false;
     } else {
       try {
         // try to set a default LLM client
