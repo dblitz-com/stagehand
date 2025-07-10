@@ -486,7 +486,7 @@ export class AnthropicCUAClient extends AgentClient {
     computerType: string;
     betaFlag: string;
   } {
-    // Claude 4 models and Claude Sonnet 3.7 use computer_20250124 with computer-use-2025-01-24
+    // Claude 3.5 models use computer_20241022 with computer-use-2024-10-22
     if (
       modelName.includes("claude-3-5-sonnet") ||
       modelName.includes("claude-3-5")
