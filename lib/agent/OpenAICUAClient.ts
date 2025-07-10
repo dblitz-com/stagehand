@@ -46,9 +46,17 @@ export class OpenAICUAClient extends AgentClient {
     this.baseURL = (clientOptions?.baseURL as string) || undefined;
 
     // Get environment if specified
+    // Store client options for reference
+    this.clientOptions = {
+      apiKey: this.apiKey,
+    };
+
     if (this.baseURL) {
       this.clientOptions.baseURL = this.baseURL;
     }
+
+    // Initialize the OpenAI client
+    this.client = new OpenAI(this.clientOptions);
 
     // Store client options for reference
     this.clientOptions = {
