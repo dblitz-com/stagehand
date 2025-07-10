@@ -617,7 +617,7 @@ export class Stagehand {
       this.logger({
         category: "init",
         message:
-          "Custom LLM clients are currently not supported in API mode, share your feedback in slack! https://stagehand.dev/slack",
+          "Custom LLM clients are currently not supported in API mode",
         level: 1,
       });
       this.usingAPI = false;
