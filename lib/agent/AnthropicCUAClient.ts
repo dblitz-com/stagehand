@@ -42,7 +42,6 @@ export class AnthropicCUAClient extends AgentClient {
     // Process client options
     this.apiKey =
       (clientOptions?.apiKey as string) || process.env.ANTHROPIC_API_KEY || "";
-    console.log("USING API KEY", this.apiKey);
     this.baseURL = (clientOptions?.baseURL as string) || undefined;
 
     // Get thinking budget if specified
