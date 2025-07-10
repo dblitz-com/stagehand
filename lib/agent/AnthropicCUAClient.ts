@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import Anthropic, { ClientOptions } from "@anthropic-ai/sdk";
 import { LogLine } from "@/types/log";
 import {
   AgentAction,
@@ -35,7 +35,7 @@ export class AnthropicCUAClient extends AgentClient {
     type: AgentType,
     modelName: string,
     userProvidedInstructions?: string,
-    clientOptions?: Record<string, unknown>,
+    clientOptions?: ClientOptions,
   ) {
     super(type, modelName, userProvidedInstructions);
 
@@ -43,14 +43,6 @@ export class AnthropicCUAClient extends AgentClient {
     this.apiKey =
       (clientOptions?.apiKey as string) || process.env.ANTHROPIC_API_KEY || "";
     this.baseURL = (clientOptions?.baseURL as string) || undefined;
-
-    // Get thinking budget if specified
-    if (
-      clientOptions?.thinkingBudget &&
-      typeof clientOptions.thinkingBudget === "number"
-    ) {
-      this.thinkingBudget = clientOptions.thinkingBudget;
-    }
 
     // Store client options for reference
     this.clientOptions = {

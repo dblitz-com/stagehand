@@ -4,7 +4,6 @@ import {
   AgentType,
   AgentExecutionOptions,
 } from "@/types/agent";
-import { ClientOptions } from "@anthropic-ai/sdk";
 
 /**
  * Abstract base class for agent clients
@@ -13,7 +12,7 @@ import { ClientOptions } from "@anthropic-ai/sdk";
 export abstract class AgentClient {
   public type: AgentType;
   public modelName: string;
-  public clientOptions: ClientOptions;
+  public clientOptions: Record<string, unknown>;
   public userProvidedInstructions?: string;
 
   constructor(
