@@ -35,6 +35,8 @@ const ALL_EVAL_MODELS = [
   "o3",
   "o3-mini",
   "o4-mini",
+  // OPENROUTER
+  "x-ai/grok-4",
   // TOGETHER - META
   "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
   "meta-llama/Llama-3.3-70B-Instruct-Turbo",
@@ -136,6 +138,8 @@ const filterModelByProvider = (model: string, provider: string): boolean => {
     return modelLower.startsWith("claude");
   } else if (provider === "google") {
     return modelLower.startsWith("gemini");
+  } else if (provider === "openrouter") {
+    return modelLower.startsWith("x-ai/");
   } else if (provider === "together") {
     return (
       modelLower.startsWith("meta-llama") ||

@@ -39,6 +39,7 @@ import { groq } from "@ai-sdk/groq";
 import { cerebras } from "@ai-sdk/cerebras";
 import { openai } from "@ai-sdk/openai";
 import { AISdkClient } from "@/examples/external_clients/aisdk";
+import { OpenRouterClient } from "@/lib/llm/OpenRouterClient";
 dotenv.config();
 
 /**
@@ -351,6 +352,17 @@ const generateFilteredTestcases = (): Testcase[] => {
                 ),
               ),
             });
+          } else if (input.modelName.startsWith("x-ai/")) {
+            // Handle OpenRouter models (e.g., x-ai/grok-4) using native OpenRouterClient
+            llmClient = new OpenRouterClient({
+              logger: logger.log.bind(logger),
+              enableCaching: false,
+              cache: undefined,
+              modelName: input.modelName as AvailableModel,
+              clientOptions: {
+                apiKey: process.env.OPENROUTER_API_KEY,
+              },
+            });
           } else if (input.modelName.includes("/")) {
             llmClient = new CustomOpenAIClient({
               modelName: input.modelName as AvailableModel,
@@ -361,6 +373,10 @@ const generateFilteredTestcases = (): Testcase[] => {
                 }),
               ),
             });
+          } else {
+            throw new StagehandEvalError(
+              `Unsupported model: ${input.modelName}. Please add support for this model in the evals.`,
+            );
           }
           const taskInput = await initStagehand({
             logger,

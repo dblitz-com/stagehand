@@ -17,6 +17,7 @@ import { GoogleClient } from "./GoogleClient";
 import { GroqClient } from "./GroqClient";
 import { LLMClient } from "./LLMClient";
 import { OpenAIClient } from "./OpenAIClient";
+import { OpenRouterClient } from "./OpenRouterClient";
 import { openai, createOpenAI } from "@ai-sdk/openai";
 import { anthropic, createAnthropic } from "@ai-sdk/anthropic";
 import { google, createGoogleGenerativeAI } from "@ai-sdk/google";
@@ -91,6 +92,7 @@ const modelToProviderMap: { [key in AvailableModel]: ModelProvider } = {
   "gemini-2.0-flash": "google",
   "gemini-2.5-flash-preview-04-17": "google",
   "gemini-2.5-pro-preview-03-25": "google",
+  "x-ai/grok-4": "openrouter",
 };
 
 function getAISDKLanguageModel(
@@ -215,6 +217,14 @@ export class LLMProvider {
         });
       case "google":
         return new GoogleClient({
+          logger: this.logger,
+          enableCaching: this.enableCaching,
+          cache: this.cache,
+          modelName: availableModel,
+          clientOptions,
+        });
+      case "openrouter":
+        return new OpenRouterClient({
           logger: this.logger,
           enableCaching: this.enableCaching,
           cache: this.cache,

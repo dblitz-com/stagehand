@@ -32,6 +32,7 @@ export const AvailableModelSchema = z.enum([
   "gemini-2.0-flash",
   "gemini-2.5-flash-preview-04-17",
   "gemini-2.5-pro-preview-03-25",
+  "x-ai/grok-4",
 ]);
 
 export type AvailableModel = z.infer<typeof AvailableModelSchema> | string;
@@ -42,6 +43,7 @@ export type ModelProvider =
   | "cerebras"
   | "groq"
   | "google"
+  | "openrouter"
   | "aisdk";
 
 export type ClientOptions = OpenAIClientOptions | AnthropicClientOptions;

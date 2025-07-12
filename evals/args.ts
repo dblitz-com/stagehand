@@ -93,7 +93,7 @@ function buildUsage(detailed = false): string {
         providerDefault,
       )})       [${chalk.yellow("OPENAI")}, ${chalk.yellow(
         "ANTHROPIC",
-      )}, ${chalk.yellow("GOOGLE")}, ${chalk.yellow("TOGETHER")}, ${chalk.yellow(
+      )}, ${chalk.yellow("GOOGLE")}, ${chalk.yellow("OPENROUTER")}, ${chalk.yellow("TOGETHER")}, ${chalk.yellow(
         "GROQ",
       )}, ${chalk.yellow("CEREBRAS")}]
 
