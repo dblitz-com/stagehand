@@ -1,6 +1,5 @@
 import OpenAI from "openai";
 import type { ClientOptions } from "openai";
-import { zodResponseFormat } from "openai/helpers/zod";
 import {
   ChatCompletionContentPartImage,
   ChatCompletionContentPartText,
@@ -242,40 +241,28 @@ export class OpenRouterClient extends LLMClient {
     }));
 
     // Handle response format for structured outputs
-    let responseFormat = undefined;
+    // OpenRouter only supports response_format for certain models (OpenAI, Nitro, etc.)
+    // Since we can't reliably detect which models support it, always use instruction-based approach
     if (options.response_model) {
-      try {
-        responseFormat = zodResponseFormat(
-          options.response_model.schema,
-          options.response_model.name,
-        );
-      } catch (error) {
-        // OpenRouter might not support structured outputs, fall back to instructions
-        logger({
-          category: "openrouter",
-          message:
-            "Structured output not supported, falling back to instructions",
-          level: 1,
-          auxiliary: {
-            requestId: {
-              value: options.requestId,
-              type: "string",
-            },
-            error: {
-              value: error.message || String(error),
-              type: "string",
-            },
+      logger({
+        category: "openrouter",
+        message: "Using instruction-based approach for response model",
+        level: 1,
+        auxiliary: {
+          requestId: {
+            value: options.requestId,
+            type: "string",
           },
-        });
+        },
+      });
 
-        const parsedSchema = JSON.stringify(
-          zodToJsonSchema(options.response_model.schema),
-        );
-        formattedMessages.push({
-          role: "user",
-          content: `Respond in this JSON schema format:\n${parsedSchema}\n\nDo not include any other text, formatting or markdown in your output. Only the JSON object itself.`,
-        });
-      }
+      const parsedSchema = JSON.stringify(
+        zodToJsonSchema(options.response_model.schema),
+      );
+      formattedMessages.push({
+        role: "user",
+        content: `Respond with ONLY valid JSON that matches this exact schema:\n${parsedSchema}\n\nIMPORTANT: Your response must be valid JSON with no additional text, explanations, or markdown formatting. Start your response with '{' and end with '}'. Do not use \`\`\`json or any other formatting.`,
+      });
     }
 
     try {
@@ -288,7 +275,6 @@ export class OpenRouterClient extends LLMClient {
         tools: tools,
         tool_choice:
           tools && tools.length > 0 ? options.tool_choice || "auto" : undefined,
-        response_format: responseFormat,
         top_p: options.top_p,
         frequency_penalty: options.frequency_penalty,
         presence_penalty: options.presence_penalty,
@@ -334,10 +320,140 @@ export class OpenRouterClient extends LLMClient {
         },
       });
 
-      // Handle response_model extraction (OpenAI-style, not tool-based)
+      // Handle response_model extraction
       if (options.response_model) {
-        const extractedData = response.choices[0].message.content;
-        const parsedData = JSON.parse(extractedData);
+        let extractedData;
+
+        // Check if we have content in the message
+        if (response.choices[0].message.content) {
+          extractedData = response.choices[0].message.content;
+        }
+        // Check if the model returned a tool call instead (some models do this)
+        else if (
+          response.choices[0].message.tool_calls &&
+          response.choices[0].message.tool_calls.length > 0
+        ) {
+          // Try to extract from tool calls as a fallback
+          const toolCall = response.choices[0].message.tool_calls[0];
+          extractedData = toolCall.function.arguments;
+        } else {
+          logger({
+            category: "openrouter",
+            message: "No content or tool calls found in OpenRouter response",
+            level: 0,
+            auxiliary: {
+              response: {
+                value: JSON.stringify(response),
+                type: "object",
+              },
+              requestId: {
+                value: options.requestId,
+                type: "string",
+              },
+            },
+          });
+
+          if (retries > 0) {
+            return this.createChatCompletion({
+              options,
+              retries: retries - 1,
+              logger,
+            });
+          }
+
+          throw new CreateChatCompletionResponseError(
+            "No content or tool calls found in OpenRouter response for response_model",
+          );
+        }
+
+        let parsedData;
+        try {
+          parsedData = JSON.parse(extractedData);
+        } catch (parseError) {
+          // Try to extract JSON from the response if it's wrapped in text or markdown
+          let cleanedData = extractedData;
+
+          // Remove markdown code blocks
+          cleanedData = cleanedData
+            .replace(/```json\n?/g, "")
+            .replace(/```\n?/g, "");
+
+          // Try to find JSON object in the text
+          const jsonMatch = cleanedData.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            try {
+              parsedData = JSON.parse(jsonMatch[0]);
+            } catch (secondParseError) {
+              logger({
+                category: "openrouter",
+                message: "Failed to parse cleaned response as JSON",
+                level: 0,
+                auxiliary: {
+                  originalData: {
+                    value: extractedData,
+                    type: "string",
+                  },
+                  cleanedData: {
+                    value: jsonMatch[0],
+                    type: "string",
+                  },
+                  parseError: {
+                    value: secondParseError.message,
+                    type: "string",
+                  },
+                  requestId: {
+                    value: options.requestId,
+                    type: "string",
+                  },
+                },
+              });
+
+              if (retries > 0) {
+                return this.createChatCompletion({
+                  options,
+                  retries: retries - 1,
+                  logger,
+                });
+              }
+
+              throw new CreateChatCompletionResponseError(
+                `Failed to parse OpenRouter response as JSON: ${secondParseError.message}`,
+              );
+            }
+          } else {
+            logger({
+              category: "openrouter",
+              message: "No JSON found in response",
+              level: 0,
+              auxiliary: {
+                extractedData: {
+                  value: extractedData,
+                  type: "string",
+                },
+                parseError: {
+                  value: parseError.message,
+                  type: "string",
+                },
+                requestId: {
+                  value: options.requestId,
+                  type: "string",
+                },
+              },
+            });
+
+            if (retries > 0) {
+              return this.createChatCompletion({
+                options,
+                retries: retries - 1,
+                logger,
+              });
+            }
+
+            throw new CreateChatCompletionResponseError(
+              `No JSON found in OpenRouter response: ${parseError.message}`,
+            );
+          }
+        }
 
         try {
           validateZodSchema(options.response_model.schema, parsedData);
@@ -346,6 +462,16 @@ export class OpenRouterClient extends LLMClient {
             category: "openrouter",
             message: "Response failed Zod schema validation",
             level: 0,
+            auxiliary: {
+              parsedData: {
+                value: JSON.stringify(parsedData),
+                type: "object",
+              },
+              requestId: {
+                value: options.requestId,
+                type: "string",
+              },
+            },
           });
           if (retries > 0) {
             return this.createChatCompletion({
