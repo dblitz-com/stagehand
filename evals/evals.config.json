@@ -41,6 +41,10 @@
       "categories": ["act"]
     },
     {
+      "name": "zquery_extract_multiple",
+      "categories": ["extract", "custom"]
+    },
+    {
       "name": "vantechjournal",
       "categories": ["act"]
     },

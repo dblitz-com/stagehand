@@ -1,0 +1,225 @@
+🎯 STARTING ZQUERY WRAPPER EVALUATION
+=====================================
+Testing UnifiedStagehandManager with official evaluation suite
+This proves our wrapper maintains full compatibility + adds value
+
+🎯 ZQUERY EVALUATION: Using models for this run (default): [ 'gemini-2.0-flash', 'gpt-4.1-mini', 'claude-3-5-sonnet-latest' ]
+🎯 ZQUERY final test cases to run: 0: simple_google_search (gemini-2.0-flash): act\n1: simple_google_search (gpt-4.1-mini): act\n2: simple_google_search (claude-3-5-sonnet-latest): act
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: gemini-2.0-flash
+🌐 Environment: LOCAL
+🔑 API Key: NOT SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+✅ Stagehand initialized successfully
+[2025-07-12 21:02:57.789 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+[2025-07-12 21:02:58.808 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "type \"OpenAI\" into the search bar"
+    requestId: "ltucnz3ay68"
+    modelName: "gemini-2.0-flash"
+[2025-07-12 21:02:58.808 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: type \"OpenAI\" into the search bar. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+[2025-07-12 21:02:59.311 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:02:59.345 -0500] [32mINFO[39m: [36mgot accessibility tree in 2 ms[39m
+    category: "observation"
+✅ Stagehand closed successfully
+❌ ZQUERY simple_google_search: ERROR - StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+2025-07-13T02:02:59.484Z::[stagehand:undefined] Error in ZQUERY task simple_google_search
+ 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+ StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+    at _StagehandPage.<anonymous> (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:3953:15)
+    at Generator.throw (<anonymous>)
+    at rejected (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:73:29)
+Task "simple_google_search" returned: [object Object]
+Task "simple_google_search" returned: [object Object]
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: gpt-4.1-mini
+🌐 Environment: LOCAL
+🔑 API Key: NOT SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+✅ Stagehand initialized successfully
+[2025-07-12 21:03:00.016 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+[2025-07-12 21:03:00.735 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "type \"OpenAI\" into the search bar"
+    requestId: "ov1kkdz2f7"
+    modelName: "gpt-4.1-mini"
+[2025-07-12 21:03:00.735 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: type \"OpenAI\" into the search bar. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+✅ Stagehand closed successfully
+❌ ZQUERY simple_google_search: ERROR - StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+OpenAI API key is missing. Pass it using the 'apiKey' parameter or the OPENAI_API_KEY environment variable.
+2025-07-13T02:03:01.395Z::[stagehand:undefined] Error in ZQUERY task simple_google_search
+ 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+OpenAI API key is missing. Pass it using the 'apiKey' parameter or the OPENAI_API_KEY environment variable.
+ StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+OpenAI API key is missing. Pass it using the 'apiKey' parameter or the OPENAI_API_KEY environment variable.
+    at _StagehandPage.<anonymous> (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:3953:15)
+    at Generator.throw (<anonymous>)
+    at rejected (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:73:29)
+Task "simple_google_search" returned: [object Object]
+Task "simple_google_search" returned: [object Object]
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: claude-3-5-sonnet-latest
+🌐 Environment: LOCAL
+🔑 API Key: SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+[2025-07-12 21:03:01.239 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:03:01.257 -0500] [32mINFO[39m: [36mgot accessibility tree in 0 ms[39m
+    category: "observation"
+✅ Stagehand initialized successfully
+[2025-07-12 21:03:01.968 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+[2025-07-12 21:03:02.641 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "type \"OpenAI\" into the search bar"
+    requestId: "88f0p0ukhek"
+    modelName: "claude-3-5-sonnet-latest"
+[2025-07-12 21:03:02.641 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: type \"OpenAI\" into the search bar. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+[2025-07-12 21:03:03.146 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:03:03.178 -0500] [32mINFO[39m: [36mgot accessibility tree in 1 ms[39m
+    category: "observation"
+[2025-07-12 21:03:05.630 -0500] [32mINFO[39m: [36mGetting xpath for element[39m
+    category: "observation"
+    elementId: "0-4"
+[2025-07-12 21:03:05.630 -0500] [32mINFO[39m: [36mfound elements[39m
+    category: "observation"
+    elements: [
+      {
+        "description": "search combobox where users can enter their search query",
+        "method": "fill",
+        "arguments": [
+          "OpenAI"
+        ],
+        "selector": "xpath=/html[1]/body[1]/div[1]/div[3]/form[1]/div[1]/div[1]/div[1]/div[1]/div[2]/textarea[1]"
+      }
+    ]
+[2025-07-12 21:03:05.631 -0500] [32mINFO[39m: [36mPerforming act from an ObserveResult[39m
+    category: "action"
+    observeResult: {
+      "description": "search combobox where users can enter their search query",
+      "method": "fill",
+      "arguments": [
+        "OpenAI"
+      ],
+      "selector": "xpath=/html[1]/body[1]/div[1]/div[3]/form[1]/div[1]/div[1]/div[1]/div[1]/div[2]/textarea[1]"
+    }
+[2025-07-12 21:03:06.168 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "click the search button"
+    requestId: "1erf3lk12y4"
+    modelName: "claude-3-5-sonnet-latest"
+[2025-07-12 21:03:06.168 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: click the search button. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+[2025-07-12 21:03:06.673 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:03:06.703 -0500] [32mINFO[39m: [36mgot accessibility tree in 2 ms[39m
+    category: "observation"
+[2025-07-12 21:03:08.542 -0500] [32mINFO[39m: [36mGetting xpath for element[39m
+    category: "observation"
+    elementId: "0-656"
+[2025-07-12 21:03:08.542 -0500] [32mINFO[39m: [36mfound elements[39m
+    category: "observation"
+    elements: [
+      {
+        "description": "Google Search button in the main search area",
+        "method": "click",
+        "arguments": [],
+        "selector": "xpath=/html[1]/body[1]/div[1]/div[3]/form[1]/div[1]/div[1]/div[2]/div[4]/div[6]/center[1]/input[1]"
+      }
+    ]
+[2025-07-12 21:03:08.542 -0500] [32mINFO[39m: [36mPerforming act from an ObserveResult[39m
+    category: "action"
+    observeResult: {
+      "description": "Google Search button in the main search area",
+      "method": "click",
+      "arguments": [],
+      "selector": "xpath=/html[1]/body[1]/div[1]/div[3]/form[1]/div[1]/div[1]/div[2]/div[4]/div[6]/center[1]/input[1]"
+    }
+[2025-07-12 21:03:08.638 -0500] [32mINFO[39m: [36mclick, checking for page navigation[39m
+    category: "action"
+    xpath: "/html[1]/body[1]/div[1]/div[3]/form[1]/div[1]/div[1]/div[2]/div[4]/div[6]/center[1]/input[1]"
+[2025-07-12 21:03:10.139 -0500] [32mINFO[39m: [36mclick complete[39m
+    category: "action"
+    newOpenedTab: "no new tabs opened"
+[2025-07-12 21:03:10.647 -0500] [32mINFO[39m: [36mfinished waiting for (possible) page navigation[39m
+    category: "action"
+[2025-07-12 21:03:10.647 -0500] [32mINFO[39m: [36mnew page detected with URL[39m
+    category: "action"
+    url: "https://browserbase.github.io/stagehand-eval-sites/sites/google/openai.html"
+✅ ZQUERY simple_google_search: PASSED
+✅ Stagehand closed successfully
+Task "simple_google_search" returned: [object Object]
+Task "simple_google_search" returned: [object Object]
+ █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ | stagehand-zquery-dev [experimentName=... |   3% | 3/100 datapoints
+
+=========================SUMMARY=========================
+zquery-wrapper-simple_google_search_local_20250713020257 compared to zquery-wrapper-simple_google_search_local_20250713020147:
+66.67% (0.00%) 'Error rate'  score	(0 improvements, 0 regressions)
+33.33% (0.00%) 'Exact match' score	(0 improvements, 0 regressions)
+
+1752372179.35s 'start'                       	(0 improvements, 0 regressions)
+1752372184.06s 'end'                         	(0 improvements, 0 regressions)
+4.71s 'duration'                    	(2 improvements, 1 regressions)
+1.43s 'llm_duration'                	(0 improvements, 1 regressions)
+1119.33tok 'prompt_tokens'               	(0 improvements, 0 regressions)
+53.67tok 'completion_tokens'           	(0 improvements, 0 regressions)
+1173tok 'total_tokens'                	(0 improvements, 0 regressions)
+0.01$ 'estimated_cost'              	(0 improvements, 0 regressions)
+0tok 'prompt_cached_tokens'        	(0 improvements, 0 regressions)
+0tok 'prompt_cache_creation_tokens'	(0 improvements, 0 regressions)
+
+See results for zquery-wrapper-simple_google_search_local_20250713020257 at https://www.braintrust.dev/app/dblitz/p/stagehand-zquery-dev/experiments/zquery-wrapper-simple_google_search_local_20250713020257
+
+🎯 ZQUERY evaluation summary written to eval-summary-zquery.json
+
+🎯 ZQUERY WRAPPER EVALUATION COMPLETE
+=====================================
+✅ Tested UnifiedStagehandManager compatibility
+📊 Results saved to eval-summary-zquery.json

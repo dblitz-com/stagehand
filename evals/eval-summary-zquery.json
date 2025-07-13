@@ -1,0 +1,46 @@
+{
+  "experimentName": "zquery-wrapper-simple_google_search_local_20250713020257",
+  "passed": [
+    {
+      "eval": "simple_google_search",
+      "model": "claude-3-5-sonnet-latest",
+      "categories": [
+        "act"
+      ]
+    }
+  ],
+  "failed": [
+    {
+      "eval": "simple_google_search",
+      "model": "gemini-2.0-flash",
+      "categories": [
+        "act"
+      ]
+    },
+    {
+      "eval": "simple_google_search",
+      "model": "gpt-4.1-mini",
+      "categories": [
+        "act"
+      ]
+    }
+  ],
+  "categories": {
+    "combination": null,
+    "regression": null,
+    "extract": null,
+    "act": 33,
+    "custom": null,
+    "llm_clients": null,
+    "experimental": null,
+    "observe": null,
+    "targeted_extract": null,
+    "agent": null
+  },
+  "models": {
+    "gemini-2.0-flash": 0,
+    "gpt-4.1-mini": 0,
+    "claude-3-5-sonnet-latest": 100
+  },
+  "zqueryWrapper": "UnifiedStagehandManager"
+}
