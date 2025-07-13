@@ -1,13 +1,8 @@
 /**
- * Determine the current environment in which the evaluations are running:
- * - BROWSERBASE or LOCAL
- *
- * The environment is read from the EVAL_ENV environment variable.
+ * Environment is always LOCAL for dblitz-com fork.
+ * We run all evaluations locally with headless Chromium.
  */
-export const env: "BROWSERBASE" | "LOCAL" =
-  process.env.EVAL_ENV?.toLowerCase() === "browserbase"
-    ? "BROWSERBASE"
-    : "LOCAL";
+export const env = "LOCAL" as const;
 
 /**
  * Enable or disable caching based on the EVAL_ENABLE_CACHING environment variable.

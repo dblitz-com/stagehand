@@ -10,7 +10,7 @@
  * then uses these to override some default values before creating and initializing the Stagehand instance.
  */
 
-import { enableCaching, env } from "./env";
+import { enableCaching } from "./env";
 import {
   ConstructorParams,
   LLMClient,
@@ -22,32 +22,18 @@ import { AvailableModel } from "@browserbasehq/stagehand";
 
 /**
  * StagehandConfig:
- * This configuration object follows a similar pattern to `examples/stagehand.config.ts`.
- * It sets the environment, verbosity, caching preferences, and other defaults. Some values,
- * like `apiKey` and `projectId`, can be defined via environment variables if needed.
- *
- * Adjust or remove fields as appropriate for your environment.
+ * This configuration is optimized for LOCAL-ONLY evaluation.
+ * All Browserbase dependencies have been removed for the dblitz-com fork.
  */
 const StagehandConfig = {
-  env: env,
-  apiKey: process.env.BROWSERBASE_API_KEY,
-  projectId: process.env.BROWSERBASE_PROJECT_ID,
+  env: "LOCAL" as const,
   verbose: 2 as const,
   debugDom: true,
-  headless: false,
+  headless: true, // Headless for faster local evaluation
   enableCaching,
   domSettleTimeoutMs: 30_000,
   disablePino: true,
   experimental: true,
-  browserbaseSessionCreateParams: {
-    projectId: process.env.BROWSERBASE_PROJECT_ID!,
-    browserSettings: {
-      viewport: {
-        width: 1024,
-        height: 768,
-      },
-    },
-  },
 };
 
 /**

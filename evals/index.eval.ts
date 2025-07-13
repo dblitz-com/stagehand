@@ -214,12 +214,8 @@ const generateFilteredTestcases = (): Testcase[] => {
     );
   }
 
-  // If running in BROWSERBASE environment, exclude tasks that are not applicable.
-  if (env === "BROWSERBASE") {
-    allTestcases = allTestcases.filter(
-      (testcase) => !["peeler_simple", "stock_x"].includes(testcase.name),
-    );
-  }
+  // For LOCAL environment, we can run all tasks
+  // (BROWSERBASE exclusions removed for local-only fork)
 
   console.log(
     "Final test cases to run:",
