@@ -1,0 +1,988 @@
+🎯 STARTING ZQUERY WRAPPER EVALUATION
+=====================================
+Testing UnifiedStagehandManager with official evaluation suite
+This proves our wrapper maintains full compatibility + adds value
+
+🎯 ZQUERY EVALUATION: Using models for this run (default): [ 'gemini-2.0-flash', 'gpt-4.1-mini', 'claude-3-5-sonnet-latest' ]
+🎯 ZQUERY final test cases to run: 0: history (gemini-2.0-flash): combination\n1: expect_act_timeout (gemini-2.0-flash): regression\n2: extract_repo_name (gemini-2.0-flash): extract\n3: amazon_add_to_cart (gemini-2.0-flash): act\n4: instructions (gemini-2.0-flash): regression,combination\n5: bidnet (gemini-2.0-flash): act\n6: ionwave (gemini-2.0-flash): act,regression\n7: nonsense_action (gemini-2.0-flash): act\n8: peeler_simple (gemini-2.0-flash): act\n9: simple_google_search (gemini-2.0-flash): act\n10: zquery_extract_multiple (gemini-2.0-flash): extract,custom\n11: vantechjournal (gemini-2.0-flash): act\n12: wikipedia (gemini-2.0-flash): act\n13: allrecipes (gemini-2.0-flash): combination\n14: arxiv (gemini-2.0-flash): combination\n15: extract_collaborators (gemini-2.0-flash): combination\n16: extract_github_commits (gemini-2.0-flash): combination\n17: imdb_movie_details (gemini-2.0-flash): combination\n18: peeler_complex (gemini-2.0-flash): combination\n19: sciquest (gemini-2.0-flash): combination\n20: wichita (gemini-2.0-flash): combination,regression\n21: hn_aisdk (gemini-2.0-flash): llm_clients\n22: hn_langchain (gemini-2.0-flash): llm_clients\n23: hn_customOpenAI (gemini-2.0-flash): llm_clients\n24: apple (gemini-2.0-flash): experimental\n25: combination_sauce (gemini-2.0-flash): experimental\n26: costar (gemini-2.0-flash): experimental\n27: expedia (gemini-2.0-flash): experimental\n28: expedia_search (gemini-2.0-flash): experimental\n29: extract_aigrant_companies (gemini-2.0-flash): regression\n30: extract_capacitor_info (gemini-2.0-flash): experimental\n31: extract_partners (gemini-2.0-flash): experimental\n32: extract_press_releases (gemini-2.0-flash): experimental\n33: extract_snowshoeing_destinations (gemini-2.0-flash): experimental\n34: google_jobs (gemini-2.0-flash): experimental\n35: homedepot (gemini-2.0-flash): experimental\n36: rakuten_jp (gemini-2.0-flash): experimental\n37: stock_x (gemini-2.0-flash): experimental\n38: ted_talk (gemini-2.0-flash): experimental\n39: extract_baptist_health (gemini-2.0-flash): extract\n40: extract_github_stars (gemini-2.0-flash): extract\n41: extract_memorial_healthcare (gemini-2.0-flash): extract,regression\n42: extract_nhl_stats (gemini-2.0-flash): extract\n43: extract_professional_info (gemini-2.0-flash): extract\n44: extract_csa (gemini-2.0-flash): extract\n45: extract_resistor_info (gemini-2.0-flash): extract\n46: extract_rockauto (gemini-2.0-flash): extract\n47: extract_staff_members (gemini-2.0-flash): extract\n48: ionwave_observe (gemini-2.0-flash): observe\n49: panamcs (gemini-2.0-flash): observe\n50: vanta_h (gemini-2.0-flash): experimental\n51: extract_area_codes (gemini-2.0-flash): extract\n52: extract_public_notices (gemini-2.0-flash): extract\n53: extract_jstor_news (gemini-2.0-flash): extract\n54: extract_apartments (gemini-2.0-flash): extract\n55: extract_zillow (gemini-2.0-flash): extract\n56: observe_github (gemini-2.0-flash): observe,regression\n57: observe_vantechjournal (gemini-2.0-flash): observe,regression\n58: observe_amazon_add_to_cart (gemini-2.0-flash): observe\n59: observe_simple_google_search (gemini-2.0-flash): observe\n60: observe_yc_startup (gemini-2.0-flash): observe\n61: observe_taxes (gemini-2.0-flash): observe\n62: observe_iframes1 (gemini-2.0-flash): regression,observe\n63: observe_iframes2 (gemini-2.0-flash): regression,observe\n64: extract_hamilton_weather (gemini-2.0-flash): targeted_extract,regression\n65: extract_regulations_table (gemini-2.0-flash): targeted_extract\n66: extract_recipe (gemini-2.0-flash): targeted_extract\n67: extract_aigrant_targeted (gemini-2.0-flash): targeted_extract\n68: extract_aigrant_targeted_2 (gemini-2.0-flash): targeted_extract\n69: extract_geniusee (gemini-2.0-flash): targeted_extract\n70: extract_geniusee_2 (gemini-2.0-flash): targeted_extract\n71: scroll_50 (gemini-2.0-flash): regression,act\n72: scroll_75 (gemini-2.0-flash): regression,act\n73: nextChunk (gemini-2.0-flash): regression,act\n74: prevChunk (gemini-2.0-flash): regression,act\n75: google_flights (gemini-2.0-flash): act\n76: extract_jfk_links (gemini-2.0-flash): extract\n77: extract_single_link (gemini-2.0-flash): extract\n78: dropdown (gemini-2.0-flash): act\n79: radio_btn (gemini-2.0-flash): act\n80: checkboxes (gemini-2.0-flash): act\n81: agent/iframe_form (gemini-2.0-flash): agent\n82: agent/iframe_form_multiple (gemini-2.0-flash): agent\n83: agent/google_flights (gemini-2.0-flash): agent\n84: agent/sf_library_card (gemini-2.0-flash): agent\n85: agent/sf_library_card_multiple (gemini-2.0-flash): agent\n86: login (gemini-2.0-flash): act,regression\n87: iframe_hn (gemini-2.0-flash): extract\n88: iframe_same_proc (gemini-2.0-flash): act\n89: iframe_form_filling (gemini-2.0-flash): act\n90: iframes_nested (gemini-2.0-flash): act\n91: no_js_click (gemini-2.0-flash): act,regression\n92: tab_handling (gemini-2.0-flash): act\n93: agent/kayak (gemini-2.0-flash): agent\n94: multi_tab (gemini-2.0-flash): act\n95: shadow_dom (gemini-2.0-flash): act\n96: os_dropdown (gemini-2.0-flash): act\n97: custom_dropdown (gemini-2.0-flash): act\n98: hidden_input_dropdown (gemini-2.0-flash): act\n99: history (gpt-4.1-mini): combination\n100: expect_act_timeout (gpt-4.1-mini): regression\n101: extract_repo_name (gpt-4.1-mini): extract\n102: amazon_add_to_cart (gpt-4.1-mini): act\n103: instructions (gpt-4.1-mini): regression,combination\n104: bidnet (gpt-4.1-mini): act\n105: ionwave (gpt-4.1-mini): act,regression\n106: nonsense_action (gpt-4.1-mini): act\n107: peeler_simple (gpt-4.1-mini): act\n108: simple_google_search (gpt-4.1-mini): act\n109: zquery_extract_multiple (gpt-4.1-mini): extract,custom\n110: vantechjournal (gpt-4.1-mini): act\n111: wikipedia (gpt-4.1-mini): act\n112: allrecipes (gpt-4.1-mini): combination\n113: arxiv (gpt-4.1-mini): combination\n114: extract_collaborators (gpt-4.1-mini): combination\n115: extract_github_commits (gpt-4.1-mini): combination\n116: imdb_movie_details (gpt-4.1-mini): combination\n117: peeler_complex (gpt-4.1-mini): combination\n118: sciquest (gpt-4.1-mini): combination\n119: wichita (gpt-4.1-mini): combination,regression\n120: hn_aisdk (gpt-4.1-mini): llm_clients\n121: hn_langchain (gpt-4.1-mini): llm_clients\n122: hn_customOpenAI (gpt-4.1-mini): llm_clients\n123: apple (gpt-4.1-mini): experimental\n124: combination_sauce (gpt-4.1-mini): experimental\n125: costar (gpt-4.1-mini): experimental\n126: expedia (gpt-4.1-mini): experimental\n127: expedia_search (gpt-4.1-mini): experimental\n128: extract_aigrant_companies (gpt-4.1-mini): regression\n129: extract_capacitor_info (gpt-4.1-mini): experimental\n130: extract_partners (gpt-4.1-mini): experimental\n131: extract_press_releases (gpt-4.1-mini): experimental\n132: extract_snowshoeing_destinations (gpt-4.1-mini): experimental\n133: google_jobs (gpt-4.1-mini): experimental\n134: homedepot (gpt-4.1-mini): experimental\n135: rakuten_jp (gpt-4.1-mini): experimental\n136: stock_x (gpt-4.1-mini): experimental\n137: ted_talk (gpt-4.1-mini): experimental\n138: extract_baptist_health (gpt-4.1-mini): extract\n139: extract_github_stars (gpt-4.1-mini): extract\n140: extract_memorial_healthcare (gpt-4.1-mini): extract,regression\n141: extract_nhl_stats (gpt-4.1-mini): extract\n142: extract_professional_info (gpt-4.1-mini): extract\n143: extract_csa (gpt-4.1-mini): extract\n144: extract_resistor_info (gpt-4.1-mini): extract\n145: extract_rockauto (gpt-4.1-mini): extract\n146: extract_staff_members (gpt-4.1-mini): extract\n147: ionwave_observe (gpt-4.1-mini): observe\n148: panamcs (gpt-4.1-mini): observe\n149: vanta_h (gpt-4.1-mini): experimental\n150: extract_area_codes (gpt-4.1-mini): extract\n151: extract_public_notices (gpt-4.1-mini): extract\n152: extract_jstor_news (gpt-4.1-mini): extract\n153: extract_apartments (gpt-4.1-mini): extract\n154: extract_zillow (gpt-4.1-mini): extract\n155: observe_github (gpt-4.1-mini): observe,regression\n156: observe_vantechjournal (gpt-4.1-mini): observe,regression\n157: observe_amazon_add_to_cart (gpt-4.1-mini): observe\n158: observe_simple_google_search (gpt-4.1-mini): observe\n159: observe_yc_startup (gpt-4.1-mini): observe\n160: observe_taxes (gpt-4.1-mini): observe\n161: observe_iframes1 (gpt-4.1-mini): regression,observe\n162: observe_iframes2 (gpt-4.1-mini): regression,observe\n163: extract_hamilton_weather (gpt-4.1-mini): targeted_extract,regression\n164: extract_regulations_table (gpt-4.1-mini): targeted_extract\n165: extract_recipe (gpt-4.1-mini): targeted_extract\n166: extract_aigrant_targeted (gpt-4.1-mini): targeted_extract\n167: extract_aigrant_targeted_2 (gpt-4.1-mini): targeted_extract\n168: extract_geniusee (gpt-4.1-mini): targeted_extract\n169: extract_geniusee_2 (gpt-4.1-mini): targeted_extract\n170: scroll_50 (gpt-4.1-mini): regression,act\n171: scroll_75 (gpt-4.1-mini): regression,act\n172: nextChunk (gpt-4.1-mini): regression,act\n173: prevChunk (gpt-4.1-mini): regression,act\n174: google_flights (gpt-4.1-mini): act\n175: extract_jfk_links (gpt-4.1-mini): extract\n176: extract_single_link (gpt-4.1-mini): extract\n177: dropdown (gpt-4.1-mini): act\n178: radio_btn (gpt-4.1-mini): act\n179: checkboxes (gpt-4.1-mini): act\n180: agent/iframe_form (gpt-4.1-mini): agent\n181: agent/iframe_form_multiple (gpt-4.1-mini): agent\n182: agent/google_flights (gpt-4.1-mini): agent\n183: agent/sf_library_card (gpt-4.1-mini): agent\n184: agent/sf_library_card_multiple (gpt-4.1-mini): agent\n185: login (gpt-4.1-mini): act,regression\n186: iframe_hn (gpt-4.1-mini): extract\n187: iframe_same_proc (gpt-4.1-mini): act\n188: iframe_form_filling (gpt-4.1-mini): act\n189: iframes_nested (gpt-4.1-mini): act\n190: no_js_click (gpt-4.1-mini): act,regression\n191: tab_handling (gpt-4.1-mini): act\n192: agent/kayak (gpt-4.1-mini): agent\n193: multi_tab (gpt-4.1-mini): act\n194: shadow_dom (gpt-4.1-mini): act\n195: os_dropdown (gpt-4.1-mini): act\n196: custom_dropdown (gpt-4.1-mini): act\n197: hidden_input_dropdown (gpt-4.1-mini): act\n198: history (claude-3-5-sonnet-latest): combination\n199: expect_act_timeout (claude-3-5-sonnet-latest): regression\n200: extract_repo_name (claude-3-5-sonnet-latest): extract\n201: amazon_add_to_cart (claude-3-5-sonnet-latest): act\n202: instructions (claude-3-5-sonnet-latest): regression,combination\n203: bidnet (claude-3-5-sonnet-latest): act\n204: ionwave (claude-3-5-sonnet-latest): act,regression\n205: nonsense_action (claude-3-5-sonnet-latest): act\n206: peeler_simple (claude-3-5-sonnet-latest): act\n207: simple_google_search (claude-3-5-sonnet-latest): act\n208: zquery_extract_multiple (claude-3-5-sonnet-latest): extract,custom\n209: vantechjournal (claude-3-5-sonnet-latest): act\n210: wikipedia (claude-3-5-sonnet-latest): act\n211: allrecipes (claude-3-5-sonnet-latest): combination\n212: arxiv (claude-3-5-sonnet-latest): combination\n213: extract_collaborators (claude-3-5-sonnet-latest): combination\n214: extract_github_commits (claude-3-5-sonnet-latest): combination\n215: imdb_movie_details (claude-3-5-sonnet-latest): combination\n216: peeler_complex (claude-3-5-sonnet-latest): combination\n217: sciquest (claude-3-5-sonnet-latest): combination\n218: wichita (claude-3-5-sonnet-latest): combination,regression\n219: hn_aisdk (claude-3-5-sonnet-latest): llm_clients\n220: hn_langchain (claude-3-5-sonnet-latest): llm_clients\n221: hn_customOpenAI (claude-3-5-sonnet-latest): llm_clients\n222: apple (claude-3-5-sonnet-latest): experimental\n223: combination_sauce (claude-3-5-sonnet-latest): experimental\n224: costar (claude-3-5-sonnet-latest): experimental\n225: expedia (claude-3-5-sonnet-latest): experimental\n226: expedia_search (claude-3-5-sonnet-latest): experimental\n227: extract_aigrant_companies (claude-3-5-sonnet-latest): regression\n228: extract_capacitor_info (claude-3-5-sonnet-latest): experimental\n229: extract_partners (claude-3-5-sonnet-latest): experimental\n230: extract_press_releases (claude-3-5-sonnet-latest): experimental\n231: extract_snowshoeing_destinations (claude-3-5-sonnet-latest): experimental\n232: google_jobs (claude-3-5-sonnet-latest): experimental\n233: homedepot (claude-3-5-sonnet-latest): experimental\n234: rakuten_jp (claude-3-5-sonnet-latest): experimental\n235: stock_x (claude-3-5-sonnet-latest): experimental\n236: ted_talk (claude-3-5-sonnet-latest): experimental\n237: extract_baptist_health (claude-3-5-sonnet-latest): extract\n238: extract_github_stars (claude-3-5-sonnet-latest): extract\n239: extract_memorial_healthcare (claude-3-5-sonnet-latest): extract,regression\n240: extract_nhl_stats (claude-3-5-sonnet-latest): extract\n241: extract_professional_info (claude-3-5-sonnet-latest): extract\n242: extract_csa (claude-3-5-sonnet-latest): extract\n243: extract_resistor_info (claude-3-5-sonnet-latest): extract\n244: extract_rockauto (claude-3-5-sonnet-latest): extract\n245: extract_staff_members (claude-3-5-sonnet-latest): extract\n246: ionwave_observe (claude-3-5-sonnet-latest): observe\n247: panamcs (claude-3-5-sonnet-latest): observe\n248: vanta_h (claude-3-5-sonnet-latest): experimental\n249: extract_area_codes (claude-3-5-sonnet-latest): extract\n250: extract_public_notices (claude-3-5-sonnet-latest): extract\n251: extract_jstor_news (claude-3-5-sonnet-latest): extract\n252: extract_apartments (claude-3-5-sonnet-latest): extract\n253: extract_zillow (claude-3-5-sonnet-latest): extract\n254: observe_github (claude-3-5-sonnet-latest): observe,regression\n255: observe_vantechjournal (claude-3-5-sonnet-latest): observe,regression\n256: observe_amazon_add_to_cart (claude-3-5-sonnet-latest): observe\n257: observe_simple_google_search (claude-3-5-sonnet-latest): observe\n258: observe_yc_startup (claude-3-5-sonnet-latest): observe\n259: observe_taxes (claude-3-5-sonnet-latest): observe\n260: observe_iframes1 (claude-3-5-sonnet-latest): regression,observe\n261: observe_iframes2 (claude-3-5-sonnet-latest): regression,observe\n262: extract_hamilton_weather (claude-3-5-sonnet-latest): targeted_extract,regression\n263: extract_regulations_table (claude-3-5-sonnet-latest): targeted_extract\n264: extract_recipe (claude-3-5-sonnet-latest): targeted_extract\n265: extract_aigrant_targeted (claude-3-5-sonnet-latest): targeted_extract\n266: extract_aigrant_targeted_2 (claude-3-5-sonnet-latest): targeted_extract\n267: extract_geniusee (claude-3-5-sonnet-latest): targeted_extract\n268: extract_geniusee_2 (claude-3-5-sonnet-latest): targeted_extract\n269: scroll_50 (claude-3-5-sonnet-latest): regression,act\n270: scroll_75 (claude-3-5-sonnet-latest): regression,act\n271: nextChunk (claude-3-5-sonnet-latest): regression,act\n272: prevChunk (claude-3-5-sonnet-latest): regression,act\n273: google_flights (claude-3-5-sonnet-latest): act\n274: extract_jfk_links (claude-3-5-sonnet-latest): extract\n275: extract_single_link (claude-3-5-sonnet-latest): extract\n276: dropdown (claude-3-5-sonnet-latest): act\n277: radio_btn (claude-3-5-sonnet-latest): act\n278: checkboxes (claude-3-5-sonnet-latest): act\n279: agent/iframe_form (claude-3-5-sonnet-latest): agent\n280: agent/iframe_form_multiple (claude-3-5-sonnet-latest): agent\n281: agent/google_flights (claude-3-5-sonnet-latest): agent\n282: agent/sf_library_card (claude-3-5-sonnet-latest): agent\n283: agent/sf_library_card_multiple (claude-3-5-sonnet-latest): agent\n284: login (claude-3-5-sonnet-latest): act,regression\n285: iframe_hn (claude-3-5-sonnet-latest): extract\n286: iframe_same_proc (claude-3-5-sonnet-latest): act\n287: iframe_form_filling (claude-3-5-sonnet-latest): act\n288: iframes_nested (claude-3-5-sonnet-latest): act\n289: no_js_click (claude-3-5-sonnet-latest): act,regression\n290: tab_handling (claude-3-5-sonnet-latest): act\n291: agent/kayak (claude-3-5-sonnet-latest): agent\n292: multi_tab (claude-3-5-sonnet-latest): act\n293: shadow_dom (claude-3-5-sonnet-latest): act\n294: os_dropdown (claude-3-5-sonnet-latest): act\n295: custom_dropdown (claude-3-5-sonnet-latest): act\n296: hidden_input_dropdown (claude-3-5-sonnet-latest): act
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: gemini-2.0-flash
+🌐 Environment: LOCAL
+🔑 API Key: NOT SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+✅ Stagehand initialized successfully
+[2025-07-12 21:04:42.382 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+[2025-07-12 21:04:47.559 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "click on the 'Quickstart' tab"
+    requestId: "2v4x6or7bmd"
+    modelName: "gemini-2.0-flash"
+[2025-07-12 21:04:47.560 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: click on the 'Quickstart' tab. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+[2025-07-12 21:04:48.333 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:04:48.385 -0500] [32mINFO[39m: [36mgot accessibility tree in 4 ms[39m
+    category: "observation"
+✅ Stagehand closed successfully
+❌ ZQUERY history: ERROR - StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+2025-07-13T02:04:48.530Z::[stagehand:undefined] Error in ZQUERY task history
+ 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+ StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+    at _StagehandPage.<anonymous> (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:3953:15)
+    at Generator.throw (<anonymous>)
+    at rejected (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:73:29)
+Task "history" returned: [object Object]
+Task "history" returned: [object Object]
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: gemini-2.0-flash
+🌐 Environment: LOCAL
+🔑 API Key: NOT SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+✅ Stagehand initialized successfully
+[2025-07-12 21:04:49.123 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+✅ Stagehand closed successfully
+❌ ZQUERY expect_act_timeout: ERROR - StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+2025-07-13T02:04:53.408Z::[stagehand:undefined] Error in ZQUERY task expect_act_timeout
+ 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+ StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+    at _StagehandPage.<anonymous> (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:3953:15)
+    at Generator.throw (<anonymous>)
+    at rejected (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:73:29)
+Task "expect_act_timeout" returned: [object Object]
+Task "expect_act_timeout" returned: [object Object]
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: gemini-2.0-flash
+🌐 Environment: LOCAL
+🔑 API Key: NOT SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+[2025-07-12 21:04:52.520 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "search for 'Stagehand'"
+    requestId: "eewa73qlcy"
+    modelName: "gemini-2.0-flash"
+[2025-07-12 21:04:52.520 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: search for 'Stagehand'. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+[2025-07-12 21:04:53.209 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:04:53.245 -0500] [32mINFO[39m: [36mgot accessibility tree in 3 ms[39m
+    category: "observation"
+✅ Stagehand initialized successfully
+[2025-07-12 21:04:53.958 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+[2025-07-12 21:04:55.540 -0500] [32mINFO[39m: [36mrunning extract[39m
+    category: "extract"
+    instruction: "extract the title of the Github repository. Do not include the owner of the repository."
+    requestId: "9fqtuqgvzr"
+    modelName: "gemini-2.0-flash"
+[2025-07-12 21:04:55.541 -0500] [32mINFO[39m: [36mstarting extraction using a11y tree[39m
+    category: "extraction"
+    instruction: "extract the title of the Github repository. Do not include the owner of the repository."
+Error or timeout occurred: StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+    at _StagehandPage.<anonymous> (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:4055:15)
+    at Generator.throw (<anonymous>)
+    at rejected (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:73:29)
+[2025-07-12 21:04:56.128 -0500] [32mINFO[39m: [36mgot accessibility tree in 5 ms[39m
+    category: "observation"
+[2025-07-12 21:04:56.129 -0500] [32mINFO[39m: [36mGot accessibility tree data[39m
+    category: "extraction"
+[2025-07-12 21:04:56.131 -0500] [32mINFO[39m: [36merror extracting[39m
+    category: "extract"
+    trace: "AI_LoadAPIKeyError: Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.\n    at loadApiKey (/Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/node_modules/.pnpm/@ai-sdk+provider-utils@2.2.7_zod@3.24.3/node_modules/@ai-sdk/provider-utils/src/load-api-key.ts:33:11)\n    at getHeaders (/Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/node_modules/.pnpm/@ai-sdk+google@1.2.14_zod@3.24.3/node_modules/@ai-sdk/google/src/google-provider.ts:111:23)\n    at resolve (/Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/node_modules/.pnpm/@ai-sdk+provider-utils@2.2.7_zod@3.24.3/node_modules/@ai-sdk/provider-utils/src/resolve.ts:14:14)\n    at GoogleGenerativeAILanguageModel.doGenerate (/Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/node_modules/.pnpm/@ai-sdk+google@1.2.14_zod@3.24.3/node_modules/@ai-sdk/google/src/google-generative-ai-language-model.ts:216:13)\n    at async BraintrustLanguageModelWrapper.doGenerate (/Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/node_modules/.pnpm/braintrust@0.0.171_openai@4.96.2_ws@8.18.1_zod@3.24.3__react@19.1.0_sswr@2.2.0_svelte@5.28.2__neqz3chyks36xbnktdj3saly2u/node_modules/braintrust/dist/index.js:6122:19)\n    at async fn (/Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/node_modules/.pnpm/ai@4.3.12_react@19.1.0_zod@3.24.3/node_modules/ai/core/generate-object/generate-object.ts:532:32)\n    at async <anonymous> (/Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/node_modules/.pnpm/ai@4.3.12_react@19.1.0_zod@3.24.3/node_modules/ai/core/telemetry/record-span.ts:18:22)\n    at async _retryWithExponentialBackoff (/Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/node_modules/.pnpm/ai@4.3.12_react@19.1.0_zod@3.24.3/node_modules/ai/util/retry-with-exponential-backoff.ts:36:12)"
+    error: "Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable."
+[2025-07-12 21:04:56.131 -0500] [32mINFO[39m: [36mcleaning up cache[39m
+    category: "llm_cache"
+    requestId: "9fqtuqgvzr"
+[2025-07-12 21:04:56.131 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:04:56.131 -0500] [32mINFO[39m: [36mno cache entries found for requestId[39m
+    category: "base_cache"
+    requestId: "9fqtuqgvzr"
+[2025-07-12 21:04:56.132 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+❌ ZQUERY extract_repo_name: FAILED
+✅ Stagehand closed successfully
+Task "extract_repo_name" returned: [object Object]
+Task "extract_repo_name" returned: [object Object]
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: gemini-2.0-flash
+🌐 Environment: LOCAL
+🔑 API Key: NOT SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+✅ Stagehand initialized successfully
+[2025-07-12 21:04:56.795 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+[2025-07-12 21:05:03.612 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "click the 'Add to Cart' button"
+    requestId: "mmkmsejktq"
+    modelName: "gemini-2.0-flash"
+[2025-07-12 21:05:03.612 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: click the 'Add to Cart' button. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+[2025-07-12 21:05:04.116 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:05:04.302 -0500] [32mINFO[39m: [36mgot accessibility tree in 19 ms[39m
+    category: "observation"
+✅ Stagehand closed successfully
+❌ ZQUERY amazon_add_to_cart: ERROR - StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+2025-07-13T02:05:04.434Z::[stagehand:undefined] Error in ZQUERY task amazon_add_to_cart
+ 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+ StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+    at _StagehandPage.<anonymous> (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:3953:15)
+    at Generator.throw (<anonymous>)
+    at rejected (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:73:29)
+Task "amazon_add_to_cart" returned: [object Object]
+Task "amazon_add_to_cart" returned: [object Object]
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: gemini-2.0-flash
+🌐 Environment: LOCAL
+🔑 API Key: NOT SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+✅ Stagehand initialized successfully
+[2025-07-12 21:05:04.986 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+[2025-07-12 21:05:07.117 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "secret12345"
+    requestId: "9uxm59okiq"
+    modelName: "gemini-2.0-flash"
+[2025-07-12 21:05:07.117 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: secret12345. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+Error or timeout occurred: StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+    at _StagehandPage.<anonymous> (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:3953:15)
+    at Generator.throw (<anonymous>)
+    at rejected (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:73:29)
+❌ ZQUERY instructions: FAILED
+✅ Stagehand closed successfully
+Task "instructions" returned: [object Object]
+Task "instructions" returned: [object Object]
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: gemini-2.0-flash
+🌐 Environment: LOCAL
+🔑 API Key: NOT SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+[2025-07-12 21:05:08.116 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:05:08.161 -0500] [32mINFO[39m: [36mgot accessibility tree in 2 ms[39m
+    category: "observation"
+✅ Stagehand initialized successfully
+[2025-07-12 21:05:08.829 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+[2025-07-12 21:05:11.476 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "Click on the \"Construction\" keyword"
+    requestId: "f14vpapc3ug"
+    modelName: "gemini-2.0-flash"
+[2025-07-12 21:05:11.476 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: Click on the \"Construction\" keyword. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+[2025-07-12 21:05:11.977 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:05:12.009 -0500] [32mINFO[39m: [36mgot accessibility tree in 2 ms[39m
+    category: "observation"
+✅ Stagehand closed successfully
+❌ ZQUERY bidnet: ERROR - StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+2025-07-13T02:05:12.141Z::[stagehand:undefined] Error in ZQUERY task bidnet
+ 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+ StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+    at _StagehandPage.<anonymous> (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:3953:15)
+    at Generator.throw (<anonymous>)
+    at rejected (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:73:29)
+Task "bidnet" returned: [object Object]
+Task "bidnet" returned: [object Object]
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: gemini-2.0-flash
+🌐 Environment: LOCAL
+🔑 API Key: NOT SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+✅ Stagehand initialized successfully
+[2025-07-12 21:05:12.684 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+[2025-07-12 21:05:13.953 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "Click on \"Closed Bids\""
+    requestId: "1jsslfpnty9"
+    modelName: "gemini-2.0-flash"
+[2025-07-12 21:05:13.953 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: Click on \"Closed Bids\". \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+[2025-07-12 21:05:14.456 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:05:14.475 -0500] [32mINFO[39m: [36mgot accessibility tree in 1 ms[39m
+    category: "observation"
+✅ Stagehand closed successfully
+❌ ZQUERY ionwave: ERROR - StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+2025-07-13T02:05:14.599Z::[stagehand:undefined] Error in ZQUERY task ionwave
+ 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+ StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+    at _StagehandPage.<anonymous> (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:3953:15)
+    at Generator.throw (<anonymous>)
+    at rejected (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:73:29)
+Task "ionwave" returned: [object Object]
+Task "ionwave" returned: [object Object]
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: gemini-2.0-flash
+🌐 Environment: LOCAL
+🔑 API Key: NOT SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+✅ Stagehand initialized successfully
+[2025-07-12 21:05:15.147 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+[2025-07-12 21:05:25.388 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "what is the capital of the moon?"
+    requestId: "s8bhiivy2"
+    modelName: "gemini-2.0-flash"
+[2025-07-12 21:05:25.388 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: what is the capital of the moon?. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+Error in nonsense_action function: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+❌ ZQUERY nonsense_action: FAILED
+✅ Stagehand closed successfully
+Task "nonsense_action" returned: [object Object]
+Task "nonsense_action" returned: [object Object]
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: gemini-2.0-flash
+🌐 Environment: LOCAL
+🔑 API Key: NOT SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+(node:54053) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 exit listeners added to [process]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:54053) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 SIGINT listeners added to [process]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(node:54053) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 SIGTERM listeners added to [process]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+[2025-07-12 21:05:28.394 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:05:28.476 -0500] [32mINFO[39m: [36mgot accessibility tree in 10 ms[39m
+    category: "observation"
+✅ Stagehand initialized successfully
+[2025-07-12 21:05:29.170 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+✅ Stagehand closed successfully
+❌ ZQUERY peeler_simple: ERROR - Error: proxy.goto: net::ERR_FILE_NOT_FOUND at file:///Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/evals/evals/assets/peeler.html
+Call log:
+[2m  - navigating to "file:///Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/evals/evals/assets/peeler.html", waiting until "load"[22m
+
+2025-07-13T02:05:29.351Z::[stagehand:undefined] Error in ZQUERY task peeler_simple
+ proxy.goto: net::ERR_FILE_NOT_FOUND at file:///Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/evals/evals/assets/peeler.html
+Call log:
+[2m  - navigating to "file:///Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/evals/evals/assets/peeler.html", waiting until "load"[22m
+
+ proxy.goto: net::ERR_FILE_NOT_FOUND at file:///Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/evals/evals/assets/peeler.html
+Call log:
+[2m  - navigating to "file:///Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/evals/evals/assets/peeler.html", waiting until "load"[22m
+
+    at _StagehandPage.<anonymous> (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:3664:85)
+    at /Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:79:61
+    at __async (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:63:10)
+    at Proxy.<anonymous> (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:3662:40)
+    at peeler_simple (/Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/evals/tasks/peeler_simple.ts:23:24)
+    at Object.task (/Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/evals/index_zquery.eval.ts:329:28)
+    at async rootSpan.traced.name (/Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/node_modules/.pnpm/braintrust@0.0.171_openai@4.96.2_ws@8.18.1_zod@3.24.3__react@19.1.0_sswr@2.2.0_svelte@5.28.2__neqz3chyks36xbnktdj3saly2u/node_modules/braintrust/dist/index.js:5253:26)
+    at async callback (/Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/node_modules/.pnpm/braintrust@0.0.171_openai@4.96.2_ws@8.18.1_zod@3.24.3__react@19.1.0_sswr@2.2.0_svelte@5.28.2__neqz3chyks36xbnktdj3saly2u/node_modules/braintrust/dist/index.js:5249:11)
+    at async /Users/devin/dblitz/engine/src/gengines/zQuery/stagehand/node_modules/.pnpm/braintrust@0.0.171_openai@4.96.2_ws@8.18.1_zod@3.24.3__react@19.1.0_sswr@2.2.0_svelte@5.28.2__neqz3chyks36xbnktdj3saly2u/node_modules/braintrust/dist/index.js:5390:16
+Task "peeler_simple" returned: [object Object]
+Task "peeler_simple" returned: [object Object]
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: gemini-2.0-flash
+🌐 Environment: LOCAL
+🔑 API Key: NOT SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+✅ Stagehand initialized successfully
+[2025-07-12 21:05:29.902 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+✅ Stagehand closed successfully
+❌ ZQUERY simple_google_search: ERROR - StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+2025-07-13T02:05:32.178Z::[stagehand:undefined] Error in ZQUERY task simple_google_search
+ 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+ StagehandDefaultError: 
+Hey! We're sorry you ran into an error. 
+Stagehand version: 2.4.1 
+If you need help, please open a Github issue or reach out to us on Slack: https://stagehand.dev/slack
+
+Full error:
+Google Generative AI API key is missing. Pass it using the 'apiKey' parameter or the GOOGLE_GENERATIVE_AI_API_KEY environment variable.
+    at _StagehandPage.<anonymous> (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:3953:15)
+    at Generator.throw (<anonymous>)
+    at rejected (/Users/devin/dblitz/engine/src/gengines/zQuery/node_modules/@browserbasehq/stagehand/dist/index.js:73:29)
+Task "simple_google_search" returned: [object Object]
+Task "simple_google_search" returned: [object Object]
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: gemini-2.0-flash
+🌐 Environment: LOCAL
+🔑 API Key: NOT SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+(node:54053) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 uncaughtException listeners added to [process]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+[2025-07-12 21:05:31.530 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "type \"OpenAI\" into the search bar"
+    requestId: "o0grp2do8i"
+    modelName: "gemini-2.0-flash"
+[2025-07-12 21:05:31.530 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: type \"OpenAI\" into the search bar. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+[2025-07-12 21:05:32.034 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:05:32.064 -0500] [32mINFO[39m: [36mgot accessibility tree in 2 ms[39m
+    category: "observation"
+✅ Stagehand initialized successfully
+🎭 Unified Stagehand Manager (Official TypeScript API)
+🤖 Model: claude-3-5-sonnet-latest
+🌐 Environment: LOCAL
+🔑 API Key: SET
+📊 Caching: ENABLED
+💾 Inference Logging: DISABLED
+[2025-07-12 21:05:32.703 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+✅ Stagehand initialized successfully
+[2025-07-12 21:05:33.732 -0500] [32mINFO[39m: [36mlocal browser started successfully.[39m
+    category: "init"
+✅ Navigated to: https://news.ycombinator.com
+🔍 Extracting title, points from top 3 top storys on https://news.ycombinator.com
+📊 Processing top story 1/3...
+🤖 Executing: click on the first top story
+[2025-07-12 21:05:34.589 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "click on the first top story"
+    requestId: "mjhxxwwkpr"
+    modelName: "claude-3-5-sonnet-latest"
+[2025-07-12 21:05:34.589 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: click on the first top story. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+[2025-07-12 21:05:35.091 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:05:35.144 -0500] [32mINFO[39m: [36mgot accessibility tree in 4 ms[39m
+    category: "observation"
+[2025-07-12 21:05:35.146 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:05:35.146 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+[2025-07-12 21:05:35.147 -0500] [32mINFO[39m: [36mLLM cache miss - no cached response found[39m
+    category: "llm_cache"
+    cacheOptions: {
+      "model": "claude-3-5-sonnet-latest",
+      "messages": [
+        {
+          "role": "system",
+          "content": " You are helping the user automate the browser by finding elements based on what the user wants to observe in the page. You will be given: 1. a instruction of elements to observe 2. a hierarchical accessibility tree showing the semantic structure of the page. The tree is a hybrid of the DOM and the accessibility tree. Return an array of elements that match the instruction if they exist, otherwise return an empty array."
+        },
+        {
+          "role": "user",
+          "content": "instruction: Find the most relevant element to perform an action on given the following action: click on the first top story. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method.\nAccessibility Tree: \n[0-2] RootWebArea: Hacker News\n  [0-30] scrollable\n    [0-41] LayoutTable\n      [0-42] tbody\n        [0-43] LayoutTableRow\n          [0-44] LayoutTableCell: Hacker Newsnew | past | comments | ask | show | jobs | submit login\n            [0-45] LayoutTable\n              [0-47] LayoutTableRow\n                [0-48] LayoutTableCell\n                  [0-49] link\n                    [0-6] image\n                [0-50] LayoutTableCell: Hacker Newsnew | past | comments | ask | show | jobs | submit\n                  [0-53] link: Hacker News\n                  [0-55] link: new\n                  [0-57] StaticText: |\n                  [0-58] link: past\n                  [0-60] StaticText: |\n                  [0-61] link: comments\n                  [0-63] StaticText: |\n                  [0-64] link: ask\n                  [0-66] StaticText: |\n                  [0-67] link: show\n                  [0-69] StaticText: |\n                  [0-70] link: jobs\n                  [0-72] StaticText: |\n                  [0-73] link: submit\n                [0-75] LayoutTableCell: login\n                  [0-77] link: login\n        [0-79] LayoutTableRow\n        [0-80] LayoutTableRow\n          [0-81] LayoutTableCell\n            [0-82] table\n              [0-83] tbody\n                [0-84] row\n                  [0-85] cell: 1.\n                  [0-88] cell\n                    [0-90] link\n                  [0-91] cell: Bypassing Google's big anti-adblock update (0x44.xyz)\n                    [0-93] link: Bypassing Google's big anti-adblock update\n                    [0-96] StaticText: (\n                    [0-97] link: 0x44.xyz\n                    [0-100] StaticText: )\n                [0-101] row\n                  [0-102] cell\n                  [0-103] cell: 411 points by deryilz 6 hours ago | hide | 349 comments\n                    [0-106] StaticText: 411 points\n                    [0-107] StaticText: by\n                    [0-108] link: deryilz\n                    [1252] StaticText: \n                    [0-111] link: 6 hours ago\n                    [1253] StaticText: \n                    [0-114] StaticText: |\n                    [0-115] link: hide\n                    [0-117] StaticText: |\n                    [0-118] link: 349 comments\n                [0-120] row\n                [0-121] row\n                  [0-122] cell: 2.\n                  [0-125] cell\n                    [0-127] link\n                  [0-128] cell: Hacking Coroutines into C (wiomoc.de)\n                    [0-130] link: Hacking Coroutines into C\n                    [0-133] StaticText: (\n                    [0-134] link: wiomoc.de\n                    [0-137] StaticText: )\n                [0-138] row\n                  [0-139] cell\n                  [0-140] cell: 20 points by jmillikin 52 minutes ago | hide | 4 comments\n                    [0-143] StaticText: 20 points\n                    [0-144] StaticText: by\n                    [0-145] link: jmillikin\n                    [1254] StaticText: \n                    [0-148] link: 52 minutes ago\n                    [1255] StaticText: \n                    [0-151] StaticText: |\n                    [0-152] link: hide\n                    [0-154] StaticText: |\n                    [0-155] link: 4 comments\n                [0-157] row\n                [0-158] row\n                  [0-159] cell: 3.\n                  [0-162] cell\n                    [0-164] link\n                  [0-165] cell: Kimi k2 largest open source SOTA model? (github.com/moonshotai)\n                    [0-167] link: Kimi k2 largest open source SOTA model?\n                    [0-170] StaticText: (\n                    [0-171] link: github.com/moonshotai\n                    [0-174] StaticText: )\n                [0-175] row\n                  [0-176] cell\n                  [0-177] cell: 229 points by ConteMascetti71 8 hours ago | hide | 59 comments\n                    [0-180] StaticText: 229 points\n                    [0-181] StaticText: by\n                    [0-182] link: ConteMascetti71\n                    [1256] StaticText: \n                    [0-185] link: 8 hours ago\n                    [1257] StaticText: \n                    [0-188] StaticText: |\n                    [0-189] link: hide\n                    [0-191] StaticText: |\n                    [0-192] link: 59 comments\n                [0-194] row\n                [0-195] row\n                  [0-196] cell: 4.\n                  [0-199] cell\n                    [0-201] link\n                  [0-202] cell: Light exposure at night predicts incidence of cardiovascular diseases (medrxiv.org)\n                    [0-204] link: Light exposure at night predicts incidence of cardiovascular diseases\n                    [0-207] StaticText: (\n                    [0-208] link: medrxiv.org\n                    [0-211] StaticText: )\n                [0-212] row\n                  [0-213] cell\n                  [0-214] cell: 52 points by gnabgib 3 hours ago | hide | 32 comments\n                    [0-217] StaticText: 52 points\n                    [0-218] StaticText: by\n                    [0-219] link: gnabgib\n                    [1258] StaticText: \n                    [0-222] link: 3 hours ago\n                    [1259] StaticText: \n                    [0-225] StaticText: |\n                    [0-226] link: hide\n                    [0-228] StaticText: |\n                    [0-229] link: 32 comments\n                [0-231] row\n                [0-232] row\n                  [0-233] cell: 5.\n                  [0-236] cell\n                    [0-238] link\n                  [0-239] cell: Zig's New Async I/O (kristoff.it)\n                    [0-241] link: Zig's New Async I/O\n                    [0-244] StaticText: (\n                    [0-245] link: kristoff.it\n                    [0-248] StaticText: )\n                [0-249] row\n                  [0-250] cell\n                  [0-251] cell: 53 points by afirium 3 hours ago | hide | 36 comments\n                    [0-254] StaticText: 53 points\n                    [0-255] StaticText: by\n                    [0-256] link: afirium\n                    [1260] StaticText: \n                    [0-259] link: 3 hours ago\n                    [1261] StaticText: \n                    [0-262] StaticText: |\n                    [0-263] link: hide\n                    [0-265] StaticText: |\n                    [0-266] link: 36 comments\n                [0-268] row\n                [0-269] row\n                  [0-270] cell: 6.\n                  [0-273] cell\n                    [0-275] link\n                  [0-276] cell: MacPaint Art from the Mid-80s Still Looks Great Today (decryption.net.au)\n                    [0-278] link: MacPaint Art from the Mid-80s Still Looks Great Today\n                    [0-281] StaticText: (\n                    [0-282] link: decryption.net.au\n                    [0-285] StaticText: )\n                [0-286] row\n                  [0-287] cell\n                  [0-288] cell: 766 points by decryption 17 hours ago | hide | 171 comments\n                    [0-291] StaticText: 766 points\n                    [0-292] StaticText: by\n                    [0-293] link: decryption\n                    [1262] StaticText: \n                    [0-296] link: 17 hours ago\n                    [1263] StaticText: \n                    [0-299] StaticText: |\n                    [0-300] link: hide\n                    [0-302] StaticText: |\n                    [0-303] link: 171 comments\n                [0-305] row\n                [0-306] row\n                  [0-307] cell: 7.\n                  [0-310] cell\n                    [0-312] link\n                  [0-313] cell: Show HN: I made a JSFiddle-style playground to test and share prompts fast (langfa.st)\n                    [0-315] link: Show HN: I made a JSFiddle-style playground to test and share prompts fast\n                    [0-318] StaticText: (\n                    [0-319] link: langfa.st\n                    [0-322] StaticText: )\n                [0-323] row\n                  [0-324] cell\n                  [0-325] cell: 14 points by eugenegusarov 2 hours ago | hide | 2 comments\n                    [0-328] StaticText: 14 points\n                    [0-329] StaticText: by\n                    [0-330] link: eugenegusarov\n                    [1264] StaticText: \n                    [0-333] link: 2 hours ago\n                    [1265] StaticText: \n                    [0-336] StaticText: |\n                    [0-337] link: hide\n                    [0-339] StaticText: |\n                    [0-340] link: 2 comments\n                [0-342] row\n                [0-343] row\n                  [0-344] cell: 8.\n                  [0-347] cell\n                    [0-349] link\n                  [0-350] cell: A better Ghidra MCP server – GhidrAssistMCP (github.com/jtang613)\n                    [0-352] link: A better Ghidra MCP server – GhidrAssistMCP\n                    [0-355] StaticText: (\n                    [0-356] link: github.com/jtang613\n                    [0-359] StaticText: )\n                [0-360] row\n                  [0-361] cell\n                  [0-362] cell: 57 points by jtang613 7 hours ago | hide | 10 comments\n                    [0-365] StaticText: 57 points\n                    [0-366] StaticText: by\n                    [0-367] link: jtang613\n                    [1266] StaticText: \n                    [0-370] link: 7 hours ago\n                    [1267] StaticText: \n                    [0-373] StaticText: |\n                    [0-374] link: hide\n                    [0-376] StaticText: |\n                    [0-377] link: 10 comments\n                [0-379] row\n                [0-380] row\n                  [0-381] cell: 9.\n                  [0-384] cell\n                    [0-386] link\n                  [0-387] cell: Lost Chapter of Automate the Boring Stuff: Audio, Video, and Webcams in Python (inventwithpython.com)\n                    [0-389] link: Lost Chapter of Automate the Boring Stuff: Audio, Video, and Webcams in Python\n                    [0-392] StaticText: (\n                    [0-393] link: inventwithpython.com\n                    [0-396] StaticText: )\n                [0-397] row\n                  [0-398] cell\n                  [0-399] cell: 91 points by AlSweigart 9 hours ago | hide | 4 comments\n                    [0-402] StaticText: 91 points\n                    [0-403] StaticText: by\n                    [0-404] link: AlSweigart\n                    [1268] StaticText: \n                    [0-407] link: 9 hours ago\n                    [1269] StaticText: \n                    [0-410] StaticText: |\n                    [0-411] link: hide\n                    [0-413] StaticText: |\n                    [0-414] link: 4 comments\n                [0-416] row\n                [0-417] row\n                  [0-418] cell: 10.\n                  [0-421] cell\n                    [0-423] link\n                  [0-424] cell: The fish kick may be the fastest subsurface swim stroke yet (2015) (nautil.us)\n                    [0-426] link: The fish kick may be the fastest subsurface swim stroke yet (2015)\n                    [0-429] StaticText: (\n                    [0-430] link: nautil.us\n                    [0-433] StaticText: )\n                [0-434] row\n                  [0-435] cell\n                  [0-436] cell: 173 points by bookofjoe 13 hours ago | hide | 121 comments\n                    [0-439] StaticText: 173 points\n                    [0-440] StaticText: by\n                    [0-441] link: bookofjoe\n                    [1270] StaticText: \n                    [0-444] link: 13 hours ago\n                    [1271] StaticText: \n                    [0-447] StaticText: |\n                    [0-448] link: hide\n                    [0-450] StaticText: |\n                    [0-451] link: 121 comments\n                [0-453] row\n                [0-454] row\n                  [0-455] cell: 11.\n                  [0-458] cell\n                    [0-460] link\n                  [0-461] cell: Two-step system makes plastic from carbon dioxide, water and electricity (phys.org)\n                    [0-463] link: Two-step system makes plastic from carbon dioxide, water and electricity\n                    [0-466] StaticText: (\n                    [0-467] link: phys.org\n                    [0-470] StaticText: )\n                [0-471] row\n                  [0-472] cell\n                  [0-473] cell: 31 points by PaulHoule 6 hours ago | hide | 3 comments\n                    [0-476] StaticText: 31 points\n                    [0-477] StaticText: by\n                    [0-478] link: PaulHoule\n                    [1272] StaticText: \n                    [0-481] link: 6 hours ago\n                    [1273] StaticText: \n                    [0-484] StaticText: |\n                    [0-485] link: hide\n                    [0-487] StaticText: |\n                    [0-488] link: 3 comments\n                [0-490] row\n                [0-491] row\n                  [0-492] cell: 12.\n                  [0-495] cell\n                    [0-497] link\n                  [0-498] cell: Exposing a web service with Cloudflare Tunnel (2022) (erisa.dev)\n                    [0-500] link: Exposing a web service with Cloudflare Tunnel (2022)\n                    [0-503] StaticText: (\n                    [0-504] link: erisa.dev\n                    [0-507] StaticText: )\n                [0-508] row\n                  [0-509] cell\n                  [0-510] cell: 82 points by sturza 8 hours ago | hide | 34 comments\n                    [0-513] StaticText: 82 points\n                    [0-514] StaticText: by\n                    [0-515] link: sturza\n                    [1274] StaticText: \n                    [0-518] link: 8 hours ago\n                    [1275] StaticText: \n                    [0-521] StaticText: |\n                    [0-522] link: hide\n                    [0-524] StaticText: |\n                    [0-525] link: 34 comments\n                [0-527] row\n                [0-528] row\n                  [0-529] cell: 13.\n                  [0-532] cell\n                    [0-534] link\n                  [0-535] cell: Supreme Court's ruling practically wipes out free speech for sex writing online (ellsberg.substack.com)\n                    [0-537] link: Supreme Court's ruling practically wipes out free speech for sex writing online\n                    [0-540] StaticText: (\n                    [0-541] link: ellsberg.substack.com\n                    [0-544] StaticText: )\n                [0-545] row\n                  [0-546] cell\n                  [0-547] cell: 423 points by macawfish 7 hours ago | hide | 548 comments\n                    [0-550] StaticText: 423 points\n                    [0-551] StaticText: by\n                    [0-552] link: macawfish\n                    [1276] StaticText: \n                    [0-555] link: 7 hours ago\n                    [1277] StaticText: \n                    [0-558] StaticText: |\n                    [0-559] link: hide\n                    [0-561] StaticText: |\n                    [0-562] link: 548 comments\n                [0-564] row\n                [0-565] row\n                  [0-566] cell: 14.\n                  [0-569] cell\n                    [0-571] link\n                  [0-572] cell: Working through 'Writing A C Compiler' (jollygoodsw.wordpress.com)\n                    [0-574] link: Working through 'Writing A C Compiler'\n                    [0-577] StaticText: (\n                    [0-578] link: jollygoodsw.wordpress.com\n                    [0-581] StaticText: )\n                [0-582] row\n                  [0-583] cell\n                  [0-584] cell: 115 points by AlexeyBrin 13 hours ago | hide | 30 comments\n                    [0-587] StaticText: 115 points\n                    [0-588] StaticText: by\n                    [0-589] link: AlexeyBrin\n                    [1278] StaticText: \n                    [0-592] link: 13 hours ago\n                    [1279] StaticText: \n                    [0-595] StaticText: |\n                    [0-596] link: hide\n                    [0-598] StaticText: |\n                    [0-599] link: 30 comments\n                [0-601] row\n                [0-602] row\n                  [0-603] cell: 15.\n                  [0-606] cell\n                    [0-608] link\n                  [0-609] cell: HNSW as abstract data structure: video intro to Redis vector sets (youtube.com)\n                    [0-611] link: HNSW as abstract data structure: video intro to Redis vector sets\n                    [0-614] StaticText: (\n                    [0-615] link: youtube.com\n                    [0-618] StaticText: )\n                [0-619] row\n                  [0-620] cell\n                  [0-621] cell: 6 points by antirez 1 hour ago | hide | discuss\n                    [0-624] StaticText: 6 points\n                    [0-625] StaticText: by\n                    [0-626] link: antirez\n                    [1280] StaticText: \n                    [0-629] link: 1 hour ago\n                    [1281] StaticText: \n                    [0-632] StaticText: |\n                    [0-633] link: hide\n                    [0-635] StaticText: |\n                    [0-636] link: discuss\n                [0-638] row\n                [0-639] row\n                  [0-640] cell: 16.\n                  [0-643] cell\n                    [0-645] link\n                  [0-646] cell: Proposed NOAA Budget Kills Program Designed to Prevent Satellite Collisions (skyandtelescope.org)\n                    [0-648] link: Proposed NOAA Budget Kills Program Designed to Prevent Satellite Collisions\n                    [0-651] StaticText: (\n                    [0-652] link: skyandtelescope.org\n                    [0-655] StaticText: )\n                [0-656] row\n                  [0-657] cell\n                  [0-658] cell: 303 points by bikenaga 9 hours ago | hide | 178 comments\n                    [0-661] StaticText: 303 points\n                    [0-662] StaticText: by\n                    [0-663] link: bikenaga\n                    [1282] StaticText: \n                    [0-666] link: 9 hours ago\n                    [1283] StaticText: \n                    [0-669] StaticText: |\n                    [0-670] link: hide\n                    [0-672] StaticText: |\n                    [0-673] link: 178 comments\n                [0-675] row\n                [0-676] row\n                  [0-677] cell: 17.\n                  [0-680] cell\n                    [0-682] link\n                  [0-683] cell: New Date(\"wtf\") – How well do you know JavaScript's Date class? (jsdate.wtf)\n                    [0-685] link: New Date(\"wtf\") – How well do you know JavaScript's Date class?\n                    [0-688] StaticText: (\n                    [0-689] link: jsdate.wtf\n                    [0-692] StaticText: )\n                [0-693] row\n                  [0-694] cell\n                  [0-695] cell: 282 points by OuterVale 17 hours ago | hide | 160 comments\n                    [0-698] StaticText: 282 points\n                    [0-699] StaticText: by\n                    [0-700] link: OuterVale\n                    [1284] StaticText: \n                    [0-703] link: 17 hours ago\n                    [1285] StaticText: \n                    [0-706] StaticText: |\n                    [0-707] link: hide\n                    [0-709] StaticText: |\n                    [0-710] link: 160 comments\n                [0-712] row\n                [0-713] row\n                  [0-714] cell: 18.\n                  [0-717] cell\n                    [0-719] link\n                  [0-720] cell: Malware found in official gravityforms plugin indicating supply chain breach (patchstack.com)\n                    [0-722] link: Malware found in official gravityforms plugin indicating supply chain breach\n                    [0-725] StaticText: (\n                    [0-726] link: patchstack.com\n                    [0-729] StaticText: )\n                [0-730] row\n                  [0-731] cell\n                  [0-732] cell: 191 points by taubek 19 hours ago | hide | 42 comments\n                    [0-735] StaticText: 191 points\n                    [0-736] StaticText: by\n                    [0-737] link: taubek\n                    [1286] StaticText: \n                    [0-740] link: 19 hours ago\n                    [1287] StaticText: \n                    [0-743] StaticText: |\n                    [0-744] link: hide\n                    [0-746] StaticText: |\n                    [0-747] link: 42 comments\n                [0-749] row\n                [0-750] row\n                  [0-751] cell: 19.\n                  [0-754] cell\n                    [0-756] link\n                  [0-757] cell: Second Variety, by Philip K. Dick (1953) (gutenberg.org)\n                    [0-759] link: Second Variety, by Philip K. Dick (1953)\n                    [0-762] StaticText: (\n                    [0-763] link: gutenberg.org\n                    [0-766] StaticText: )\n                [0-767] row\n                  [0-768] cell\n                  [0-769] cell: 30 points by djoldman 4 hours ago | hide | 9 comments\n                    [0-772] StaticText: 30 points\n                    [0-773] StaticText: by\n                    [0-774] link: djoldman\n                    [1288] StaticText: \n                    [0-777] link: 4 hours ago\n                    [1289] StaticText: \n                    [0-780] StaticText: |\n                    [0-781] link: hide\n                    [0-783] StaticText: |\n                    [0-784] link: 9 comments\n                [0-786] row\n                [0-787] row\n                  [0-788] cell: 20.\n                  [0-791] cell\n                    [0-793] link\n                  [0-794] cell: A.I. Is Making Sure You Pay for That Ding on Your Rental Car (nytimes.com)\n                    [0-796] link: A.I. Is Making Sure You Pay for That Ding on Your Rental Car\n                    [0-799] StaticText: (\n                    [0-800] link: nytimes.com\n                    [0-803] StaticText: )\n                [0-804] row\n                  [0-805] cell\n                  [0-806] cell: 8 points by pseudolus 38 minutes ago | hide | 8 comments\n                    [0-809] StaticText: 8 points\n                    [0-810] StaticText: by\n                    [0-811] link: pseudolus\n                    [1290] StaticText: \n                    [0-814] link: 38 minutes ago\n                    [1291] StaticText: \n                    [0-817] StaticText: |\n                    [0-818] link: hide\n                    [0-820] StaticText: |\n                    [0-821] link: 8 comments\n                [0-823] row\n                [0-824] row\n                  [0-825] cell: 21.\n                  [0-828] cell\n                    [0-830] link\n                  [0-831] cell: MoonPay executives may have sent $250k to Nigerian scammer (theblock.co)\n                    [0-833] link: MoonPay executives may have sent $250k to Nigerian scammer\n                    [0-836] StaticText: (\n                    [0-837] link: theblock.co\n                    [0-840] StaticText: )\n                [0-841] row\n                  [0-842] cell\n                  [0-843] cell: 10 points by wslh 1 hour ago | hide | discuss\n                    [0-846] StaticText: 10 points\n                    [0-847] StaticText: by\n                    [0-848] link: wslh\n                    [1292] StaticText: \n                    [0-851] link: 1 hour ago\n                    [1293] StaticText: \n                    [0-854] StaticText: |\n                    [0-855] link: hide\n                    [0-857] StaticText: |\n                    [0-858] link: discuss\n                [0-860] row\n                [0-861] row\n                  [0-862] cell: 22.\n                  [0-865] cell\n                    [0-867] link\n                  [0-869] cell: Show HN: DesignArena – crowdsourced benchmark for AI-generated UI/UX (designarena.ai)\n                    [0-871] link: Show HN: DesignArena – crowdsourced benchmark for AI-generated UI/UX\n                    [0-874] StaticText: (\n                    [0-875] link: designarena.ai\n                    [0-878] StaticText: )\n                [0-879] row\n                  [0-880] cell\n                  [0-881] cell: 64 points by grace77 10 hours ago | hide | 19 comments\n                    [0-884] StaticText: 64 points\n                    [0-885] StaticText: by\n                    [0-886] link: grace77\n                    [1294] StaticText: \n                    [0-889] link: 10 hours ago\n                    [1295] StaticText: \n                    [0-892] StaticText: |\n                    [0-893] link: hide\n                    [0-895] StaticText: |\n                    [0-896] link: 19 comments\n                [0-898] row\n                [0-899] row\n                  [0-900] cell: 23.\n                  [0-903] cell\n                    [0-905] link\n                  [0-907] cell: Vibe-Coding a PCB – surprisingly good (atomic14.substack.com)\n                    [0-909] link: Vibe-Coding a PCB – surprisingly good\n                    [0-912] StaticText: (\n                    [0-913] link: atomic14.substack.com\n                    [0-916] StaticText: )\n                [0-917] row\n                  [0-918] cell\n                  [0-919] cell: 113 points by iamflimflam1 10 hours ago | hide | 55 comments\n                    [0-922] StaticText: 113 points\n                    [0-923] StaticText: by\n                    [0-924] link: iamflimflam1\n                    [1296] StaticText: \n                    [0-927] link: 10 hours ago\n                    [1297] StaticText: \n                    [0-930] StaticText: |\n                    [0-931] link: hide\n                    [0-933] StaticText: |\n                    [0-934] link: 55 comments\n                [0-936] row\n                [0-937] row\n                  [0-938] cell: 24.\n                  [0-941] cell\n                    [0-943] link\n                  [0-945] cell: Faking a JPEG (ty-penguin.org.uk)\n                    [0-947] link: Faking a JPEG\n                    [0-950] StaticText: (\n                    [0-951] link: ty-penguin.org.uk\n                    [0-954] StaticText: )\n                [0-955] row\n                  [0-956] cell\n                  [0-957] cell: 378 points by todsacerdoti 1 day ago | hide | 87 comments\n                    [0-960] StaticText: 378 points\n                    [0-961] StaticText: by\n                    [0-962] link: todsacerdoti\n                    [1298] StaticText: \n                    [0-965] link: 1 day ago\n                    [1299] StaticText: \n                    [0-968] StaticText: |\n                    [0-969] link: hide\n                    [0-971] StaticText: |\n                    [0-972] link: 87 comments\n                [0-974] row\n                [0-975] row\n                  [0-976] cell: 25.\n                  [0-979] cell\n                    [0-981] link\n                  [0-983] cell: Startup just hit a big milestone for green steel production (technologyreview.com)\n                    [0-985] link: Startup just hit a big milestone for green steel production\n                    [0-988] StaticText: (\n                    [0-989] link: technologyreview.com\n                    [0-992] StaticText: )\n                [0-993] row\n                  [0-994] cell\n                  [0-995] cell: 9 points by ohjeez 1 hour ago | hide | discuss\n                    [0-998] StaticText: 9 points\n                    [0-999] StaticText: by\n                    [0-1000] link: ohjeez\n                    [1300] StaticText: \n                    [0-1003] link: 1 hour ago\n                    [1301] StaticText: \n                    [0-1006] StaticText: |\n                    [0-1007] link: hide\n                    [0-1009] StaticText: |\n                    [0-1010] link: discuss\n                [0-1012] row\n                [0-1013] row\n                  [0-1014] cell: 26.\n                  [0-1017] cell\n                    [0-1019] link\n                  [0-1021] cell: Arizona resident dies from the plague less than 24 hours after showing symptoms (independent.co.uk)\n                    [0-1023] link: Arizona resident dies from the plague less than 24 hours after showing symptoms\n                    [0-1026] StaticText: (\n                    [0-1027] link: independent.co.uk\n                    [0-1030] StaticText: )\n                [0-1031] row\n                  [0-1032] cell\n                  [0-1033] cell: 204 points by Anon84 8 hours ago | hide | 106 comments\n                    [0-1036] StaticText: 204 points\n                    [0-1037] StaticText: by\n                    [0-1038] link: Anon84\n                    [1302] StaticText: \n                    [0-1041] link: 8 hours ago\n                    [1303] StaticText: \n                    [0-1044] StaticText: |\n                    [0-1045] link: hide\n                    [0-1047] StaticText: |\n                    [0-1048] link: 106 comments\n                [0-1050] row\n                [0-1051] row\n                  [0-1052] cell: 27.\n                  [0-1055] cell\n                    [0-1057] link\n                  [0-1059] cell: First malaria treatment for babies approved for use (bbc.com)\n                    [0-1061] link: First malaria treatment for babies approved for use\n                    [0-1064] StaticText: (\n                    [0-1065] link: bbc.com\n                    [0-1068] StaticText: )\n                [0-1069] row\n                  [0-1070] cell\n                  [0-1071] cell: 120 points by toomuchtodo 18 hours ago | hide | 29 comments\n                    [0-1074] StaticText: 120 points\n                    [0-1075] StaticText: by\n                    [0-1076] link: toomuchtodo\n                    [1304] StaticText: \n                    [0-1079] link: 18 hours ago\n                    [1305] StaticText: \n                    [0-1082] StaticText: |\n                    [0-1083] link: hide\n                    [0-1085] StaticText: |\n                    [0-1086] link: 29 comments\n                [0-1088] row\n                [0-1089] row\n                  [0-1090] cell: 28.\n                  [0-1093] cell\n                    [0-1095] link\n                  [0-1097] cell: OpenAI’s Windsurf deal is off, and Windsurf’s CEO is going to Google (theverge.com)\n                    [0-1099] link: OpenAI’s Windsurf deal is off, and Windsurf’s CEO is going to Google\n                    [0-1102] StaticText: (\n                    [0-1103] link: theverge.com\n                    [0-1106] StaticText: )\n                [0-1107] row\n                  [0-1108] cell\n                  [0-1109] cell: 958 points by rcchen 1 day ago | hide | 617 comments\n                    [0-1112] StaticText: 958 points\n                    [0-1113] StaticText: by\n                    [0-1114] link: rcchen\n                    [1306] StaticText: \n                    [0-1117] link: 1 day ago\n                    [1307] StaticText: \n                    [0-1120] StaticText: |\n                    [0-1121] link: hide\n                    [0-1123] StaticText: |\n                    [0-1124] link: 617 comments\n                [0-1126] row\n                [0-1127] row\n                  [0-1128] cell: 29.\n                  [0-1131] cell\n                    [0-1133] link\n                  [0-1135] cell: Preliminary report into Air India crash released (bbc.co.uk)\n                    [0-1137] link: Preliminary report into Air India crash released\n                    [0-1140] StaticText: (\n                    [0-1141] link: bbc.co.uk\n                    [0-1144] StaticText: )\n                [0-1145] row\n                  [0-1146] cell\n                  [0-1147] cell: 372 points by cjr 1 day ago | hide | 739 comments\n                    [0-1150] StaticText: 372 points\n                    [0-1151] StaticText: by\n                    [0-1152] link: cjr\n                    [1308] StaticText: \n                    [0-1155] link: 1 day ago\n                    [1309] StaticText: \n                    [0-1158] StaticText: |\n                    [0-1159] link: hide\n                    [0-1161] StaticText: |\n                    [0-1162] link: 739 comments\n                [0-1164] row\n                [0-1165] row\n                  [0-1166] cell: 30.\n                  [0-1169] cell\n                    [0-1171] link\n                  [0-1173] cell: Banned Filipino fishermen documentary can be seen in NZ (rnz.co.nz)\n                    [0-1175] link: Banned Filipino fishermen documentary can be seen in NZ\n                    [0-1178] StaticText: (\n                    [0-1179] link: rnz.co.nz\n                    [0-1182] StaticText: )\n                [0-1183] row\n                  [0-1184] cell\n                  [0-1185] cell: 4 points by colinprince 1 hour ago | hide | 1 comment\n                    [0-1188] StaticText: 4 points\n                    [0-1189] StaticText: by\n                    [0-1190] link: colinprince\n                    [1310] StaticText: \n                    [0-1193] link: 1 hour ago\n                    [1311] StaticText: \n                    [0-1196] StaticText: |\n                    [0-1197] link: hide\n                    [0-1199] StaticText: |\n                    [0-1200] link: 1 comment\n                [0-1202] row\n                [0-1203] row\n                [0-1204] row\n                  [0-1205] cell\n                  [0-1206] cell: More\n                    [0-1207] link: More\n        [0-1209] LayoutTableRow\n          [0-1210] LayoutTableCell: Consider applying for YC's Fall 2025 batch! Applications are open till Aug 4 Guidelines | FAQ | Lists | API | Security | Legal | Apply to YC | Contact Search:\n            [0-1211] image\n            [0-1212] LayoutTable\n              [0-1214] LayoutTableRow\n                [0-1215] LayoutTableCell\n            [0-1216] LineBreak: \n            [0-1218] link: Consider applying for YC's Fall 2025 batch! Applications are open till Aug 4\n            [0-1220] LineBreak: \n            [0-1221] center\n              [0-1223] link: Guidelines\n              [0-1225] StaticText: |\n              [0-1226] link: FAQ\n              [0-1228] StaticText: |\n              [0-1229] link: Lists\n              [0-1231] StaticText: |\n              [0-1232] link: API\n              [0-1234] StaticText: |\n              [0-1235] link: Security\n              [0-1237] StaticText: |\n              [0-1238] link: Legal\n              [0-1240] StaticText: |\n              [0-1241] link: Apply to YC\n              [0-1243] StaticText: |\n              [0-1244] link: Contact\n              [0-1246] LineBreak: \n              [0-1247] LineBreak: \n              [0-4] form\n                [0-1248] StaticText: Search:\n                [0-5] textbox\n"
+        }
+      ],
+      "temperature": 0.1,
+      "response_model": {
+        "schema": {
+          "_def": {
+            "unknownKeys": "strip",
+            "catchall": {
+              "_def": {
+                "typeName": "ZodNever"
+              },
+              "~standard": {
+                "version": 1,
+                "vendor": "zod"
+              }
+            },
+            "typeName": "ZodObject"
+          },
+          "~standard": {
+            "version": 1,
+            "vendor": "zod"
+          },
+          "_cached": null
+        },
+        "name": "Observation"
+      }
+    }
+    requestId: "mjhxxwwkpr"
+[2025-07-12 21:05:39.936 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:05:39.937 -0500] [32mINFO[39m: [36mCache written to file[39m
+    category: "base_cache"
+[2025-07-12 21:05:39.937 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+[2025-07-12 21:05:39.938 -0500] [32mINFO[39m: [36mCache miss - saved new response[39m
+    category: "llm_cache"
+[2025-07-12 21:05:39.938 -0500] [32mINFO[39m: [36mGetting xpath for element[39m
+    category: "observation"
+    elementId: "0-93"
+[2025-07-12 21:05:39.938 -0500] [32mINFO[39m: [36mfound elements[39m
+    category: "observation"
+    elements: [
+      {
+        "description": "Link to the first story: 'Bypassing Google's big anti-adblock update'",
+        "method": "click",
+        "arguments": [],
+        "selector": "xpath=/html[1]/body[1]/center[1]/table[1]/tbody[1]/tr[3]/td[1]/table[1]/tbody[1]/tr[1]/td[3]/span[1]/a[1]"
+      }
+    ]
+[2025-07-12 21:05:39.938 -0500] [32mINFO[39m: [36mPerforming act from an ObserveResult[39m
+    category: "action"
+    observeResult: {
+      "description": "Link to the first story: 'Bypassing Google's big anti-adblock update'",
+      "method": "click",
+      "arguments": [],
+      "selector": "xpath=/html[1]/body[1]/center[1]/table[1]/tbody[1]/tr[3]/td[1]/table[1]/tbody[1]/tr[1]/td[3]/span[1]/a[1]"
+    }
+[2025-07-12 21:05:40.267 -0500] [32mINFO[39m: [36mclick, checking for page navigation[39m
+    category: "action"
+    xpath: "/html[1]/body[1]/center[1]/table[1]/tbody[1]/tr[3]/td[1]/table[1]/tbody[1]/tr[1]/td[3]/span[1]/a[1]"
+[2025-07-12 21:05:41.768 -0500] [32mINFO[39m: [36mclick complete[39m
+    category: "action"
+    newOpenedTab: "no new tabs opened"
+[2025-07-12 21:05:42.275 -0500] [32mINFO[39m: [36mfinished waiting for (possible) page navigation[39m
+    category: "action"
+[2025-07-12 21:05:42.275 -0500] [32mINFO[39m: [36mnew page detected with URL[39m
+    category: "action"
+    url: "https://0x44.xyz/blog/web-request-blocking/"
+✅ Action: Action [click] performed successfully on selector: /html[1]/body[1]/center[1]/table[1]/tbody[1]/tr[3]/td[1]/table[1]/tbody[1]/tr[1]/td[3]/span[1]/a[1]
+📊 Extracting: extract the title from this top story
+[2025-07-12 21:05:44.788 -0500] [32mINFO[39m: [36mrunning extract[39m
+    category: "extract"
+    instruction: "extract the title from this top story"
+    requestId: "i699agqo1t"
+    modelName: "claude-3-5-sonnet-latest"
+[2025-07-12 21:05:44.788 -0500] [32mINFO[39m: [36mstarting extraction using a11y tree[39m
+    category: "extraction"
+    instruction: "extract the title from this top story"
+[2025-07-12 21:05:45.317 -0500] [32mINFO[39m: [36mgot accessibility tree in 2 ms[39m
+    category: "observation"
+[2025-07-12 21:05:45.317 -0500] [32mINFO[39m: [36mGot accessibility tree data[39m
+    category: "extraction"
+[2025-07-12 21:05:45.319 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:05:45.319 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+[2025-07-12 21:05:45.320 -0500] [32mINFO[39m: [36mLLM cache miss - no cached response found[39m
+    category: "llm_cache"
+    cacheOptions: {
+      "model": "claude-3-5-sonnet-latest",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You are extracting content on behalf of a user. If a user asks you to extract a 'list' of information, or 'all' information, YOU MUST EXTRACT ALL OF THE INFORMATION THAT THE USER REQUESTS. You will be given: 1. An instruction 2. A list of DOM elements to extract from. Print the exact text from the DOM elements with all symbols, characters, and endlines as is. Print null or an empty string if no new information is found. ONLY print the content using the print_extracted_data tool provided. ONLY print the content using the print_extracted_data tool provided. If a user is attempting to extract links or URLs, you MUST respond with ONLY the IDs of the link elements. Do not attempt to extract links directly from the text unless absolutely necessary. "
+        },
+        {
+          "role": "user",
+          "content": "Instruction: extract the title from this top story\nDOM: [0-1] RootWebArea: How I found a bypass in Google's big anti-adblock update\n  [0-4] scrollable\n    [0-15] div\n      [0-16] div\n        [0-18] link: Derin Eryılmaz\n        [0-23] div\n          [0-25] StaticText: How I found a bypass in Google's big anti-adblock update\n          [0-27] StaticText: July 12, 2025\n      [0-2] div\n        [0-29] heading: About MV3\n        [0-31] paragraph\n          [0-32] StaticText: If you know anything about browsers, you've probably heard that Google Chrome is phasing out MV2 in favor of MV3. You've probably also heard that this hurts adblockers.\n        [0-33] paragraph\n          [0-34] StaticText: A quick explainer: \"MV\" stands for \"manifest version.\" MV3 introduces a new type of runtime for Chrome extensions that, among other things, gets rid of\n          [0-35] code\n            [0-36] StaticText: webRequestBlocking\n          [0-37] StaticText: , a permission that allows extensions to block requests dynamically based on their content (which\n          [0-38] link: its replacement\n          [0-40] StaticText: does not support). Adblockers heavily rely on\n          [0-41] code\n            [0-42] StaticText: webRequestBlocking\n          [0-43] StaticText: to function properly. Pretty convenient (cough cough) for a company that makes most of its revenue from ads to be removing that.\n        [0-44] paragraph\n          [0-45] StaticText: Anyway, with the phasing-out of MV2 pretty much done, now seems like a good time to talk about a bug in Chrome that I found and reported to Google in 2023.\n          [0-46] link: The bug\n          [0-48] StaticText: let\n          [0-49] code\n            [0-50] StaticText: webRequestBlocking\n          [0-51] StaticText: (and yes, adblockers) work in MV3.\n        [0-52] paragraph\n          [0-53] StaticText: I still consider it probably the funniest bug I've ever found.\n        [0-54] heading: Stop writing browsers in JavaScript\n        [0-56] paragraph\n          [0-57] StaticText: Yes, Chrome is written in C++. However, extensions are written in JavaScript, and the API functions they call look just like JavaScript functions, at least from the extension's point of view. But they aren't normal functions: they're special and do browsery C++ stuff through bindings. In theory, this should be safe.\n        [0-58] paragraph\n          [0-59] StaticText: But in the old days, Google decided it'd be a good idea to inject a bunch of JS files into pages that used Chrome APIs. These \"extension binding modules\" would initialize API functions and validate arguments before passing them to the browser.\n        [0-60] paragraph\n          [0-61] StaticText: (Note:\n          [0-62] link: here's the codebase\n          [0-64] StaticText: of those files in 2016.)\n        [0-65] paragraph\n          [0-66] StaticText: Turns out running privileged JavaScript in user-controlled websites was not a good idea, because JS can often be manipulated by overriding global functions and prototypes. Since certain APIs like\n          [0-67] code\n            [0-68] StaticText: chrome.runtime\n          [0-69] StaticText: exist on normal websites too, the extension bindings system led to multiple Universal XSS bugs back in 2015 and 2016.\n          [0-70] link: Here's one\n          [0-72] StaticText: that allows any website to inject code into any other website. Truly crazy stuff. If only I weren't 8 years old back then... maybe I could have cashed in.\n        [0-73] paragraph\n          [0-74] StaticText: Anyway, Google learned from their mistake and moved most API bindings to pure C++. However, a couple of JS binding files still exist and are used today. For example, if a Chrome extension runs the following code, it'll hit a\n          [0-75] link: JS loop\n          [0-77] StaticText: and hang infinitely: (as of July 2025)\n        [0-79] code\n          [0-80] StaticText: chrome.permissions.contains({ permissions: { length: Infinity }})\n        [0-81] paragraph\n          [0-82] StaticText: Maybe you are wondering what this has to do with adblockers.\n        [0-83] paragraph\n          [0-84] StaticText: Remember how I said only a few APIs still use JavaScript bindings?\n          [0-85] code\n            [0-86] StaticText: chrome.webRequest\n          [0-87] StaticText: is one of them.\n        [0-88] heading: The bug\n        [0-90] paragraph\n          [0-91] StaticText: This is how an MV2 extension would block requests to example.com:\n        [0-93] code\n          [0-94] StaticText: chrome.webRequest.onBeforeRequest.addListener(() => {  \n    return { cancel: true }  \n}, { urls: ['*://*.example.com/*'] }, ['blocking'])\n        [0-95] paragraph\n          [0-96] StaticText: It's the\n          [0-97] code\n            [0-98] StaticText: 'blocking'\n          [0-99] StaticText: part at the end that requires the\n          [0-100] code\n            [0-101] StaticText: webRequestBlocking\n          [0-102] StaticText: permission, and therefore isn't allowed in MV3. Without it, the\n          [0-103] code\n            [0-104] StaticText: cancel: true\n          [0-105] StaticText: does nothing.\n        [0-106] paragraph\n          [0-107] StaticText: So clearly adding a blocking listener to the\n          [0-108] code\n            [0-109] StaticText: chrome.webRequest.onBeforeRequest\n          [0-110] StaticText: event does not work anymore. But we can do something crazy. We can make\n          [0-111] strong\n            [0-112] StaticText: our own event.\n          [0-113] StaticText: Now, this should not be possible; it's not even a concept that makes sense. But, because of how the JS bindings work, you can do it. For some reason, there is a\n          [0-114] link: wrapper class\n          [0-116] StaticText: for\n          [0-117] code\n            [0-118] StaticText: webRequest\n          [0-119] StaticText: events that contains some extra state.\n        [0-120] paragraph\n        [0-122] paragraph\n          [0-123] StaticText: (A\n          [0-124] link: note on the security\n          [0-126] StaticText: of the above code.)\n        [0-127] paragraph\n          [0-128] StaticText: Instead of doing pure bindings between JS and C++, the browser creates one of these classes for every\n          [0-129] code\n            [0-130] StaticText: chrome.webRequest\n          [0-131] StaticText: event:\n          [0-132] code\n            [0-133] StaticText: onBeforeRequest\n          [0-134] StaticText: ,\n          [0-135] code\n            [0-136] StaticText: onCompleted\n          [0-137] StaticText: , etc. Surprisingly, the\n          [0-138] code\n            [0-139] StaticText: .constructor\n          [0-140] StaticText: of these events is still public. It points to yet another wrapper class, which internally calls\n          [0-141] code\n            [0-142] StaticText: WebRequestEventImpl\n          [0-143] StaticText: (from the code above). You can use this to can create a new event with your own properties:\n        [0-145] code\n          [0-146] StaticText: let WebRequestEvent = chrome.webRequest.onBeforeRequest.constructor\nlet fooEvent = new WebRequestEvent(\"foo\")\n        [0-147] paragraph\n          [0-148] StaticText: There is still a lot of validation going on in the backend when you try to actually do things with these fake events. For example, trying to add a listener to\n          [0-149] code\n            [0-150] StaticText: fooEvent\n          [0-151] StaticText: kills the extension's process, because the event name is invalid. So how do you manipulate the properties of\n          [0-152] code\n            [0-153] StaticText: WebRequestEventImpl\n          [0-154] StaticText: to do anything interesting?\n        [0-155] paragraph\n          [0-156] StaticText: After a lot of time looking into the C++ code, I found exactly one vulnerable thing: the\n          [0-157] code\n            [0-158] StaticText: opt_webViewInstanceId\n          [0-159] StaticText: parameter. This was set for Chrome platform apps, in order to let them manage their embedded websites (WebViews). Among other things, it let them use web request blocking to control navigation. Basically, if an event had a WebView ID, the permission check for\n          [0-160] code\n            [0-161] StaticText: webRequestBlocking\n          [212] StaticText: \n          [0-162] link: would be skipped\n          [0-164] StaticText: . The issue was that the browser never verified that an event with a WebView ID actually belonged to a platform app. So an extension could spoof it, skip the check, and use the blocking feature.\n        [0-166] code\n          [0-167] StaticText: let WebRequestEvent = chrome.webRequest.onBeforeRequest.constructor\n\n// opt_webViewInstanceId is the 5th argument\nlet fakeEvent = new WebRequestEvent(\"webRequest.onBeforeRequest\", 0, 0, 0, 1337)\n\nfakeEvent.addListener(() => {  \n    return { cancel: true }  \n}, { urls: ['*://*.example.com/*'] }, ['blocking'])\n        [0-168] paragraph\n          [0-169] StaticText: Maybe I should note that platform apps were\n          [0-170] strong\n            [0-171] StaticText: deprecated in 2020.\n          [0-172] StaticText: I found this bug in 2023, and the code to handle\n          [0-173] code\n            [0-174] StaticText: opt_webViewInstanceId\n          [0-175] StaticText: still exists in 2025. Goes to show how ancient code leads to bugs.\n        [0-176] heading: What could have happened, and what happened\n        [0-178] paragraph\n          [0-179] StaticText: Technically, someone could have used this bug to make a perfectly working adblocker in MV3 by simply replacing all instances of\n          [0-180] code\n            [0-181] StaticText: chrome.webRequest.onBeforeRequest\n          [0-182] StaticText: with\n          [0-183] code\n            [0-184] StaticText: fakeEvent\n          [0-185] StaticText: . This would have been very funny, after all the hype about how adblockers were being killed.\n        [0-186] paragraph\n          [0-187] StaticText: But I don't know how to make an adblocker, so I decided to\n          [0-188] link: report the issue to Google\n          [0-190] StaticText: in August 2023. It was patched in Chrome 118 by\n          [0-191] link: checking whether\n          [0-193] StaticText: extensions using\n          [0-194] code\n            [0-195] StaticText: opt_webViewInstanceId\n          [0-196] StaticText: actually had WebView permissions. For the report, I netted a massive reward of $0. They decided it wasn't a security issue, and honestly, I agree, because it didn't give extensions access to data they didn't already have.\n        [0-197] paragraph\n          [0-198] image: No money\n        [0-199] paragraph\n          [0-200] StaticText: (Shown above: my earnings from this bug.)\n        [0-201] paragraph\n          [0-202] StaticText: Anyway, it was a fun one, and it really shows how a few lines of code can sometimes bypass a big update by a big company. I hope you found it interesting! If you want to read another post about a bug in Chrome extensions, try\n          [0-203] link: this one I found in the same year\n          [0-205] StaticText: , which got a CVE number and a $10,000 reward.\n      [0-206] div\n        [0-207] link: Other posts\n        [0-210] link: Email me\n\nONLY print the content using the print_extracted_data tool provided.\nONLY print the content using the print_extracted_data tool provided."
+        }
+      ],
+      "temperature": 0.1,
+      "response_model": {
+        "schema": {
+          "_def": {
+            "unknownKeys": "strip",
+            "catchall": {
+              "_def": {
+                "typeName": "ZodNever"
+              },
+              "~standard": {
+                "version": 1,
+                "vendor": "zod"
+              }
+            },
+            "typeName": "ZodObject"
+          },
+          "~standard": {
+            "version": 1,
+            "vendor": "zod"
+          },
+          "_cached": null
+        },
+        "name": "Extraction"
+      }
+    }
+    requestId: "i699agqo1t"
+[2025-07-12 21:05:48.123 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:05:48.124 -0500] [32mINFO[39m: [36mCache written to file[39m
+    category: "base_cache"
+[2025-07-12 21:05:48.124 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+[2025-07-12 21:05:48.124 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:05:48.124 -0500] [32mINFO[39m: [36mCache miss - saved new response[39m
+    category: "llm_cache"
+[2025-07-12 21:05:48.125 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+[2025-07-12 21:05:48.125 -0500] [32mINFO[39m: [36mLLM cache miss - no cached response found[39m
+    category: "llm_cache"
+    cacheOptions: {
+      "model": "claude-3-5-sonnet-latest",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You are an AI assistant tasked with evaluating the progress and completion status of an extraction task.\nAnalyze the extraction response and determine if the task is completed or if more information is needed.\nStrictly abide by the following criteria:\n1. Once the instruction has been satisfied by the current extraction response, ALWAYS set completion status to true and stop processing, regardless of remaining chunks.\n2. Only set completion status to false if BOTH of these conditions are true:\n   - The instruction has not been satisfied yet\n   - There are still chunks left to process (chunksTotal > chunksSeen)"
+        },
+        {
+          "role": "user",
+          "content": "Instruction: extract the title from this top story\nExtracted content: {\n  \"title\": \"How I found a bypass in Google's big anti-adblock update\"\n}\nchunksSeen: 1\nchunksTotal: 1"
+        }
+      ],
+      "temperature": 0.1,
+      "response_model": {
+        "name": "Metadata",
+        "schema": {
+          "_def": {
+            "unknownKeys": "strip",
+            "catchall": {
+              "_def": {
+                "typeName": "ZodNever"
+              },
+              "~standard": {
+                "version": 1,
+                "vendor": "zod"
+              }
+            },
+            "typeName": "ZodObject"
+          },
+          "~standard": {
+            "version": 1,
+            "vendor": "zod"
+          },
+          "_cached": null
+        }
+      }
+    }
+    requestId: "i699agqo1t"
+✅ Extraction completed successfully
+   ✅ title: How I found a bypass in Google's big anti-adblock update...
+📊 Extracting: extract the points from this top story
+[2025-07-12 21:05:52.105 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:05:52.106 -0500] [32mINFO[39m: [36mCache written to file[39m
+    category: "base_cache"
+[2025-07-12 21:05:52.106 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+[2025-07-12 21:05:52.106 -0500] [32mINFO[39m: [36mCache miss - saved new response[39m
+    category: "llm_cache"
+[2025-07-12 21:05:52.106 -0500] [32mINFO[39m: [36mreceived extraction response[39m
+    category: "extraction"
+    extraction_response: {
+      "title": "How I found a bypass in Google's big anti-adblock update",
+      "metadata": {
+        "completed": true,
+        "progress": "Title extracted: \"How I found a bypass in Google's big anti-adblock update\""
+      },
+      "prompt_tokens": 4463,
+      "completion_tokens": 277,
+      "inference_time_ms": 6788
+    }
+[2025-07-12 21:05:52.106 -0500] [32mINFO[39m: [36mextraction completed successfully[39m
+    category: "extraction"
+    extraction_response: {
+      "title": "How I found a bypass in Google's big anti-adblock update",
+      "metadata": {
+        "completed": true,
+        "progress": "Title extracted: \"How I found a bypass in Google's big anti-adblock update\""
+      },
+      "prompt_tokens": 4463,
+      "completion_tokens": 277,
+      "inference_time_ms": 6788
+    }
+[2025-07-12 21:05:52.112 -0500] [32mINFO[39m: [36mrunning extract[39m
+    category: "extract"
+    instruction: "extract the points from this top story"
+    requestId: "snk4p2thal"
+    modelName: "claude-3-5-sonnet-latest"
+[2025-07-12 21:05:52.112 -0500] [32mINFO[39m: [36mstarting extraction using a11y tree[39m
+    category: "extraction"
+    instruction: "extract the points from this top story"
+[2025-07-12 21:05:52.635 -0500] [32mINFO[39m: [36mgot accessibility tree in 1 ms[39m
+    category: "observation"
+[2025-07-12 21:05:52.636 -0500] [32mINFO[39m: [36mGot accessibility tree data[39m
+    category: "extraction"
+[2025-07-12 21:05:52.637 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:05:52.637 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+[2025-07-12 21:05:52.637 -0500] [32mINFO[39m: [36mLLM cache miss - no cached response found[39m
+    category: "llm_cache"
+    cacheOptions: {
+      "model": "claude-3-5-sonnet-latest",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You are extracting content on behalf of a user. If a user asks you to extract a 'list' of information, or 'all' information, YOU MUST EXTRACT ALL OF THE INFORMATION THAT THE USER REQUESTS. You will be given: 1. An instruction 2. A list of DOM elements to extract from. Print the exact text from the DOM elements with all symbols, characters, and endlines as is. Print null or an empty string if no new information is found. ONLY print the content using the print_extracted_data tool provided. ONLY print the content using the print_extracted_data tool provided. If a user is attempting to extract links or URLs, you MUST respond with ONLY the IDs of the link elements. Do not attempt to extract links directly from the text unless absolutely necessary. "
+        },
+        {
+          "role": "user",
+          "content": "Instruction: extract the points from this top story\nDOM: [0-1] RootWebArea: How I found a bypass in Google's big anti-adblock update\n  [0-4] scrollable\n    [0-15] div\n      [0-16] div\n        [0-18] link: Derin Eryılmaz\n        [0-23] div\n          [0-25] StaticText: How I found a bypass in Google's big anti-adblock update\n          [0-27] StaticText: July 12, 2025\n      [0-2] div\n        [0-29] heading: About MV3\n        [0-31] paragraph\n          [0-32] StaticText: If you know anything about browsers, you've probably heard that Google Chrome is phasing out MV2 in favor of MV3. You've probably also heard that this hurts adblockers.\n        [0-33] paragraph\n          [0-34] StaticText: A quick explainer: \"MV\" stands for \"manifest version.\" MV3 introduces a new type of runtime for Chrome extensions that, among other things, gets rid of\n          [0-35] code\n            [0-36] StaticText: webRequestBlocking\n          [0-37] StaticText: , a permission that allows extensions to block requests dynamically based on their content (which\n          [0-38] link: its replacement\n          [0-40] StaticText: does not support). Adblockers heavily rely on\n          [0-41] code\n            [0-42] StaticText: webRequestBlocking\n          [0-43] StaticText: to function properly. Pretty convenient (cough cough) for a company that makes most of its revenue from ads to be removing that.\n        [0-44] paragraph\n          [0-45] StaticText: Anyway, with the phasing-out of MV2 pretty much done, now seems like a good time to talk about a bug in Chrome that I found and reported to Google in 2023.\n          [0-46] link: The bug\n          [0-48] StaticText: let\n          [0-49] code\n            [0-50] StaticText: webRequestBlocking\n          [0-51] StaticText: (and yes, adblockers) work in MV3.\n        [0-52] paragraph\n          [0-53] StaticText: I still consider it probably the funniest bug I've ever found.\n        [0-54] heading: Stop writing browsers in JavaScript\n        [0-56] paragraph\n          [0-57] StaticText: Yes, Chrome is written in C++. However, extensions are written in JavaScript, and the API functions they call look just like JavaScript functions, at least from the extension's point of view. But they aren't normal functions: they're special and do browsery C++ stuff through bindings. In theory, this should be safe.\n        [0-58] paragraph\n          [0-59] StaticText: But in the old days, Google decided it'd be a good idea to inject a bunch of JS files into pages that used Chrome APIs. These \"extension binding modules\" would initialize API functions and validate arguments before passing them to the browser.\n        [0-60] paragraph\n          [0-61] StaticText: (Note:\n          [0-62] link: here's the codebase\n          [0-64] StaticText: of those files in 2016.)\n        [0-65] paragraph\n          [0-66] StaticText: Turns out running privileged JavaScript in user-controlled websites was not a good idea, because JS can often be manipulated by overriding global functions and prototypes. Since certain APIs like\n          [0-67] code\n            [0-68] StaticText: chrome.runtime\n          [0-69] StaticText: exist on normal websites too, the extension bindings system led to multiple Universal XSS bugs back in 2015 and 2016.\n          [0-70] link: Here's one\n          [0-72] StaticText: that allows any website to inject code into any other website. Truly crazy stuff. If only I weren't 8 years old back then... maybe I could have cashed in.\n        [0-73] paragraph\n          [0-74] StaticText: Anyway, Google learned from their mistake and moved most API bindings to pure C++. However, a couple of JS binding files still exist and are used today. For example, if a Chrome extension runs the following code, it'll hit a\n          [0-75] link: JS loop\n          [0-77] StaticText: and hang infinitely: (as of July 2025)\n        [0-79] code\n          [0-80] StaticText: chrome.permissions.contains({ permissions: { length: Infinity }})\n        [0-81] paragraph\n          [0-82] StaticText: Maybe you are wondering what this has to do with adblockers.\n        [0-83] paragraph\n          [0-84] StaticText: Remember how I said only a few APIs still use JavaScript bindings?\n          [0-85] code\n            [0-86] StaticText: chrome.webRequest\n          [0-87] StaticText: is one of them.\n        [0-88] heading: The bug\n        [0-90] paragraph\n          [0-91] StaticText: This is how an MV2 extension would block requests to example.com:\n        [0-93] code\n          [0-94] StaticText: chrome.webRequest.onBeforeRequest.addListener(() => {  \n    return { cancel: true }  \n}, { urls: ['*://*.example.com/*'] }, ['blocking'])\n        [0-95] paragraph\n          [0-96] StaticText: It's the\n          [0-97] code\n            [0-98] StaticText: 'blocking'\n          [0-99] StaticText: part at the end that requires the\n          [0-100] code\n            [0-101] StaticText: webRequestBlocking\n          [0-102] StaticText: permission, and therefore isn't allowed in MV3. Without it, the\n          [0-103] code\n            [0-104] StaticText: cancel: true\n          [0-105] StaticText: does nothing.\n        [0-106] paragraph\n          [0-107] StaticText: So clearly adding a blocking listener to the\n          [0-108] code\n            [0-109] StaticText: chrome.webRequest.onBeforeRequest\n          [0-110] StaticText: event does not work anymore. But we can do something crazy. We can make\n          [0-111] strong\n            [0-112] StaticText: our own event.\n          [0-113] StaticText: Now, this should not be possible; it's not even a concept that makes sense. But, because of how the JS bindings work, you can do it. For some reason, there is a\n          [0-114] link: wrapper class\n          [0-116] StaticText: for\n          [0-117] code\n            [0-118] StaticText: webRequest\n          [0-119] StaticText: events that contains some extra state.\n        [0-120] paragraph\n        [0-122] paragraph\n          [0-123] StaticText: (A\n          [0-124] link: note on the security\n          [0-126] StaticText: of the above code.)\n        [0-127] paragraph\n          [0-128] StaticText: Instead of doing pure bindings between JS and C++, the browser creates one of these classes for every\n          [0-129] code\n            [0-130] StaticText: chrome.webRequest\n          [0-131] StaticText: event:\n          [0-132] code\n            [0-133] StaticText: onBeforeRequest\n          [0-134] StaticText: ,\n          [0-135] code\n            [0-136] StaticText: onCompleted\n          [0-137] StaticText: , etc. Surprisingly, the\n          [0-138] code\n            [0-139] StaticText: .constructor\n          [0-140] StaticText: of these events is still public. It points to yet another wrapper class, which internally calls\n          [0-141] code\n            [0-142] StaticText: WebRequestEventImpl\n          [0-143] StaticText: (from the code above). You can use this to can create a new event with your own properties:\n        [0-145] code\n          [0-146] StaticText: let WebRequestEvent = chrome.webRequest.onBeforeRequest.constructor\nlet fooEvent = new WebRequestEvent(\"foo\")\n        [0-147] paragraph\n          [0-148] StaticText: There is still a lot of validation going on in the backend when you try to actually do things with these fake events. For example, trying to add a listener to\n          [0-149] code\n            [0-150] StaticText: fooEvent\n          [0-151] StaticText: kills the extension's process, because the event name is invalid. So how do you manipulate the properties of\n          [0-152] code\n            [0-153] StaticText: WebRequestEventImpl\n          [0-154] StaticText: to do anything interesting?\n        [0-155] paragraph\n          [0-156] StaticText: After a lot of time looking into the C++ code, I found exactly one vulnerable thing: the\n          [0-157] code\n            [0-158] StaticText: opt_webViewInstanceId\n          [0-159] StaticText: parameter. This was set for Chrome platform apps, in order to let them manage their embedded websites (WebViews). Among other things, it let them use web request blocking to control navigation. Basically, if an event had a WebView ID, the permission check for\n          [0-160] code\n            [0-161] StaticText: webRequestBlocking\n          [212] StaticText: \n          [0-162] link: would be skipped\n          [0-164] StaticText: . The issue was that the browser never verified that an event with a WebView ID actually belonged to a platform app. So an extension could spoof it, skip the check, and use the blocking feature.\n        [0-166] code\n          [0-167] StaticText: let WebRequestEvent = chrome.webRequest.onBeforeRequest.constructor\n\n// opt_webViewInstanceId is the 5th argument\nlet fakeEvent = new WebRequestEvent(\"webRequest.onBeforeRequest\", 0, 0, 0, 1337)\n\nfakeEvent.addListener(() => {  \n    return { cancel: true }  \n}, { urls: ['*://*.example.com/*'] }, ['blocking'])\n        [0-168] paragraph\n          [0-169] StaticText: Maybe I should note that platform apps were\n          [0-170] strong\n            [0-171] StaticText: deprecated in 2020.\n          [0-172] StaticText: I found this bug in 2023, and the code to handle\n          [0-173] code\n            [0-174] StaticText: opt_webViewInstanceId\n          [0-175] StaticText: still exists in 2025. Goes to show how ancient code leads to bugs.\n        [0-176] heading: What could have happened, and what happened\n        [0-178] paragraph\n          [0-179] StaticText: Technically, someone could have used this bug to make a perfectly working adblocker in MV3 by simply replacing all instances of\n          [0-180] code\n            [0-181] StaticText: chrome.webRequest.onBeforeRequest\n          [0-182] StaticText: with\n          [0-183] code\n            [0-184] StaticText: fakeEvent\n          [0-185] StaticText: . This would have been very funny, after all the hype about how adblockers were being killed.\n        [0-186] paragraph\n          [0-187] StaticText: But I don't know how to make an adblocker, so I decided to\n          [0-188] link: report the issue to Google\n          [0-190] StaticText: in August 2023. It was patched in Chrome 118 by\n          [0-191] link: checking whether\n          [0-193] StaticText: extensions using\n          [0-194] code\n            [0-195] StaticText: opt_webViewInstanceId\n          [0-196] StaticText: actually had WebView permissions. For the report, I netted a massive reward of $0. They decided it wasn't a security issue, and honestly, I agree, because it didn't give extensions access to data they didn't already have.\n        [0-197] paragraph\n          [0-198] image: No money\n        [0-199] paragraph\n          [0-200] StaticText: (Shown above: my earnings from this bug.)\n        [0-201] paragraph\n          [0-202] StaticText: Anyway, it was a fun one, and it really shows how a few lines of code can sometimes bypass a big update by a big company. I hope you found it interesting! If you want to read another post about a bug in Chrome extensions, try\n          [0-203] link: this one I found in the same year\n          [0-205] StaticText: , which got a CVE number and a $10,000 reward.\n      [0-206] div\n        [0-207] link: Other posts\n        [0-210] link: Email me\n\nONLY print the content using the print_extracted_data tool provided.\nONLY print the content using the print_extracted_data tool provided."
+        }
+      ],
+      "temperature": 0.1,
+      "response_model": {
+        "schema": {
+          "_def": {
+            "unknownKeys": "strip",
+            "catchall": {
+              "_def": {
+                "typeName": "ZodNever"
+              },
+              "~standard": {
+                "version": 1,
+                "vendor": "zod"
+              }
+            },
+            "typeName": "ZodObject"
+          },
+          "~standard": {
+            "version": 1,
+            "vendor": "zod"
+          },
+          "_cached": null
+        },
+        "name": "Extraction"
+      }
+    }
+    requestId: "snk4p2thal"
+[2025-07-12 21:05:55.691 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:05:55.692 -0500] [32mINFO[39m: [36mCache written to file[39m
+    category: "base_cache"
+[2025-07-12 21:05:55.692 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+[2025-07-12 21:05:55.693 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:05:55.693 -0500] [32mINFO[39m: [36mCache miss - saved new response[39m
+    category: "llm_cache"
+[2025-07-12 21:05:55.693 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+[2025-07-12 21:05:55.693 -0500] [32mINFO[39m: [36mLLM cache miss - no cached response found[39m
+    category: "llm_cache"
+    cacheOptions: {
+      "model": "claude-3-5-sonnet-latest",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You are an AI assistant tasked with evaluating the progress and completion status of an extraction task.\nAnalyze the extraction response and determine if the task is completed or if more information is needed.\nStrictly abide by the following criteria:\n1. Once the instruction has been satisfied by the current extraction response, ALWAYS set completion status to true and stop processing, regardless of remaining chunks.\n2. Only set completion status to false if BOTH of these conditions are true:\n   - The instruction has not been satisfied yet\n   - There are still chunks left to process (chunksTotal > chunksSeen)"
+        },
+        {
+          "role": "user",
+          "content": "Instruction: extract the points from this top story\nExtracted content: {\n  \"points\": \"\"\n}\nchunksSeen: 1\nchunksTotal: 1"
+        }
+      ],
+      "temperature": 0.1,
+      "response_model": {
+        "name": "Metadata",
+        "schema": {
+          "_def": {
+            "unknownKeys": "strip",
+            "catchall": {
+              "_def": {
+                "typeName": "ZodNever"
+              },
+              "~standard": {
+                "version": 1,
+                "vendor": "zod"
+              }
+            },
+            "typeName": "ZodObject"
+          },
+          "~standard": {
+            "version": 1,
+            "vendor": "zod"
+          },
+          "_cached": null
+        }
+      }
+    }
+    requestId: "snk4p2thal"
+✅ Extraction completed successfully
+   ✅ points: points not found...
+🤖 Executing: go back to the previous page
+[2025-07-12 21:06:00.648 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:06:00.648 -0500] [32mINFO[39m: [36mCache written to file[39m
+    category: "base_cache"
+[2025-07-12 21:06:00.648 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+[2025-07-12 21:06:00.648 -0500] [32mINFO[39m: [36mCache miss - saved new response[39m
+    category: "llm_cache"
+[2025-07-12 21:06:00.649 -0500] [32mINFO[39m: [36mreceived extraction response[39m
+    category: "extraction"
+    extraction_response: {
+      "points": "",
+      "metadata": {
+        "completed": false,
+        "progress": "No points data found in the content"
+      },
+      "prompt_tokens": 4448,
+      "completion_tokens": 296,
+      "inference_time_ms": 8012
+    }
+[2025-07-12 21:06:00.649 -0500] [32mINFO[39m: [36mextraction incomplete after processing all data[39m
+    category: "extraction"
+    extraction_response: {
+      "points": "",
+      "metadata": {
+        "completed": false,
+        "progress": "No points data found in the content"
+      },
+      "prompt_tokens": 4448,
+      "completion_tokens": 296,
+      "inference_time_ms": 8012
+    }
+[2025-07-12 21:06:00.653 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "go back to the previous page"
+    requestId: "ee80e4oltpg"
+    modelName: "claude-3-5-sonnet-latest"
+[2025-07-12 21:06:00.653 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: go back to the previous page. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+[2025-07-12 21:06:01.156 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:06:01.174 -0500] [32mINFO[39m: [36mgot accessibility tree in 2 ms[39m
+    category: "observation"
+[2025-07-12 21:06:01.177 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:06:01.177 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+[2025-07-12 21:06:01.178 -0500] [32mINFO[39m: [36mLLM cache miss - no cached response found[39m
+    category: "llm_cache"
+    cacheOptions: {
+      "model": "claude-3-5-sonnet-latest",
+      "messages": [
+        {
+          "role": "system",
+          "content": " You are helping the user automate the browser by finding elements based on what the user wants to observe in the page. You will be given: 1. a instruction of elements to observe 2. a hierarchical accessibility tree showing the semantic structure of the page. The tree is a hybrid of the DOM and the accessibility tree. Return an array of elements that match the instruction if they exist, otherwise return an empty array."
+        },
+        {
+          "role": "user",
+          "content": "instruction: Find the most relevant element to perform an action on given the following action: go back to the previous page. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method.\nAccessibility Tree: \n[0-1] RootWebArea: How I found a bypass in Google's big anti-adblock update\n  [0-4] scrollable\n    [0-15] div\n      [0-16] div\n        [0-18] link: Derin Eryılmaz\n        [0-23] div\n          [0-25] StaticText: How I found a bypass in Google's big anti-adblock update\n          [0-27] StaticText: July 12, 2025\n      [0-2] div\n        [0-29] heading: About MV3\n        [0-31] paragraph\n          [0-32] StaticText: If you know anything about browsers, you've probably heard that Google Chrome is phasing out MV2 in favor of MV3. You've probably also heard that this hurts adblockers.\n        [0-33] paragraph\n          [0-34] StaticText: A quick explainer: \"MV\" stands for \"manifest version.\" MV3 introduces a new type of runtime for Chrome extensions that, among other things, gets rid of\n          [0-35] code\n            [0-36] StaticText: webRequestBlocking\n          [0-37] StaticText: , a permission that allows extensions to block requests dynamically based on their content (which\n          [0-38] link: its replacement\n          [0-40] StaticText: does not support). Adblockers heavily rely on\n          [0-41] code\n            [0-42] StaticText: webRequestBlocking\n          [0-43] StaticText: to function properly. Pretty convenient (cough cough) for a company that makes most of its revenue from ads to be removing that.\n        [0-44] paragraph\n          [0-45] StaticText: Anyway, with the phasing-out of MV2 pretty much done, now seems like a good time to talk about a bug in Chrome that I found and reported to Google in 2023.\n          [0-46] link: The bug\n          [0-48] StaticText: let\n          [0-49] code\n            [0-50] StaticText: webRequestBlocking\n          [0-51] StaticText: (and yes, adblockers) work in MV3.\n        [0-52] paragraph\n          [0-53] StaticText: I still consider it probably the funniest bug I've ever found.\n        [0-54] heading: Stop writing browsers in JavaScript\n        [0-56] paragraph\n          [0-57] StaticText: Yes, Chrome is written in C++. However, extensions are written in JavaScript, and the API functions they call look just like JavaScript functions, at least from the extension's point of view. But they aren't normal functions: they're special and do browsery C++ stuff through bindings. In theory, this should be safe.\n        [0-58] paragraph\n          [0-59] StaticText: But in the old days, Google decided it'd be a good idea to inject a bunch of JS files into pages that used Chrome APIs. These \"extension binding modules\" would initialize API functions and validate arguments before passing them to the browser.\n        [0-60] paragraph\n          [0-61] StaticText: (Note:\n          [0-62] link: here's the codebase\n          [0-64] StaticText: of those files in 2016.)\n        [0-65] paragraph\n          [0-66] StaticText: Turns out running privileged JavaScript in user-controlled websites was not a good idea, because JS can often be manipulated by overriding global functions and prototypes. Since certain APIs like\n          [0-67] code\n            [0-68] StaticText: chrome.runtime\n          [0-69] StaticText: exist on normal websites too, the extension bindings system led to multiple Universal XSS bugs back in 2015 and 2016.\n          [0-70] link: Here's one\n          [0-72] StaticText: that allows any website to inject code into any other website. Truly crazy stuff. If only I weren't 8 years old back then... maybe I could have cashed in.\n        [0-73] paragraph\n          [0-74] StaticText: Anyway, Google learned from their mistake and moved most API bindings to pure C++. However, a couple of JS binding files still exist and are used today. For example, if a Chrome extension runs the following code, it'll hit a\n          [0-75] link: JS loop\n          [0-77] StaticText: and hang infinitely: (as of July 2025)\n        [0-79] code\n          [0-80] StaticText: chrome.permissions.contains({ permissions: { length: Infinity }})\n        [0-81] paragraph\n          [0-82] StaticText: Maybe you are wondering what this has to do with adblockers.\n        [0-83] paragraph\n          [0-84] StaticText: Remember how I said only a few APIs still use JavaScript bindings?\n          [0-85] code\n            [0-86] StaticText: chrome.webRequest\n          [0-87] StaticText: is one of them.\n        [0-88] heading: The bug\n        [0-90] paragraph\n          [0-91] StaticText: This is how an MV2 extension would block requests to example.com:\n        [0-93] code\n          [0-94] StaticText: chrome.webRequest.onBeforeRequest.addListener(() => {  \n    return { cancel: true }  \n}, { urls: ['*://*.example.com/*'] }, ['blocking'])\n        [0-95] paragraph\n          [0-96] StaticText: It's the\n          [0-97] code\n            [0-98] StaticText: 'blocking'\n          [0-99] StaticText: part at the end that requires the\n          [0-100] code\n            [0-101] StaticText: webRequestBlocking\n          [0-102] StaticText: permission, and therefore isn't allowed in MV3. Without it, the\n          [0-103] code\n            [0-104] StaticText: cancel: true\n          [0-105] StaticText: does nothing.\n        [0-106] paragraph\n          [0-107] StaticText: So clearly adding a blocking listener to the\n          [0-108] code\n            [0-109] StaticText: chrome.webRequest.onBeforeRequest\n          [0-110] StaticText: event does not work anymore. But we can do something crazy. We can make\n          [0-111] strong\n            [0-112] StaticText: our own event.\n          [0-113] StaticText: Now, this should not be possible; it's not even a concept that makes sense. But, because of how the JS bindings work, you can do it. For some reason, there is a\n          [0-114] link: wrapper class\n          [0-116] StaticText: for\n          [0-117] code\n            [0-118] StaticText: webRequest\n          [0-119] StaticText: events that contains some extra state.\n        [0-120] paragraph\n        [0-122] paragraph\n          [0-123] StaticText: (A\n          [0-124] link: note on the security\n          [0-126] StaticText: of the above code.)\n        [0-127] paragraph\n          [0-128] StaticText: Instead of doing pure bindings between JS and C++, the browser creates one of these classes for every\n          [0-129] code\n            [0-130] StaticText: chrome.webRequest\n          [0-131] StaticText: event:\n          [0-132] code\n            [0-133] StaticText: onBeforeRequest\n          [0-134] StaticText: ,\n          [0-135] code\n            [0-136] StaticText: onCompleted\n          [0-137] StaticText: , etc. Surprisingly, the\n          [0-138] code\n            [0-139] StaticText: .constructor\n          [0-140] StaticText: of these events is still public. It points to yet another wrapper class, which internally calls\n          [0-141] code\n            [0-142] StaticText: WebRequestEventImpl\n          [0-143] StaticText: (from the code above). You can use this to can create a new event with your own properties:\n        [0-145] code\n          [0-146] StaticText: let WebRequestEvent = chrome.webRequest.onBeforeRequest.constructor\nlet fooEvent = new WebRequestEvent(\"foo\")\n        [0-147] paragraph\n          [0-148] StaticText: There is still a lot of validation going on in the backend when you try to actually do things with these fake events. For example, trying to add a listener to\n          [0-149] code\n            [0-150] StaticText: fooEvent\n          [0-151] StaticText: kills the extension's process, because the event name is invalid. So how do you manipulate the properties of\n          [0-152] code\n            [0-153] StaticText: WebRequestEventImpl\n          [0-154] StaticText: to do anything interesting?\n        [0-155] paragraph\n          [0-156] StaticText: After a lot of time looking into the C++ code, I found exactly one vulnerable thing: the\n          [0-157] code\n            [0-158] StaticText: opt_webViewInstanceId\n          [0-159] StaticText: parameter. This was set for Chrome platform apps, in order to let them manage their embedded websites (WebViews). Among other things, it let them use web request blocking to control navigation. Basically, if an event had a WebView ID, the permission check for\n          [0-160] code\n            [0-161] StaticText: webRequestBlocking\n          [212] StaticText: \n          [0-162] link: would be skipped\n          [0-164] StaticText: . The issue was that the browser never verified that an event with a WebView ID actually belonged to a platform app. So an extension could spoof it, skip the check, and use the blocking feature.\n        [0-166] code\n          [0-167] StaticText: let WebRequestEvent = chrome.webRequest.onBeforeRequest.constructor\n\n// opt_webViewInstanceId is the 5th argument\nlet fakeEvent = new WebRequestEvent(\"webRequest.onBeforeRequest\", 0, 0, 0, 1337)\n\nfakeEvent.addListener(() => {  \n    return { cancel: true }  \n}, { urls: ['*://*.example.com/*'] }, ['blocking'])\n        [0-168] paragraph\n          [0-169] StaticText: Maybe I should note that platform apps were\n          [0-170] strong\n            [0-171] StaticText: deprecated in 2020.\n          [0-172] StaticText: I found this bug in 2023, and the code to handle\n          [0-173] code\n            [0-174] StaticText: opt_webViewInstanceId\n          [0-175] StaticText: still exists in 2025. Goes to show how ancient code leads to bugs.\n        [0-176] heading: What could have happened, and what happened\n        [0-178] paragraph\n          [0-179] StaticText: Technically, someone could have used this bug to make a perfectly working adblocker in MV3 by simply replacing all instances of\n          [0-180] code\n            [0-181] StaticText: chrome.webRequest.onBeforeRequest\n          [0-182] StaticText: with\n          [0-183] code\n            [0-184] StaticText: fakeEvent\n          [0-185] StaticText: . This would have been very funny, after all the hype about how adblockers were being killed.\n        [0-186] paragraph\n          [0-187] StaticText: But I don't know how to make an adblocker, so I decided to\n          [0-188] link: report the issue to Google\n          [0-190] StaticText: in August 2023. It was patched in Chrome 118 by\n          [0-191] link: checking whether\n          [0-193] StaticText: extensions using\n          [0-194] code\n            [0-195] StaticText: opt_webViewInstanceId\n          [0-196] StaticText: actually had WebView permissions. For the report, I netted a massive reward of $0. They decided it wasn't a security issue, and honestly, I agree, because it didn't give extensions access to data they didn't already have.\n        [0-197] paragraph\n          [0-198] image: No money\n        [0-199] paragraph\n          [0-200] StaticText: (Shown above: my earnings from this bug.)\n        [0-201] paragraph\n          [0-202] StaticText: Anyway, it was a fun one, and it really shows how a few lines of code can sometimes bypass a big update by a big company. I hope you found it interesting! If you want to read another post about a bug in Chrome extensions, try\n          [0-203] link: this one I found in the same year\n          [0-205] StaticText: , which got a CVE number and a $10,000 reward.\n      [0-206] div\n        [0-207] link: Other posts\n        [0-210] link: Email me\n"
+        }
+      ],
+      "temperature": 0.1,
+      "response_model": {
+        "schema": {
+          "_def": {
+            "unknownKeys": "strip",
+            "catchall": {
+              "_def": {
+                "typeName": "ZodNever"
+              },
+              "~standard": {
+                "version": 1,
+                "vendor": "zod"
+              }
+            },
+            "typeName": "ZodObject"
+          },
+          "~standard": {
+            "version": 1,
+            "vendor": "zod"
+          },
+          "_cached": null
+        },
+        "name": "Observation"
+      }
+    }
+    requestId: "ee80e4oltpg"
+❌ Action: Failed to perform act: No observe results found for action
+[2025-07-12 21:06:05.404 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:06:05.404 -0500] [32mINFO[39m: [36mCache written to file[39m
+    category: "base_cache"
+[2025-07-12 21:06:05.404 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+[2025-07-12 21:06:05.404 -0500] [32mINFO[39m: [36mCache miss - saved new response[39m
+    category: "llm_cache"
+[2025-07-12 21:06:05.404 -0500] [32mINFO[39m: [36mfound elements[39m
+    category: "observation"
+    elements: []
+📊 Processing top story 2/3...
+🤖 Executing: click on the second top story
+[2025-07-12 21:06:06.412 -0500] [32mINFO[39m: [36mrunning act[39m
+    category: "act"
+    action: "click on the second top story"
+    requestId: "8i6zaznyrgm"
+    modelName: "claude-3-5-sonnet-latest"
+[2025-07-12 21:06:06.412 -0500] [32mINFO[39m: [36mstarting observation[39m
+    category: "observation"
+    instruction: "Find the most relevant element to perform an action on given the following action: click on the second top story. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method."
+[2025-07-12 21:06:06.915 -0500] [32mINFO[39m: [36mGetting accessibility tree data[39m
+    category: "observation"
+[2025-07-12 21:06:06.937 -0500] [32mINFO[39m: [36mgot accessibility tree in 2 ms[39m
+    category: "observation"
+[2025-07-12 21:06:06.939 -0500] [32mINFO[39m: [36mLock acquired[39m
+    category: "base_cache"
+[2025-07-12 21:06:06.939 -0500] [32mINFO[39m: [36mLock released[39m
+    category: "base_cache"
+[2025-07-12 21:06:06.939 -0500] [32mINFO[39m: [36mLLM cache miss - no cached response found[39m
+    category: "llm_cache"
+    cacheOptions: {
+      "model": "claude-3-5-sonnet-latest",
+      "messages": [
+        {
+          "role": "system",
+          "content": " You are helping the user automate the browser by finding elements based on what the user wants to observe in the page. You will be given: 1. a instruction of elements to observe 2. a hierarchical accessibility tree showing the semantic structure of the page. The tree is a hybrid of the DOM and the accessibility tree. Return an array of elements that match the instruction if they exist, otherwise return an empty array."
+        },
+        {
+          "role": "user",
+          "content": "instruction: Find the most relevant element to perform an action on given the following action: click on the second top story. \n  Provide an action for this element such as click, fill, type, press, scrollTo, nextChunk, prevChunk, selectOptionFromDropdown, or any other playwright locator method. Remember that to users, buttons and links look the same in most cases.\n  If the action is completely unrelated to a potential action to be taken on the page, return an empty array. \n  ONLY return one action. If multiple actions are relevant, return the most relevant one. \n  If the user is asking to scroll to a position on the page, e.g., 'halfway' or 0.75, etc, you must return the argument formatted as the correct percentage, e.g., '50%' or '75%', etc.\n  If the user is asking to scroll to the next chunk/previous chunk, choose the nextChunk/prevChunk method. No arguments are required here.\n  If the action implies a key press, e.g., 'press enter', 'press a', 'press space', etc., always choose the press method with the appropriate key as argument — e.g. 'a', 'Enter', 'Space'. Do not choose a click action on an on-screen keyboard. Capitalize the first character like 'Enter', 'Tab', 'Escape' only for special keys.\n  If the action implies choosing an option from a dropdown, AND the corresponding element is a 'select' element, choose the selectOptionFromDropdown method. The argument should be the text of the option to select.\n  If the action implies choosing an option from a dropdown, and the corresponding element is NOT a 'select' element, choose the click method.\nAccessibility Tree: \n[0-1] RootWebArea: How I found a bypass in Google's big anti-adblock update\n  [0-4] scrollable\n    [0-15] div\n      [0-16] div\n        [0-18] link: Derin Eryılmaz\n        [0-23] div\n          [0-25] StaticText: How I found a bypass in Google's big anti-adblock update\n          [0-27] StaticText: July 12, 2025\n      [0-2] div\n        [0-29] heading: About MV3\n        [0-31] paragraph\n          [0-32] StaticText: If you know anything about browsers, you've probably heard that Google Chrome is phasing out MV2 in favor of MV3. You've probably also heard that this hurts adblockers.\n        [0-33] paragraph\n          [0-34] StaticText: A quick explainer: \"MV\" stands for \"manifest version.\" MV3 introduces a new type of runtime for Chrome extensions that, among other things, gets rid of\n          [0-35] code\n            [0-36] StaticText: webRequestBlocking\n          [0-37] StaticText: , a permission that allows extensions to block requests dynamically based on their content (which\n          [0-38] link: its replacement\n          [0-40] StaticText: does not support). Adblockers heavily rely on\n          [0-41] code\n            [0-42] StaticText: webRequestBlocking\n          [0-43] StaticText: to function properly. Pretty convenient (cough cough) for a company that makes most of its revenue from ads to be removing that.\n        [0-44] paragraph\n          [0-45] StaticText: Anyway, with the phasing-out of MV2 pretty much done, now seems like a good time to talk about a bug in Chrome that I found and reported to Google in 2023.\n          [0-46] link: The bug\n          [0-48] StaticText: let\n          [0-49] code\n            [0-50] StaticText: webRequestBlocking\n          [0-51] StaticText: (and yes, adblockers) work in MV3.\n        [0-52] paragraph\n          [0-53] StaticText: I still consider it probably the funniest bug I've ever found.\n        [0-54] heading: Stop writing browsers in JavaScript\n        [0-56] paragraph\n          [0-57] StaticText: Yes, Chrome is written in C++. However, extensions are written in JavaScript, and the API functions they call look just like JavaScript functions, at least from the extension's point of view. But they aren't normal functions: they're special and do browsery C++ stuff through bindings. In theory, this should be safe.\n        [0-58] paragraph\n          [0-59] StaticText: But in the old days, Google decided it'd be a good idea to inject a bunch of JS files into pages that used Chrome APIs. These \"extension binding modules\" would initialize API functions and validate arguments before passing them to the browser.\n        [0-60] paragraph\n          [0-61] StaticText: (Note:\n          [0-62] link: here's the codebase\n          [0-64] StaticText: of those files in 2016.)\n        [0-65] paragraph\n          [0-66] StaticText: Turns out running privileged JavaScript in user-controlled websites was not a good idea, because JS can often be manipulated by overriding global functions and prototypes. Since certain APIs like\n          [0-67] code\n            [0-68] StaticText: chrome.runtime\n          [0-69] StaticText: exist on normal websites too, the extension bindings system led to multiple Universal XSS bugs back in 2015 and 2016.\n          [0-70] link: Here's one\n          [0-72] StaticText: that allows any website to inject code into any other website. Truly crazy stuff. If only I weren't 8 years old back then... maybe I could have cashed in.\n        [0-73] paragraph\n          [0-74] StaticText: Anyway, Google learned from their mistake and moved most API bindings to pure C++. However, a couple of JS binding files still exist and are used today. For example, if a Chrome extension runs the following code, it'll hit a\n          [0-75] link: JS loop\n          [0-77] StaticText: and hang infinitely: (as of July 2025)\n        [0-79] code\n          [0-80] StaticText: chrome.permissions.contains({ permissions: { length: Infinity }})\n        [0-81] paragraph\n          [0-82] StaticText: Maybe you are wondering what this has to do with adblockers.\n        [0-83] paragraph\n          [0-84] StaticText: Remember how I said only a few APIs still use JavaScript bindings?\n          [0-85] code\n            [0-86] StaticText: chrome.webRequest\n          [0-87] StaticText: is one of them.\n        [0-88] heading: The bug\n        [0-90] paragraph\n          [0-91] StaticText: This is how an MV2 extension would block requests to example.com:\n        [0-93] code\n          [0-94] StaticText: chrome.webRequest.onBeforeRequest.addListener(() => {  \n    return { cancel: true }  \n}, { urls: ['*://*.example.com/*'] }, ['blocking'])\n        [0-95] paragraph\n          [0-96] StaticText: It's the\n          [0-97] code\n            [0-98] StaticText: 'blocking'\n          [0-99] StaticText: part at the end that requires the\n          [0-100] code\n            [0-101] StaticText: webRequestBlocking\n          [0-102] StaticText: permission, and therefore isn't allowed in MV3. Without it, the\n          [0-103] code\n            [0-104] StaticText: cancel: true\n          [0-105] StaticText: does nothing.\n        [0-106] paragraph\n          [0-107] StaticText: So clearly adding a blocking listener to the\n          [0-108] code\n            [0-109] StaticText: chrome.webRequest.onBeforeRequest\n          [0-110] StaticText: event does not work anymore. But we can do something crazy. We can make\n          [0-111] strong\n            [0-112] StaticText: our own event.\n          [0-113] StaticText: Now, this should not be possible; it's not even a concept that makes sense. But, because of how the JS bindings work, you can do it. For some reason, there is a\n          [0-114] link: wrapper class\n          [0-116] StaticText: for\n          [0-117] code\n            [0-118] StaticText: webRequest\n          [0-119] StaticText: events that contains some extra state.\n        [0-120] paragraph\n        [0-122] paragraph\n          [0-123] StaticText: (A\n          [0-124] link: note on the security\n          [0-126] StaticText: of the above code.)\n        [0-127] paragraph\n          [0-128] StaticText: Instead of doing pure bindings between JS and C++, the browser creates one of these classes for every\n          [0-129] code\n            [0-130] StaticText: chrome.webRequest\n          [0-131] StaticText: event:\n          [0-132] code\n            [0-133] StaticText: onBeforeRequest\n          [0-134] StaticText: ,\n          [0-135] code\n            [0-136] StaticText: onCompleted\n          [0-137] StaticText: , etc. Surprisingly, the\n          [0-138] code\n            [0-139] StaticText: .constructor\n          [0-140] StaticText: of these events is still public. It points to yet another wrapper class, which internally calls\n          [0-141] code\n            [0-142] StaticText: WebRequestEventImpl\n          [0-143] StaticText: (from the code above). You can use this to can create a new event with your own properties:\n        [0-145] code\n          [0-146] StaticText: let WebRequestEvent = chrome.webRequest.onBeforeRequest.constructor\nlet fooEvent = new WebRequestEvent(\"foo\")\n        [0-147] paragraph\n          [0-148] StaticText: There is still a lot of validation going on in the backend when you try to actually do things with these fake events. For example, trying to add a listener to\n          [0-149] code\n            [0-150] StaticText: fooEvent\n          [0-151] StaticText: kills the extension's process, because the event name is invalid. So how do you manipulate the properties of\n          [0-152] code\n            [0-153] StaticText: WebRequestEventImpl\n          [0-154] StaticText: to do anything interesting?\n        [0-155] paragraph\n          [0-156] StaticText: After a lot of time looking into the C++ code, I found exactly one vulnerable thing: the\n          [0-157] code\n            [0-158] StaticText: opt_webViewInstanceId\n          [0-159] StaticText: parameter. This was set for Chrome platform apps, in order to let them manage their embedded websites (WebViews). Among other things, it let them use web request blocking to control navigation. Basically, if an event had a WebView ID, the permission check for\n          [0-160] code\n            [0-161] StaticText: webRequestBlocking\n          [212] StaticText: \n          [0-162] link: would be skipped\n          [0-164] StaticText: . The issue was that the browser never verified that an event with a WebView ID actually belonged to a platform app. So an extension could spoof it, skip the check, and use the blocking feature.\n        [0-166] code\n          [0-167] StaticText: let WebRequestEvent = chrome.webRequest.onBeforeRequest.constructor\n\n// opt_webViewInstanceId is the 5th argument\nlet fakeEvent = new WebRequestEvent(\"webRequest.onBeforeRequest\", 0, 0, 0, 1337)\n\nfakeEvent.addListener(() => {  \n    return { cancel: true }  \n}, { urls: ['*://*.example.com/*'] }, ['blocking'])\n        [0-168] paragraph\n          [0-169] StaticText: Maybe I should note that platform apps were\n          [0-170] strong\n            [0-171] StaticText: deprecated in 2020.\n          [0-172] StaticText: I found this bug in 2023, and the code to handle\n          [0-173] code\n            [0-174] StaticText: opt_webViewInstanceId\n          [0-175] StaticText: still exists in 2025. Goes to show how ancient code leads to bugs.\n        [0-176] heading: What could have happened, and what happened\n        [0-178] paragraph\n          [0-179] StaticText: Technically, someone could have used this bug to make a perfectly working adblocker in MV3 by simply replacing all instances of\n          [0-180] code\n            [0-181] StaticText: chrome.webRequest.onBeforeRequest\n          [0-182] StaticText: with\n          [0-183] code\n            [0-184] StaticText: fakeEvent\n          [0-185] StaticText: . This would have been very funny, after all the hype about how adblockers were being killed.\n        [0-186] paragraph\n          [0-187] StaticText: But I don't know how to make an adblocker, so I decided to\n          [0-188] link: report the issue to Google\n          [0-190] StaticText: in August 2023. It was patched in Chrome 118 by\n          [0-191] link: checking whether\n          [0-193] StaticText: extensions using\n          [0-194] code\n            [0-195] StaticText: opt_webViewInstanceId\n          [0-196] StaticText: actually had WebView permissions. For the report, I netted a massive reward of $0. They decided it wasn't a security issue, and honestly, I agree, because it didn't give extensions access to data they didn't already have.\n        [0-197] paragraph\n          [0-198] image: No money\n        [0-199] paragraph\n          [0-200] StaticText: (Shown above: my earnings from this bug.)\n        [0-201] paragraph\n          [0-202] StaticText: Anyway, it was a fun one, and it really shows how a few lines of code can sometimes bypass a big update by a big company. I hope you found it interesting! If you want to read another post about a bug in Chrome extensions, try\n          [0-203] link: this one I found in the same year\n          [0-205] StaticText: , which got a CVE number and a $10,000 reward.\n      [0-206] div\n        [0-207] link: Other posts\n        [0-210] link: Email me\n"
+        }
+      ],
+      "temperature": 0.1,
+      "response_model": {
+        "schema": {
+          "_def": {
+            "unknownKeys": "strip",
+            "catchall": {
+              "_def": {
+                "typeName": "ZodNever"
+              },
+              "~standard": {
+                "version": 1,
+                "vendor": "zod"
+              }
+            },
+            "typeName": "ZodObject"
+          },
+          "~standard": {
+            "version": 1,
+            "vendor": "zod"
+          },
+          "_cached": null
+        },
+        "name": "Observation"
+      }
+    }
+    requestId: "8i6zaznyrgm"
