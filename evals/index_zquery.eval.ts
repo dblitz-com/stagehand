@@ -33,7 +33,14 @@ import { cerebras } from "@ai-sdk/cerebras";
 import { openai } from "@ai-sdk/openai";
 import { AISdkClient } from "@/examples/external_clients/aisdk";
 
-dotenv.config();
+// Load from our main .env file
+dotenv.config({ path: '../../.env' });
+
+// Debug: Check if API keys loaded
+console.log("🔑 API Keys Status:");
+console.log(`   ANTHROPIC_API_KEY: ${process.env.ANTHROPIC_API_KEY ? 'LOADED' : 'MISSING'}`);
+console.log(`   OPENAI_API_KEY: ${process.env.OPENAI_API_KEY ? 'LOADED' : 'MISSING'}`);
+console.log(`   GOOGLE_GENERATIVE_AI_API_KEY: ${process.env.GOOGLE_GENERATIVE_AI_API_KEY ? 'LOADED' : 'MISSING'}`);
 
 const MAX_CONCURRENCY = process.env.EVAL_MAX_CONCURRENCY
   ? parseInt(process.env.EVAL_MAX_CONCURRENCY, 10)
